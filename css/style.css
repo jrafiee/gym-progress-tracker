@@ -252,9 +252,11 @@ button,
 }
 
 .field label {
-    font-size: 12px;
+    font-size: 14px;
 
     color: #6b7280;
+
+    font-weight: 600;
 }
 
 input,
@@ -425,22 +427,21 @@ select:focus {
 }
 
 .exercise-header h2 {
-    margin: 0 0 4px;
+    margin: 0 0 5px;
 
-    font-size: 29px;
+    font-size: 26px;
 
-    line-height: 2;
+    line-height: 1.45;
 
     font-weight: 700;
 }
 .exercise-meta {
-    font-size: 10px;
+    font-size: 14px;
 
-    line-height: 1.6;
+    line-height: 1.8;
 
     color: #6b7280;
 }
-
 
 /* =========================
    Previous result
@@ -499,7 +500,7 @@ select:focus {
         5px
         6px;
 
-    font-size: 10px;
+    font-size: 13px;
 
     color: #9ca3af;
 
@@ -527,7 +528,7 @@ select:focus {
 }
 
 .set-label {
-    font-size: 14px;
+    font-size: 16px;
 
     color: #4b5563;
 
@@ -717,7 +718,8 @@ select:focus {
 
     font-family: inherit;
 
-    font-size: 12px;
+    font-size: 15px;
+	font-weight: 600;
 
     cursor: pointer;
 }
@@ -792,9 +794,10 @@ select:focus {
 .exercise-guide-header h2 {
     margin: 0;
 
-    font-size: 17px;
-}
+    font-size: 22px;
 
+    line-height: 1.5;
+}
 
 .exercise-guide-close {
     width: 38px;
@@ -873,12 +876,12 @@ select:focus {
 
 .exercise-guide-instructions {
     margin:
-        14px
+        18px
         0;
 
-    padding-right: 22px;
+    padding-right: 26px;
 
-    font-size: 12px;
+    font-size: 17px;
 
     line-height: 2;
 
@@ -887,7 +890,7 @@ select:focus {
 
 
 .exercise-guide-instructions li {
-    margin-bottom: 3px;
+    margin-bottom: 8px;
 }
 
 
@@ -939,13 +942,8 @@ select:focus {
         font-size: 9px;
     }
 
-.exercise-header h2 {
-    font-size: 22px;
-}
 
-    .exercise-meta {
-        font-size: 9px;
-    }
+ 
 
 }
 
@@ -957,13 +955,15 @@ select:focus {
 @media (max-width: 600px) {
 
     input,
-    select,
+    select {
+        font-size: 17px;
+    }
+
     button {
         font-size: 16px;
     }
 
 }
-
 /* =========================
    Dark Mode
 ========================= */
