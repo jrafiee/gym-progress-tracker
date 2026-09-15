@@ -1,4 +1,4 @@
-const CACHE_NAME = "gym-tracker-v2";
+const CACHE_NAME = "gym-tracker-v3";
 
 const FILES_TO_CACHE = [
     "./",
@@ -9,12 +9,16 @@ const FILES_TO_CACHE = [
 
     "./js/app.js",
     "./js/storage.js",
-    "./js/workout-data.js"
-	
-	"./assets/exercises/machine-chest-press.svg",
+    "./js/workout-data.js",
+
+    // Exercise media
+    "./assets/exercises/machine-chest-press.svg",
     "./assets/exercises/incline-dumbbell-press.svg",
-    "./assets/exercises/dumbbell-fly.svg",
-    "./assets/exercises/elevated-pushup.svg"
+    "./assets/exercises/dead-bug.jpg",
+
+    // App icons
+    "./assets/icons/icon-192.png",
+    "./assets/icons/icon-512.png"
 ];
 
 
@@ -23,7 +27,6 @@ self.addEventListener(
     event => {
 
         event.waitUntil(
-
             caches.open(CACHE_NAME)
                 .then(
                     cache =>
@@ -31,11 +34,9 @@ self.addEventListener(
                             FILES_TO_CACHE
                         )
                 )
-
         );
 
         self.skipWaiting();
-
     }
 );
 
@@ -45,17 +46,14 @@ self.addEventListener(
     event => {
 
         event.waitUntil(
-
             caches.keys()
                 .then(
                     cacheNames =>
                         Promise.all(
-
                             cacheNames
                                 .filter(
                                     cacheName =>
-                                        cacheName !==
-                                        CACHE_NAME
+                                        cacheName !== CACHE_NAME
                                 )
                                 .map(
                                     cacheName =>
@@ -63,14 +61,11 @@ self.addEventListener(
                                             cacheName
                                         )
                                 )
-
                         )
                 )
-
         );
 
         self.clients.claim();
-
     }
 );
 
@@ -80,7 +75,6 @@ self.addEventListener(
     event => {
 
         event.respondWith(
-
             caches.match(
                 event.request
             )
@@ -88,9 +82,7 @@ self.addEventListener(
                 cachedResponse => {
 
                     if (cachedResponse) {
-
                         return cachedResponse;
-
                     }
 
                     return fetch(
@@ -99,7 +91,6 @@ self.addEventListener(
 
                 }
             )
-
         );
 
     }

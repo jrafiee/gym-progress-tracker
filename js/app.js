@@ -1,3 +1,4 @@
+
 let currentSession = 1;
 
 
@@ -365,6 +366,70 @@ function attachExerciseHelpEvents() {
 }
 
 
+/* -------------------------
+   ساخت HTML رسانه حرکت
+------------------------- */
+
+function createExerciseMedia(
+    mediaPath,
+    exerciseName
+) {
+
+    const extension =
+        mediaPath
+            .split("?")[0]
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    /* ویدئو */
+
+    if (
+        extension === "mp4"
+    ) {
+
+        return `
+
+            <video
+                class="exercise-guide-video"
+                controls
+                playsinline
+                muted
+                loop
+                preload="metadata"
+            >
+
+                <source
+                    src="${mediaPath}"
+                    type="video/mp4"
+                >
+
+                مرورگر شما از پخش این ویدئو پشتیبانی نمی‌کند.
+
+            </video>
+
+        `;
+
+    }
+
+
+    /* تصویر */
+
+    return `
+
+        <img
+            class="exercise-guide-image"
+            src="${mediaPath}"
+            alt="${exerciseName}"
+            loading="lazy"
+        >
+
+    `;
+
+}
+
+
 function showExerciseGuide(
     exerciseId
 ) {
@@ -409,12 +474,11 @@ function showExerciseGuide(
                 ${
                     images
                         .map(
-                            image => `
-                                <img
-                                    src="${image}"
-                                    alt="${exercise.name}"
-                                >
-                            `
+                            media =>
+                                createExerciseMedia(
+                                    media,
+                                    exercise.name
+                                )
                         )
                         .join("")
                 }
@@ -1453,6 +1517,7 @@ document
         }
     );
 
+
 /* =========================
    Dark Mode
 ========================= */
@@ -1532,6 +1597,8 @@ themeToggleBtn.addEventListener(
 
     }
 );
+
+
 /* -------------------------
    رندر کامل
 ------------------------- */

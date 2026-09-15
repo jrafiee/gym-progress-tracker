@@ -1,4 +1,3 @@
-
 const workoutPrograms = {
 
     1: {
@@ -47,7 +46,7 @@ const workoutPrograms = {
                 rest: "90 ثانیه",
                 sets: 2,
                 images: [
-                    "assets/exercises/dumbbell-fly.svg"
+                    "assets/exercises/dumbbell-fly.mp4"
                 ],
                 instructions: [
                     "آرنج‌ها را کمی خم نگه دار.",
@@ -63,7 +62,7 @@ const workoutPrograms = {
                 rest: "90 ثانیه",
                 sets: 2,
                 images: [
-                    "assets/exercises/elevated-pushup.svg"
+                    "assets/exercises/elevated-pushup.mp4"
                 ],
                 instructions: [
                     "بدن را از سر تا لگن در یک خط نگه دار.",
@@ -78,7 +77,9 @@ const workoutPrograms = {
                 target: "3 × 8–12",
                 rest: "90 ثانیه",
                 sets: 3,
-                images: [],
+                images: [
+                    "assets/exercises/rope-triceps-pushdown.mp4"
+                ],
                 instructions: [
                     "آرنج‌ها را نزدیک بدن ثابت نگه دار.",
                     "طناب را با حرکت آرنج به پایین بکش.",
@@ -92,7 +93,9 @@ const workoutPrograms = {
                 target: "2 × 10–15",
                 rest: "90 ثانیه",
                 sets: 2,
-                images: [],
+                images: [
+                    "assets/exercises/overhead-cable-triceps.mp4"
+                ],
                 instructions: [
                     "آرنج‌ها را تا حد ممکن ثابت نگه دار.",
                     "دست‌ها را از پشت سر به جلو باز کن.",
@@ -106,7 +109,9 @@ const workoutPrograms = {
                 target: "3 × 8–12 هر طرف",
                 rest: "45–60 ثانیه",
                 sets: 3,
-                images: [],
+                images: [
+                    "assets/exercises/dead-bug.jpg"
+                ],
                 instructions: [
                     "کمر پایین را روی زمین ثابت نگه دار.",
                     "دست و پای مخالف را همزمان باز کن.",
@@ -120,7 +125,9 @@ const workoutPrograms = {
                 target: "2 × 10–15",
                 rest: "60 ثانیه",
                 sets: 2,
-                images: [],
+                images: [
+                    "assets/exercises/crunch.mp4"
+                ],
                 instructions: [
                     "کمر پایین را روی زمین نگه دار.",
                     "با جمع کردن عضلات شکم شانه‌ها را از زمین جدا کن.",

@@ -1200,3 +1200,13 @@ body.dark-mode .danger-btn {
 
     color: #fecaca;
 }
+.exercise-guide-image,
+.exercise-guide-video {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    max-height: 60vh;
+    margin: 0 auto 20px;
+    object-fit: contain;
+    border-radius: 12px;
+}
