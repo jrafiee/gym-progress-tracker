@@ -1,4 +1,4 @@
-const CACHE_NAME = "gym-tracker-v1";
+const CACHE_NAME = "gym-tracker-v2";
 
 const FILES_TO_CACHE = [
     "./",
@@ -10,6 +10,11 @@ const FILES_TO_CACHE = [
     "./js/app.js",
     "./js/storage.js",
     "./js/workout-data.js"
+	
+	"./assets/exercises/machine-chest-press.svg",
+    "./assets/exercises/incline-dumbbell-press.svg",
+    "./assets/exercises/dumbbell-fly.svg",
+    "./assets/exercises/elevated-pushup.svg"
 ];
 
 

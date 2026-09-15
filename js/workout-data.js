@@ -1,3 +1,4 @@
+
 const workoutPrograms = {
 
     1: {
@@ -13,7 +14,9 @@ const workoutPrograms = {
                 target: "3 × 6–10",
                 rest: "2–3 دقیقه",
                 sets: 3,
-                images: [],
+                images: [
+                    "assets/exercises/machine-chest-press.svg"
+                ],
                 instructions: [
                     "کتف‌ها را عقب و پایین نگه دار.",
                     "دسته‌ها را بدون ضربه به جلو فشار بده.",
@@ -27,7 +30,9 @@ const workoutPrograms = {
                 target: "3 × 8–12",
                 rest: "2 دقیقه",
                 sets: 3,
-                images: [],
+                images: [
+                    "assets/exercises/incline-dumbbell-press.svg"
+                ],
                 instructions: [
                     "میز را حدود 30 تا 45 درجه تنظیم کن.",
                     "کتف‌ها را به نیمکت تکیه بده.",
@@ -41,7 +46,9 @@ const workoutPrograms = {
                 target: "2 × 10–15",
                 rest: "90 ثانیه",
                 sets: 2,
-                images: [],
+                images: [
+                    "assets/exercises/dumbbell-fly.svg"
+                ],
                 instructions: [
                     "آرنج‌ها را کمی خم نگه دار.",
                     "دست‌ها را با کنترل به طرفین باز کن.",
@@ -55,7 +62,9 @@ const workoutPrograms = {
                 target: "2 × 8–15",
                 rest: "90 ثانیه",
                 sets: 2,
-                images: [],
+                images: [
+                    "assets/exercises/elevated-pushup.svg"
+                ],
                 instructions: [
                     "بدن را از سر تا لگن در یک خط نگه دار.",
                     "سینه را به سمت پایه پایین بیاور.",
