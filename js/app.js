@@ -1453,7 +1453,85 @@ document
         }
     );
 
+/* =========================
+   Dark Mode
+========================= */
 
+const themeToggleBtn =
+    document.getElementById(
+        "themeToggleBtn"
+    );
+
+
+function applyTheme(
+    theme
+) {
+
+    if (theme === "dark") {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+        themeToggleBtn.textContent =
+            "☀️ حالت روشن";
+
+    }
+    else {
+
+        document.body.classList.remove(
+            "dark-mode"
+        );
+
+        themeToggleBtn.textContent =
+            "🌙 حالت تاریک";
+
+    }
+
+}
+
+
+const savedTheme =
+    localStorage.getItem(
+        "gymTrackerTheme"
+    );
+
+
+applyTheme(
+    savedTheme === "dark"
+        ? "dark"
+        : "light"
+);
+
+
+themeToggleBtn.addEventListener(
+    "click",
+    () => {
+
+        const isDark =
+            document.body.classList.contains(
+                "dark-mode"
+            );
+
+
+        const newTheme =
+            isDark
+                ? "light"
+                : "dark";
+
+
+        localStorage.setItem(
+            "gymTrackerTheme",
+            newTheme
+        );
+
+
+        applyTheme(
+            newTheme
+        );
+
+    }
+);
 /* -------------------------
    رندر کامل
 ------------------------- */

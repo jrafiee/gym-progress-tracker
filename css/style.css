@@ -74,9 +74,14 @@ body {
 .header-actions {
     display: grid;
 
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 8px;
+}
+
+.theme-toggle-btn {
+    grid-column: 1 / -1;
 }
 
 
@@ -420,13 +425,14 @@ select:focus {
 }
 
 .exercise-header h2 {
-    margin: 0 0 3px;
+    margin: 0 0 4px;
 
-    font-size: 15px;
+    font-size: 19px;
 
     line-height: 1.5;
-}
 
+    font-weight: 700;
+}
 .exercise-meta {
     font-size: 10px;
 
@@ -509,7 +515,7 @@ select:focus {
     display: grid;
 
     grid-template-columns:
-        38px
+        48px
         1fr
         1fr;
 
@@ -521,13 +527,15 @@ select:focus {
 }
 
 .set-label {
-    font-size: 12px;
+    font-size: 14px;
 
-    color: #6b7280;
+    color: #4b5563;
 
     text-align: center;
 
     font-weight: bold;
+
+    white-space: nowrap;
 }
 
 .set-row input {
@@ -931,9 +939,9 @@ select:focus {
         font-size: 9px;
     }
 
-    .exercise-header h2 {
-        font-size: 14px;
-    }
+.exercise-header h2 {
+    font-size: 18px;
+}
 
     .exercise-meta {
         font-size: 9px;
@@ -954,4 +962,241 @@ select:focus {
         font-size: 16px;
     }
 
+}
+
+/* =========================
+   Dark Mode
+========================= */
+
+body.dark-mode {
+    background: #111827;
+
+    color: #f3f4f6;
+}
+
+
+/* Cards */
+
+body.dark-mode .card,
+body.dark-mode .summary-card,
+body.dark-mode .exercise-card {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+
+/* Header */
+
+body.dark-mode .page-header p,
+body.dark-mode .selector-title,
+body.dark-mode .field label,
+body.dark-mode .exercise-meta,
+body.dark-mode .section-title p {
+    color: #9ca3af;
+}
+
+
+/* Session buttons */
+
+body.dark-mode .session-btn {
+    background: #1f2937;
+
+    border-color: #4b5563;
+
+    color: #f3f4f6;
+}
+
+body.dark-mode .session-btn span {
+    color: #9ca3af;
+}
+
+body.dark-mode .session-btn.active {
+    background: #1e3a8a;
+
+    border-color: #3b82f6;
+
+    color: #dbeafe;
+}
+
+body.dark-mode .session-btn.active span {
+    color: #bfdbfe;
+}
+
+
+/* Inputs */
+
+body.dark-mode input,
+body.dark-mode select {
+    background: #111827;
+
+    border-color: #4b5563;
+
+    color: #f3f4f6;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus {
+    border-color: #60a5fa;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(96, 165, 250, 0.15);
+}
+
+
+/* Session note */
+
+body.dark-mode .session-note {
+    background: #172554;
+
+    color: #bfdbfe;
+}
+
+
+/* Summary */
+
+body.dark-mode .summary-card span {
+    color: #9ca3af;
+}
+
+body.dark-mode .summary-card small {
+    color: #6b7280;
+}
+
+
+/* Exercise header */
+
+body.dark-mode .exercise-header {
+    background: #18212f;
+
+    border-color: #374151;
+}
+
+
+/* Previous result */
+
+body.dark-mode .previous-result {
+    border-color: #374151;
+
+    color: #6b7280;
+}
+
+body.dark-mode .previous-result strong {
+    color: #d1d5db;
+}
+
+
+/* Set header */
+
+body.dark-mode .sets-container::before {
+    color: #6b7280;
+}
+
+
+/* Set label */
+
+body.dark-mode .set-label {
+    color: #d1d5db;
+}
+
+
+/* Previous set */
+
+body.dark-mode .set-difference {
+    color: #6b7280;
+}
+
+
+/* Secondary buttons */
+
+body.dark-mode .secondary-btn {
+    background: #1f2937;
+
+    border-color: #4b5563;
+
+    color: #f3f4f6;
+}
+
+body.dark-mode .secondary-btn:active {
+    background: #374151;
+}
+
+
+/* Help button */
+
+body.dark-mode .exercise-help-btn {
+    background: #1f2937;
+
+    border-color: #4b5563;
+
+    color: #93c5fd;
+}
+
+body.dark-mode .exercise-help-btn:active {
+    background: #172554;
+}
+
+
+/* History */
+
+body.dark-mode .history-table th {
+    background: #111827;
+
+    color: #9ca3af;
+}
+
+body.dark-mode .history-table th,
+body.dark-mode .history-table td {
+    border-color: #374151;
+}
+
+
+/* Empty history */
+
+body.dark-mode .history-empty {
+    color: #6b7280;
+}
+
+
+/* Backup */
+
+body.dark-mode .backup-section p {
+    color: #9ca3af;
+}
+
+
+/* Exercise guide */
+
+body.dark-mode .exercise-guide-modal {
+    background: #1f2937;
+
+    color: #f3f4f6;
+}
+
+body.dark-mode .exercise-guide-close {
+    background: #374151;
+
+    color: #f3f4f6;
+}
+
+body.dark-mode .exercise-guide-instructions {
+    color: #d1d5db;
+}
+
+body.dark-mode .exercise-guide-no-image {
+    background: #111827;
+
+    color: #6b7280;
+}
+
+
+/* Danger */
+
+body.dark-mode .danger-btn {
+    background: #450a0a;
+
+    border-color: #7f1d1d;
+
+    color: #fecaca;
 }
