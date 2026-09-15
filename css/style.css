@@ -427,9 +427,9 @@ select:focus {
 .exercise-header h2 {
     margin: 0 0 4px;
 
-    font-size: 19px;
+    font-size: 29px;
 
-    line-height: 1.5;
+    line-height: 2;
 
     font-weight: 700;
 }
@@ -515,7 +515,7 @@ select:focus {
     display: grid;
 
     grid-template-columns:
-        48px
+        58px
         1fr
         1fr;
 
@@ -940,7 +940,7 @@ select:focus {
     }
 
 .exercise-header h2 {
-    font-size: 18px;
+    font-size: 22px;
 }
 
     .exercise-meta {
