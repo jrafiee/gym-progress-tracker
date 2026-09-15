@@ -48,6 +48,10 @@ function saveData(data) {
 }
 
 
+/* -------------------------
+   ذخیره جلسه
+------------------------- */
+
 function addWorkout(workout) {
 
     const data =
@@ -58,6 +62,7 @@ function addWorkout(workout) {
         data.workouts.findIndex(
             item =>
                 item.date === workout.date &&
+                item.month === workout.month &&
                 item.session === workout.session
         );
 
@@ -89,6 +94,10 @@ function addWorkout(workout) {
 }
 
 
+/* -------------------------
+   همه تمرین‌ها
+------------------------- */
+
 function getWorkouts() {
 
     return loadData().workouts;
@@ -96,26 +105,38 @@ function getWorkouts() {
 }
 
 
+/* -------------------------
+   تمرین‌های یک ماه و جلسه
+------------------------- */
+
 function getSessionWorkouts(
+    month,
     session
 ) {
 
     return getWorkouts()
         .filter(
             workout =>
+                workout.month === month &&
                 workout.session === session
         );
 
 }
 
 
+/* -------------------------
+   آخرین تمرین قبلی
+------------------------- */
+
 function getPreviousWorkout(
     currentDate,
+    month,
     session
 ) {
 
     const workouts =
         getSessionWorkouts(
+            month,
             session
         )
         .filter(
@@ -140,6 +161,10 @@ function getPreviousWorkout(
 }
 
 
+/* -------------------------
+   حذف همه اطلاعات
+------------------------- */
+
 function deleteAllData() {
 
     localStorage.removeItem(
@@ -148,6 +173,10 @@ function deleteAllData() {
 
 }
 
+
+/* -------------------------
+   Backup
+------------------------- */
 
 function exportData() {
 

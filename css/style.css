@@ -1,11 +1,14 @@
 * {
     box-sizing: border-box;
+
     -webkit-tap-highlight-color: transparent;
 }
+
 
 html {
     font-size: 16px;
 }
+
 
 body {
     margin: 0;
@@ -46,14 +49,9 @@ body {
 ========================= */
 
 .page-header {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-
     margin-bottom: 12px;
 }
+
 
 .page-header h1 {
     margin: 0;
@@ -63,25 +61,13 @@ body {
     line-height: 1.4;
 }
 
+
 .page-header p {
     margin: 3px 0 0;
 
     font-size: 13px;
 
     color: #6b7280;
-}
-
-.header-actions {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 8px;
-}
-
-.theme-toggle-btn {
-    grid-column: 1 / -1;
 }
 
 
@@ -110,6 +96,7 @@ button,
     touch-action: manipulation;
 }
 
+
 .primary-btn {
     background: #2563eb;
 
@@ -118,6 +105,7 @@ button,
     font-weight: bold;
 }
 
+
 .secondary-btn {
     background: white;
 
@@ -125,6 +113,7 @@ button,
 
     color: #374151;
 }
+
 
 .danger-btn {
     background: #fee2e2;
@@ -144,7 +133,9 @@ button,
 
     border-radius: 12px;
 
-    border: 1px solid #e5e7eb;
+    border:
+        1px solid
+        #e5e7eb;
 
     padding: 14px;
 
@@ -160,6 +151,7 @@ button,
     padding: 10px;
 }
 
+
 .selector-title {
     font-size: 12px;
 
@@ -171,6 +163,7 @@ button,
         8px;
 }
 
+
 .session-buttons {
     display: grid;
 
@@ -180,14 +173,19 @@ button,
     gap: 6px;
 }
 
+
 .session-btn {
     min-height: 62px;
 
-    padding: 7px 4px;
+    padding:
+        7px
+        4px;
 
     border-radius: 9px;
 
-    border: 1px solid #d1d5db;
+    border:
+        1px solid
+        #d1d5db;
 
     background: white;
 
@@ -198,6 +196,7 @@ button,
     cursor: pointer;
 }
 
+
 .session-btn strong {
     display: block;
 
@@ -205,6 +204,7 @@ button,
 
     margin-bottom: 4px;
 }
+
 
 .session-btn span {
     display: block;
@@ -216,6 +216,7 @@ button,
     color: #6b7280;
 }
 
+
 .session-btn.active {
     background: #eff6ff;
 
@@ -223,6 +224,7 @@ button,
 
     color: #1d4ed8;
 }
+
 
 .session-btn.active span {
     color: #2563eb;
@@ -243,6 +245,7 @@ button,
     gap: 10px;
 }
 
+
 .field {
     display: flex;
 
@@ -251,6 +254,7 @@ button,
     gap: 5px;
 }
 
+
 .field label {
     font-size: 14px;
 
@@ -258,6 +262,7 @@ button,
 
     font-weight: 600;
 }
+
 
 input,
 select {
@@ -284,6 +289,7 @@ select {
     color: #1f2937;
 }
 
+
 input:focus,
 select:focus {
     outline: none;
@@ -295,10 +301,13 @@ select:focus {
         rgba(37, 99, 235, 0.1);
 }
 
+
 .session-note {
     grid-column: 1 / -1;
 
-    padding: 9px 11px;
+    padding:
+        9px
+        11px;
 
     border-radius: 8px;
 
@@ -309,60 +318,6 @@ select:focus {
     font-size: 11px;
 
     line-height: 1.7;
-}
-
-
-/* =========================
-   Summary
-========================= */
-
-.summary-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 8px;
-
-    margin-bottom: 12px;
-}
-
-.summary-card {
-    background: white;
-
-    border:
-        1px solid
-        #e5e7eb;
-
-    border-radius: 10px;
-
-    padding: 11px;
-
-    text-align: center;
-}
-
-.summary-card span {
-    display: block;
-
-    font-size: 11px;
-
-    color: #6b7280;
-
-    margin-bottom: 5px;
-}
-
-.summary-card strong {
-    font-size: 19px;
-}
-
-.summary-card small {
-    display: block;
-
-    margin-top: 2px;
-
-    font-size: 9px;
-
-    color: #9ca3af;
 }
 
 
@@ -384,6 +339,7 @@ select:focus {
     overflow: hidden;
 }
 
+
 .exercise-header {
     padding: 12px;
 
@@ -394,6 +350,7 @@ select:focus {
         #e5e7eb;
 }
 
+
 .exercise-title {
     display: flex;
 
@@ -401,6 +358,7 @@ select:focus {
 
     gap: 9px;
 }
+
 
 .exercise-number {
     flex: 0 0 auto;
@@ -426,22 +384,29 @@ select:focus {
     font-weight: bold;
 }
 
-.exercise-header h2 {
-    margin: 0 0 5px;
 
-    font-size: 26px;
+.exercise-header h2 {
+    margin:
+        0
+        0
+        5px;
+
+    font-size: 19px;
 
     line-height: 1.45;
 
     font-weight: 700;
 }
+
+
 .exercise-meta {
-    font-size: 14px;
+    font-size: 12px;
 
     line-height: 1.8;
 
     color: #6b7280;
 }
+
 
 /* =========================
    Previous result
@@ -461,6 +426,7 @@ select:focus {
     color: #9ca3af;
 }
 
+
 .previous-result strong {
     display: block;
 
@@ -477,224 +443,7 @@ select:focus {
 
 
 /* =========================
-   Sets
-========================= */
-
-.sets-container {
-    padding: 10px;
-}
-
-
-/*
-    Header کوچک برای جدول ست‌ها
-*/
-
-.sets-container::before {
-    content:
-        "ست          وزنه (kg)          تکرار";
-
-    display: block;
-
-    padding:
-        0
-        5px
-        6px;
-
-    font-size: 13px;
-
-    color: #9ca3af;
-
-    white-space: pre;
-
-    text-align: right;
-}
-
-
-/* Each set */
-
-.set-row {
-    display: grid;
-
-    grid-template-columns:
-        58px
-        1fr
-        1fr;
-
-    gap: 7px;
-
-    align-items: center;
-
-    margin-bottom: 7px;
-}
-
-.set-label {
-    font-size: 16px;
-
-    color: #4b5563;
-
-    text-align: center;
-
-    font-weight: bold;
-
-    white-space: nowrap;
-}
-
-.set-row input {
-    height: 44px;
-
-    text-align: center;
-
-    font-size: 16px;
-
-    direction: ltr;
-}
-
-
-/*
-   Previous value
-*/
-
-.set-difference {
-    grid-column:
-        2 / 4;
-
-    padding:
-        2px
-        5px;
-
-    min-height: 14px;
-
-    font-size: 9px;
-
-    color: #9ca3af;
-
-    text-align: right;
-
-    direction: rtl;
-}
-
-.set-difference:empty {
-    display: none;
-}
-
-
-/* =========================
-   History
-========================= */
-
-.history-section {
-    margin-top: 16px;
-}
-
-.section-title h2 {
-    margin: 0;
-
-    font-size: 17px;
-}
-
-.section-title p {
-    margin:
-        4px
-        0
-        0;
-
-    font-size: 11px;
-
-    color: #6b7280;
-}
-
-.history-table-wrapper {
-    margin-top: 12px;
-
-    overflow-x: auto;
-}
-
-.history-table {
-    width: 100%;
-
-    border-collapse: collapse;
-
-    font-size: 11px;
-}
-
-.history-table th,
-.history-table td {
-    padding:
-        9px
-        5px;
-
-    border-bottom:
-        1px solid
-        #e5e7eb;
-
-    text-align: center;
-
-    white-space: nowrap;
-}
-
-.history-table th {
-    color: #6b7280;
-
-    background: #f9fafb;
-
-    font-weight: normal;
-}
-
-.history-empty {
-    padding: 25px 10px;
-
-    text-align: center;
-
-    font-size: 12px;
-
-    color: #9ca3af;
-}
-
-
-/* =========================
-   Backup
-========================= */
-
-.backup-section {
-    margin-top: 12px;
-}
-
-.backup-section h2 {
-    margin: 0;
-
-    font-size: 16px;
-}
-
-.backup-section p {
-    font-size: 11px;
-
-    line-height: 1.8;
-
-    color: #6b7280;
-}
-
-.backup-actions {
-    display: grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap: 8px;
-
-    margin-top: 10px;
-}
-
-.file-btn {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    min-height: 46px;
-}
-/* =========================
-   Exercise Help Button
+   Exercise help button
 ========================= */
 
 .exercise-help-btn {
@@ -718,14 +467,475 @@ select:focus {
 
     font-family: inherit;
 
-    font-size: 15px;
-	font-weight: 600;
+    font-size: 14px;
+
+    font-weight: 600;
 
     cursor: pointer;
 }
 
+
 .exercise-help-btn:active {
     background: #eff6ff;
+}
+
+
+/* =========================
+   Sets
+========================= */
+
+.sets-container {
+    padding: 10px;
+}
+
+
+.sets-container::before {
+    content:
+        "ست          وزنه (kg)          تکرار";
+
+    display: block;
+
+    padding:
+        0
+        5px
+        6px;
+
+    font-size: 12px;
+
+    color: #9ca3af;
+
+    white-space: pre;
+
+    text-align: right;
+}
+
+
+.set-row {
+    display: grid;
+
+    grid-template-columns:
+        58px
+        1fr
+        1fr;
+
+    gap: 7px;
+
+    align-items: center;
+
+    margin-bottom: 7px;
+}
+
+
+.set-label {
+    font-size: 14px;
+
+    color: #4b5563;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+.set-row input {
+    height: 44px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    direction: ltr;
+}
+
+
+.set-difference {
+    grid-column:
+        2 / 4;
+
+    padding:
+        2px
+        5px;
+
+    min-height: 14px;
+
+    font-size: 9px;
+
+    color: #9ca3af;
+
+    text-align: right;
+
+    direction: rtl;
+}
+
+
+.set-difference:empty {
+    display: none;
+}
+
+
+/* =========================
+   Workout summary
+========================= */
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 8px;
+
+    margin:
+        16px
+        0
+        12px;
+}
+
+
+.summary-card {
+    background: white;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 11px;
+
+    text-align: center;
+}
+
+
+.summary-card span {
+    display: block;
+
+    font-size: 11px;
+
+    color: #6b7280;
+
+    margin-bottom: 5px;
+}
+
+
+.summary-card strong {
+    font-size: 19px;
+}
+
+
+.summary-card small {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 9px;
+
+    color: #9ca3af;
+}
+
+
+/* =========================
+   Save workout
+========================= */
+
+.save-workout-section {
+    margin:
+        4px
+        0
+        18px;
+}
+
+
+.save-workout-btn {
+    width: 100%;
+
+    min-height: 52px;
+
+    font-size: 16px;
+
+    border-radius: 11px;
+
+    box-shadow:
+        0 2px 5px
+        rgba(37, 99, 235, 0.15);
+}
+
+
+.save-workout-btn:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================
+   History
+========================= */
+
+.history-section {
+    margin-top: 16px;
+}
+
+
+.section-title h2 {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+.section-title p {
+    margin:
+        4px
+        0
+        0;
+
+    font-size: 11px;
+
+    color: #6b7280;
+}
+
+
+.history-table-wrapper {
+    margin-top: 12px;
+
+    overflow-x: auto;
+}
+
+
+.history-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 11px;
+}
+
+
+.history-table th,
+.history-table td {
+    padding:
+        9px
+        5px;
+
+    border-bottom:
+        1px solid
+        #e5e7eb;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+
+.history-table th {
+    color: #6b7280;
+
+    background: #f9fafb;
+
+    font-weight: normal;
+}
+
+
+.history-empty {
+    padding:
+        25px
+        10px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #9ca3af;
+}
+
+
+/* =========================
+   Settings
+========================= */
+
+.settings-section {
+    margin-top: 12px;
+
+    padding: 0;
+
+    overflow: hidden;
+}
+
+
+.settings-section summary {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    min-height: 52px;
+
+    padding:
+        0
+        14px;
+
+    cursor: pointer;
+
+    list-style: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+    user-select: none;
+}
+
+
+/* حذف فلش پیش‌فرض مرورگر */
+
+.settings-section summary::-webkit-details-marker {
+    display: none;
+}
+
+
+.settings-section summary::marker {
+    display: none;
+}
+
+
+.settings-arrow {
+    font-size: 11px;
+
+    color: #9ca3af;
+
+    transition:
+        transform
+        0.2s
+        ease;
+}
+
+
+.settings-section[open]
+.settings-arrow {
+    transform:
+        rotate(180deg);
+}
+
+
+.settings-content {
+    border-top:
+        1px solid
+        #e5e7eb;
+}
+
+
+.setting-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding:
+        14px;
+
+    border-bottom:
+        1px solid
+        #f3f4f6;
+}
+
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+
+.setting-info {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.setting-info strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 13px;
+
+    color: #374151;
+}
+
+
+.setting-info span {
+    display: block;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    color: #9ca3af;
+}
+
+
+.setting-row .secondary-btn,
+.setting-row .danger-btn {
+    flex:
+        0 0 auto;
+
+    min-height: 42px;
+
+    font-size: 12px;
+}
+
+
+.backup-setting {
+    align-items: flex-start;
+
+    flex-direction: column;
+}
+
+
+.backup-setting .setting-info {
+    width: 100%;
+}
+
+
+.backup-actions {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 8px;
+
+    width: 100%;
+
+    margin-top: 4px;
+}
+
+
+.file-btn {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 42px;
+}
+
+
+.danger-setting {
+    align-items: center;
+}
+
+
+.danger-setting .setting-info strong {
+    color: #991b1b;
 }
 
 
@@ -799,6 +1009,7 @@ select:focus {
     line-height: 1.5;
 }
 
+
 .exercise-guide-close {
     width: 38px;
 
@@ -833,6 +1044,27 @@ select:focus {
         repeat(2, 1fr);
 
     gap: 8px;
+}
+
+
+.exercise-guide-image,
+.exercise-guide-video {
+    display: block;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    max-height: 60vh;
+
+    margin:
+        0
+        auto
+        20px;
+
+    object-fit: contain;
+
+    border-radius: 12px;
 }
 
 
@@ -906,22 +1138,6 @@ select:focus {
 
 
 /* =========================
-   Guide on Very Small Phones
-========================= */
-
-@media (max-width: 360px) {
-
-    .exercise-guide-modal {
-        padding: 12px;
-    }
-
-    .exercise-guide-images {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-/* =========================
    Very small phones
 ========================= */
 
@@ -934,23 +1150,51 @@ select:focus {
             30px;
     }
 
+
     .page-header h1 {
         font-size: 20px;
     }
+
 
     .session-btn span {
         font-size: 9px;
     }
 
 
- 
+    .exercise-header h2 {
+        font-size: 18px;
+    }
+
+
+    .exercise-meta {
+        font-size: 11px;
+    }
+
+
+    .exercise-guide-modal {
+        padding: 12px;
+    }
+
+
+    .exercise-guide-images {
+        grid-template-columns: 1fr;
+    }
+
+
+    .setting-row {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .setting-row .secondary-btn,
+    .setting-row .danger-btn {
+        width: 100%;
+    }
 
 }
 
-
-/* =========================
-   Prevent iOS zoom
-========================= */
 
 @media (max-width: 600px) {
 
@@ -959,11 +1203,14 @@ select:focus {
         font-size: 17px;
     }
 
+
     button {
         font-size: 16px;
     }
 
 }
+
+
 /* =========================
    Dark Mode
 ========================= */
@@ -1007,9 +1254,11 @@ body.dark-mode .session-btn {
     color: #f3f4f6;
 }
 
+
 body.dark-mode .session-btn span {
     color: #9ca3af;
 }
+
 
 body.dark-mode .session-btn.active {
     background: #1e3a8a;
@@ -1018,6 +1267,7 @@ body.dark-mode .session-btn.active {
 
     color: #dbeafe;
 }
+
 
 body.dark-mode .session-btn.active span {
     color: #bfdbfe;
@@ -1034,6 +1284,7 @@ body.dark-mode select {
 
     color: #f3f4f6;
 }
+
 
 body.dark-mode input:focus,
 body.dark-mode select:focus {
@@ -1060,6 +1311,7 @@ body.dark-mode .summary-card span {
     color: #9ca3af;
 }
 
+
 body.dark-mode .summary-card small {
     color: #6b7280;
 }
@@ -1081,6 +1333,7 @@ body.dark-mode .previous-result {
 
     color: #6b7280;
 }
+
 
 body.dark-mode .previous-result strong {
     color: #d1d5db;
@@ -1118,6 +1371,7 @@ body.dark-mode .secondary-btn {
     color: #f3f4f6;
 }
 
+
 body.dark-mode .secondary-btn:active {
     background: #374151;
 }
@@ -1133,6 +1387,7 @@ body.dark-mode .exercise-help-btn {
     color: #93c5fd;
 }
 
+
 body.dark-mode .exercise-help-btn:active {
     background: #172554;
 }
@@ -1145,6 +1400,7 @@ body.dark-mode .history-table th {
 
     color: #9ca3af;
 }
+
 
 body.dark-mode .history-table th,
 body.dark-mode .history-table td {
@@ -1159,10 +1415,42 @@ body.dark-mode .history-empty {
 }
 
 
-/* Backup */
+/* =========================
+   Settings - Dark Mode
+========================= */
 
-body.dark-mode .backup-section p {
+body.dark-mode .settings-section summary {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .settings-arrow {
     color: #9ca3af;
+}
+
+
+body.dark-mode .settings-content {
+    border-color: #374151;
+}
+
+
+body.dark-mode .setting-row {
+    border-color: #374151;
+}
+
+
+body.dark-mode .setting-info strong {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .setting-info span {
+    color: #9ca3af;
+}
+
+
+body.dark-mode .danger-setting .setting-info strong {
+    color: #fecaca;
 }
 
 
@@ -1174,15 +1462,18 @@ body.dark-mode .exercise-guide-modal {
     color: #f3f4f6;
 }
 
+
 body.dark-mode .exercise-guide-close {
     background: #374151;
 
     color: #f3f4f6;
 }
 
+
 body.dark-mode .exercise-guide-instructions {
     color: #d1d5db;
 }
+
 
 body.dark-mode .exercise-guide-no-image {
     background: #111827;
@@ -1199,14 +1490,4 @@ body.dark-mode .danger-btn {
     border-color: #7f1d1d;
 
     color: #fecaca;
-}
-.exercise-guide-image,
-.exercise-guide-video {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    max-height: 60vh;
-    margin: 0 auto 20px;
-    object-fit: contain;
-    border-radius: 12px;
 }

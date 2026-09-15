@@ -1,9 +1,12 @@
+let currentMonth = "month1";
+
+let viewingMonth = "month1";
 
 let currentSession = 1;
 
 
 /* -------------------------
-   عناصر صفحه
+عناصر صفحه
 ------------------------- */
 
 const workoutDate =
@@ -11,57 +14,44 @@ const workoutDate =
         "workoutDate"
     );
 
-
 const weekNumber =
     document.getElementById(
         "weekNumber"
     );
-
 
 const exerciseList =
     document.getElementById(
         "exerciseList"
     );
 
-
 const sessionTitle =
     document.getElementById(
         "sessionTitle"
     );
-
 
 const sessionButtons =
     document.getElementById(
         "sessionButtons"
     );
 
-
 const totalVolume =
     document.getElementById(
         "totalVolume"
     );
-
 
 const volumeChange =
     document.getElementById(
         "volumeChange"
     );
 
-
-const exerciseCount =
+const themeToggleBtn =
     document.getElementById(
-        "exerciseCount"
-    );
-
-
-const setCount =
-    document.getElementById(
-        "setCount"
+        "themeToggleBtn"
     );
 
 
 /* -------------------------
-   تاریخ امروز
+تاریخ امروز
 ------------------------- */
 
 function getToday() {
@@ -69,10 +59,8 @@ function getToday() {
     const now =
         new Date();
 
-
     const year =
         now.getFullYear();
-
 
     const month =
         String(
@@ -82,7 +70,6 @@ function getToday() {
             "0"
         );
 
-
     const day =
         String(
             now.getDate()
@@ -90,7 +77,6 @@ function getToday() {
             2,
             "0"
         );
-
 
     return `${year}-${month}-${day}`;
 
@@ -101,40 +87,59 @@ workoutDate.value =
     getToday();
 
 
-/* -------------------------
-   برنامه فعلی
-------------------------- */
+/* =========================
+برنامه
+========================= */
+
+function getViewingMonth() {
+
+    return workoutPrograms[
+        viewingMonth
+    ];
+
+}
+
+
+function getCurrentMonth() {
+
+    return workoutPrograms[
+        currentMonth
+    ];
+
+}
+
 
 function getCurrentProgram() {
 
-    return workoutPrograms[
+    return getViewingMonth().sessions[
         currentSession
     ];
 
 }
 
 
-/* -------------------------
-   دکمه‌های جلسات
-------------------------- */
+/* =========================
+دکمه‌های جلسات
+========================= */
 
 function renderSessionButtons() {
 
     sessionButtons.innerHTML =
         "";
 
+    const sessions =
+        getViewingMonth().sessions;
+
 
     Object.keys(
-        workoutPrograms
-    )
-    .forEach(
+        sessions
+    ).forEach(
         session => {
 
             const button =
                 document.createElement(
                     "button"
                 );
-
 
             button.className =
                 "session-btn";
@@ -160,7 +165,7 @@ function renderSessionButtons() {
 
                 <span>
                     ${
-                        workoutPrograms[
+                        sessions[
                             session
                         ].title
                     }
@@ -175,7 +180,6 @@ function renderSessionButtons() {
 
                     currentSession =
                         Number(session);
-
 
                     renderAll();
 
@@ -193,9 +197,9 @@ function renderSessionButtons() {
 }
 
 
-/* -------------------------
-   ساخت حرکات
-------------------------- */
+/* =========================
+ساخت حرکات
+========================= */
 
 function renderExercises() {
 
@@ -214,6 +218,7 @@ function renderExercises() {
     const previous =
         getPreviousWorkout(
             workoutDate.value,
+            viewingMonth,
             currentSession
         );
 
@@ -332,9 +337,9 @@ function renderExercises() {
 }
 
 
-/* -------------------------
-   راهنمای حرکت
-------------------------- */
+/* =========================
+راهنمای حرکت
+========================= */
 
 function attachExerciseHelpEvents() {
 
@@ -366,9 +371,9 @@ function attachExerciseHelpEvents() {
 }
 
 
-/* -------------------------
-   ساخت HTML رسانه حرکت
-------------------------- */
+/* =========================
+ساخت HTML رسانه حرکت
+========================= */
 
 function createExerciseMedia(
     mediaPath,
@@ -382,8 +387,6 @@ function createExerciseMedia(
             .pop()
             .toLowerCase();
 
-
-    /* ویدئو */
 
     if (
         extension === "mp4"
@@ -413,8 +416,6 @@ function createExerciseMedia(
 
     }
 
-
-    /* تصویر */
 
     return `
 
@@ -583,10 +584,6 @@ function showExerciseGuide(
     `;
 
 
-    /* -------------------------
-       بستن با دکمه ×
-    ------------------------- */
-
     overlay
         .querySelector(
             ".exercise-guide-close"
@@ -601,10 +598,6 @@ function showExerciseGuide(
         );
 
 
-    /* -------------------------
-       بستن با دکمه پایین
-    ------------------------- */
-
     overlay
         .querySelector(
             ".exercise-guide-done"
@@ -618,10 +611,6 @@ function showExerciseGuide(
             }
         );
 
-
-    /* -------------------------
-       بستن با لمس بیرون
-    ------------------------- */
 
     overlay.addEventListener(
         "click",
@@ -639,10 +628,6 @@ function showExerciseGuide(
         }
     );
 
-
-    /* -------------------------
-       ESC روی دسکتاپ
-    ------------------------- */
 
     const closeWithEscape =
         event => {
@@ -677,9 +662,9 @@ function showExerciseGuide(
 }
 
 
-/* -------------------------
-   جلسه قبل
-------------------------- */
+/* =========================
+جلسه قبل
+========================= */
 
 function formatPreviousExercise(
     exercise
@@ -719,16 +704,17 @@ function formatPreviousExercise(
 }
 
 
-/* -------------------------
-   ساخت ست‌ها
-------------------------- */
+/* =========================
+ساخت ست‌ها
+========================= */
 
 function createSetRows(
     exercise,
     previousExercise
 ) {
 
-    let html = "";
+    let html =
+        "";
 
 
     for (
@@ -813,9 +799,9 @@ function createSetRows(
 }
 
 
-/* -------------------------
-   جمع‌آوری اطلاعات
-------------------------- */
+/* =========================
+جمع‌آوری اطلاعات
+========================= */
 
 function collectWorkout() {
 
@@ -831,6 +817,9 @@ function collectWorkout() {
             Number(
                 weekNumber.value
             ),
+
+        month:
+            viewingMonth,
 
         session:
             currentSession,
@@ -907,9 +896,9 @@ function collectWorkout() {
 }
 
 
-/* -------------------------
-   حجم تمرین
-------------------------- */
+/* =========================
+حجم تمرین
+========================= */
 
 function calculateVolume(
     workout
@@ -922,7 +911,8 @@ function calculateVolume(
     }
 
 
-    let volume = 0;
+    let volume =
+        0;
 
 
     workout.exercises.forEach(
@@ -965,9 +955,9 @@ function calculateVolume(
 }
 
 
-/* -------------------------
-   خلاصه
-------------------------- */
+/* =========================
+خلاصه تمرین
+========================= */
 
 function updateSummary() {
 
@@ -989,25 +979,10 @@ function updateSummary() {
         );
 
 
-    const program =
-        getCurrentProgram();
-
-
-    exerciseCount.textContent =
-        program.exercises.length;
-
-
-    setCount.textContent =
-        program.exercises.reduce(
-            (total, exercise) =>
-                total + exercise.sets,
-            0
-        );
-
-
     const previous =
         getPreviousWorkout(
             workout.date,
+            viewingMonth,
             currentSession
         );
 
@@ -1067,9 +1042,9 @@ function updateSummary() {
 }
 
 
-/* -------------------------
-   ذخیره جلسه
-------------------------- */
+/* =========================
+ذخیره جلسه
+========================= */
 
 document
     .getElementById(
@@ -1105,6 +1080,23 @@ document
             }
 
 
+            /*
+               فقط برنامه جاری قابل ثبت است.
+            */
+
+            if (
+                viewingMonth !== currentMonth
+            ) {
+
+                alert(
+                    "برنامه‌های قبلی فقط برای مشاهده هستند."
+                );
+
+                return;
+
+            }
+
+
             addWorkout(
                 workout
             );
@@ -1121,39 +1113,9 @@ document
     );
 
 
-/* -------------------------
-   جلسه جدید
-------------------------- */
-
-document
-    .getElementById(
-        "newWorkoutBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            if (
-                confirm(
-                    "اطلاعات واردشده پاک شود و جلسه جدید شروع شود؟"
-                )
-            ) {
-
-                workoutDate.value =
-                    getToday();
-
-
-                renderExercises();
-
-            }
-
-        }
-    );
-
-
-/* -------------------------
-   تغییر تاریخ
-------------------------- */
+/* =========================
+تغییر تاریخ
+========================= */
 
 workoutDate.addEventListener(
     "change",
@@ -1165,9 +1127,9 @@ workoutDate.addEventListener(
 );
 
 
-/* -------------------------
-   تغییر هفته
-------------------------- */
+/* =========================
+تغییر هفته
+========================= */
 
 weekNumber.addEventListener(
     "change",
@@ -1179,9 +1141,9 @@ weekNumber.addEventListener(
 );
 
 
-/* -------------------------
-   تغییر ورودی‌ها
-------------------------- */
+/* =========================
+تغییر ورودی‌ها
+========================= */
 
 function attachInputEvents() {
 
@@ -1203,9 +1165,9 @@ function attachInputEvents() {
 }
 
 
-/* -------------------------
-   تاریخچه
-------------------------- */
+/* =========================
+تاریخچه
+========================= */
 
 function renderHistory() {
 
@@ -1217,6 +1179,7 @@ function renderHistory() {
 
     const workouts =
         getSessionWorkouts(
+            viewingMonth,
             currentSession
         );
 
@@ -1380,9 +1343,9 @@ function renderHistory() {
 }
 
 
-/* -------------------------
-   Backup
-------------------------- */
+/* =========================
+Backup
+========================= */
 
 document
     .getElementById(
@@ -1398,9 +1361,9 @@ document
     );
 
 
-/* -------------------------
-   Restore
-------------------------- */
+/* =========================
+Restore
+========================= */
 
 document
     .getElementById(
@@ -1485,9 +1448,9 @@ document
     );
 
 
-/* -------------------------
-   حذف اطلاعات
-------------------------- */
+/* =========================
+حذف اطلاعات
+========================= */
 
 document
     .getElementById(
@@ -1519,24 +1482,28 @@ document
 
 
 /* =========================
-   Dark Mode
+Dark Mode
 ========================= */
-
-const themeToggleBtn =
-    document.getElementById(
-        "themeToggleBtn"
-    );
-
 
 function applyTheme(
     theme
 ) {
 
-    if (theme === "dark") {
+    if (!themeToggleBtn) {
+
+        return;
+
+    }
+
+
+    if (
+        theme === "dark"
+    ) {
 
         document.body.classList.add(
             "dark-mode"
         );
+
 
         themeToggleBtn.textContent =
             "☀️ حالت روشن";
@@ -1547,6 +1514,7 @@ function applyTheme(
         document.body.classList.remove(
             "dark-mode"
         );
+
 
         themeToggleBtn.textContent =
             "🌙 حالت تاریک";
@@ -1569,39 +1537,43 @@ applyTheme(
 );
 
 
-themeToggleBtn.addEventListener(
-    "click",
-    () => {
+if (themeToggleBtn) {
 
-        const isDark =
-            document.body.classList.contains(
-                "dark-mode"
+    themeToggleBtn.addEventListener(
+        "click",
+        () => {
+
+            const isDark =
+                document.body.classList.contains(
+                    "dark-mode"
+                );
+
+
+            const newTheme =
+                isDark
+                    ? "light"
+                    : "dark";
+
+
+            localStorage.setItem(
+                "gymTrackerTheme",
+                newTheme
             );
 
 
-        const newTheme =
-            isDark
-                ? "light"
-                : "dark";
+            applyTheme(
+                newTheme
+            );
+
+        }
+    );
+
+}
 
 
-        localStorage.setItem(
-            "gymTrackerTheme",
-            newTheme
-        );
-
-
-        applyTheme(
-            newTheme
-        );
-
-    }
-);
-
-
-/* -------------------------
-   رندر کامل
-------------------------- */
+/* =========================
+رندر کامل
+========================= */
 
 function renderAll() {
 
@@ -1614,8 +1586,8 @@ function renderAll() {
 }
 
 
-/* -------------------------
-   شروع برنامه
-------------------------- */
+/* =========================
+شروع برنامه
+========================= */
 
 renderAll();

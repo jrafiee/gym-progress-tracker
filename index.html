@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fa" dir="rtl">
 
 <head>
@@ -9,15 +10,20 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-	
-	<link rel="manifest" href="manifest.json">
 
-<meta
-    name="theme-color"
-    content="#2563eb"
->
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
 
-    <title>Gym Progress Tracker</title>
+    <meta
+        name="theme-color"
+        content="#2563eb"
+    >
+
+    <title>
+        Gym Progress Tracker
+    </title>
 
     <link
         rel="stylesheet"
@@ -26,11 +32,16 @@
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-    <!-- Header -->
+
+    <!-- =========================
+         Header
+    ========================= -->
 
     <header class="page-header">
 
@@ -46,42 +57,20 @@
 
         </div>
 
-<div class="header-actions">
-
-    <button
-        id="themeToggleBtn"
-        class="secondary-btn theme-toggle-btn"
-        type="button"
-    >
-        🌙 حالت تاریک
-    </button>
-
-    <button
-        id="newWorkoutBtn"
-        class="secondary-btn"
-    >
-        جلسه جدید
-    </button>
-
-    <button
-        id="saveWorkoutBtn"
-        class="primary-btn"
-    >
-        ثبت جلسه
-    </button>
-
-</div>
-
     </header>
 
 
-    <!-- Session selector -->
+
+    <!-- =========================
+         Session selector
+    ========================= -->
 
     <section class="session-selector card">
 
         <div class="selector-title">
             جلسه تمرینی
         </div>
+
 
         <div
             id="sessionButtons"
@@ -91,9 +80,13 @@
     </section>
 
 
-    <!-- Session info -->
+
+    <!-- =========================
+         Session info
+    ========================= -->
 
     <section class="session-info card">
+
 
         <div class="field">
 
@@ -153,34 +146,20 @@
     </section>
 
 
-    <!-- Summary -->
+
+    <!-- =========================
+         Exercises
+    ========================= -->
+
+    <main id="exerciseList"></main>
+
+
+
+    <!-- =========================
+         Workout summary
+    ========================= -->
 
     <section class="summary-grid">
-
-        <div class="summary-card">
-
-            <span>
-                تعداد حرکات
-            </span>
-
-            <strong id="exerciseCount">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="summary-card">
-
-            <span>
-                تعداد ست‌ها
-            </span>
-
-            <strong id="setCount">
-                0
-            </strong>
-
-        </div>
 
 
         <div class="summary-card">
@@ -212,17 +191,35 @@
 
         </div>
 
+
     </section>
 
 
-    <!-- Exercises -->
 
-    <main id="exerciseList"></main>
+    <!-- =========================
+         Save workout
+    ========================= -->
+
+    <section class="save-workout-section">
+
+        <button
+            id="saveWorkoutBtn"
+            class="primary-btn save-workout-btn"
+            type="button"
+        >
+            ثبت جلسه
+        </button>
+
+    </section>
 
 
-    <!-- History -->
+
+    <!-- =========================
+         History
+    ========================= -->
 
     <section class="history-section card">
+
 
         <div class="section-title">
 
@@ -246,66 +243,176 @@
     </section>
 
 
-    <!-- Backup -->
 
-    <section class="backup-section card">
+    <!-- =========================
+         Settings
+    ========================= -->
 
-        <h2>
-            پشتیبان اطلاعات
-        </h2>
-
-        <p>
-
-            اطلاعات تمرین‌ها در همین مرورگر ذخیره می‌شود.
-            برای جلوگیری از از دست رفتن اطلاعات،
-            هر چند وقت یک‌بار از اطلاعاتت فایل پشتیبان بگیر.
-
-        </p>
+    <details class="settings-section card">
 
 
-        <div class="backup-actions">
+        <summary>
+            <span>
+                ⚙️ تنظیمات و پشتیبان
+            </span>
 
-            <button
-                id="exportBtn"
-                class="secondary-btn"
-            >
-                دریافت فایل پشتیبان
-            </button>
+            <span class="settings-arrow">
+                ▼
+            </span>
+            
+        </summary>
 
 
-            <label class="secondary-btn file-btn">
 
-                بازیابی پشتیبان
+        <div class="settings-content">
 
-                <input
-                    type="file"
-                    id="importInput"
-                    accept=".json"
-                    hidden
+
+            <!-- =====================
+                 Appearance
+            ===================== -->
+
+            <div class="setting-row">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        ظاهر برنامه
+                    </strong>
+
+                    <span>
+                        تغییر بین حالت روشن و تاریک
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="themeToggleBtn"
+                    class="secondary-btn"
+                    type="button"
                 >
+                    🌙 حالت تاریک
+                </button>
 
-            </label>
+
+            </div>
 
 
-            <button
-                id="clearBtn"
-                class="danger-btn"
-            >
-                حذف همه اطلاعات
-            </button>
+
+            <!-- =====================
+                 Backup
+            ===================== -->
+
+            <div class="setting-row backup-setting">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        پشتیبان اطلاعات
+                    </strong>
+
+                    <span>
+                        اطلاعات تمرین‌ها در همین مرورگر ذخیره می‌شود.
+                        برای جلوگیری از از دست رفتن اطلاعات،
+                        هر چند وقت یک‌بار پشتیبان بگیر.
+                    </span>
+
+                </div>
+
+
+                <div class="backup-actions">
+
+
+                    <button
+                        id="exportBtn"
+                        class="secondary-btn"
+                        type="button"
+                    >
+                        دریافت پشتیبان
+                    </button>
+
+
+                    <label
+                        class="secondary-btn file-btn"
+                    >
+
+                        بازیابی پشتیبان
+
+
+                        <input
+                            type="file"
+                            id="importInput"
+                            accept=".json"
+                            hidden
+                        >
+
+                    </label>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =====================
+                 Delete data
+            ===================== -->
+
+            <div class="setting-row danger-setting">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        حذف اطلاعات
+                    </strong>
+
+                    <span>
+                        حذف تمام رکوردهای ذخیره‌شده
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="clearBtn"
+                    class="danger-btn"
+                    type="button"
+                >
+                    حذف همه اطلاعات
+                </button>
+
+
+            </div>
+
 
         </div>
 
-    </section>
+
+    </details>
+
 
 </div>
 
 
+
+<!-- =========================
+     JavaScript
+========================= -->
+
 <script src="js/workout-data.js"></script>
+
 <script src="js/storage.js"></script>
+
 <script src="js/app.js"></script>
 
+
 <script>
+
     if ("serviceWorker" in navigator) {
 
         window.addEventListener(
@@ -340,6 +447,10 @@
         );
 
     }
+
+</script>
+
+
 </body>
 
 </html>
