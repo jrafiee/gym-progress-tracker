@@ -1,4 +1,3 @@
-
 const workoutPrograms = {
 
     /* =========================
@@ -244,240 +243,238 @@ const workoutPrograms = {
             },
 
 
+            /* -------------------------
+               جلسه ۲
+               پشت + سرشانه + شکم
+            ------------------------- */
 
-/* -------------------------
-   جلسه ۲
-   پشت + سرشانه + شکم
-------------------------- */
+            2: {
 
-2: {
+                title:
+                    "پشت + سرشانه + شکم",
 
-    title:
-        "پشت + سرشانه + شکم",
+                exercises: [
 
-    exercises: [
+                    {
+                        id: "wide_lat_pulldown",
 
-        {
-            id: "wide_lat_pulldown",
+                        name:
+                            "زیربغل سیم‌کش دست باز از جلو",
 
-            name:
-                "زیربغل سیم‌کش دست باز از جلو",
+                        target:
+                            "3 × 8–12",
 
-            target:
-                "3 × 8–12",
+                        rest:
+                            "2 دقیقه",
 
-            rest:
-                "2 دقیقه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/lat_pulldown_wide.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/lat_pulldown_wide.mp4"
-            ],
+                        instructions: [
+                            "سینه را کمی بالا نگه دار.",
+                            "میله را به سمت بالای سینه پایین بکش.",
+                            "در برگشت، دست‌ها را کنترل‌شده باز کن."
+                        ]
+                    },
 
-            instructions: [
-                "سینه را کمی بالا نگه دار.",
-                "میله را به سمت بالای سینه پایین بکش.",
-                "در برگشت، دست‌ها را کنترل‌شده باز کن."
-            ]
-        },
 
+                    {
+                        id: "seated_cable_row",
 
-        {
-            id: "seated_cable_row",
+                        name:
+                            "قایقی سیم‌کش",
 
-            name:
-                "قایقی سیم‌کش",
+                        target:
+                            "3 × 8–12",
 
-            target:
-                "3 × 8–12",
+                        rest:
+                            "2 دقیقه",
 
-            rest:
-                "2 دقیقه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/seated_cable_row.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/seated_cable_row.mp4"
-            ],
+                        instructions: [
+                            "کمر را صاف و سینه را باز نگه دار.",
+                            "دسته را به سمت شکم بکش.",
+                            "کتف‌ها را در انتهای حرکت به هم نزدیک کن."
+                        ]
+                    },
 
-            instructions: [
-                "کمر را صاف و سینه را باز نگه دار.",
-                "دسته را به سمت شکم بکش.",
-                "کتف‌ها را در انتهای حرکت به هم نزدیک کن."
-            ]
-        },
 
+                    {
+                        id: "chest_supported_row",
 
-        {
-            id: "chest_supported_row",
+                        name:
+                            "پارویی دمبل روی میز شیب‌دار",
 
-            name:
-                "پارویی دمبل روی میز شیب‌دار",
+                        target:
+                            "3 × 8–12",
 
-            target:
-                "3 × 8–12",
+                        rest:
+                            "2 دقیقه",
 
-            rest:
-                "2 دقیقه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/incline_dumbbell_row.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/incline_dumbbell_row.mp4"
-            ],
+                        instructions: [
+                            "سینه را کاملاً روی نیمکت تکیه بده.",
+                            "دمبل‌ها را به سمت بدن بکش.",
+                            "در پایین حرکت، دست‌ها را کنترل‌شده پایین بیاور."
+                        ]
+                    },
 
-            instructions: [
-                "سینه را کاملاً روی نیمکت تکیه بده.",
-                "دمبل‌ها را به سمت بدن بکش.",
-                "در پایین حرکت، دست‌ها را کنترل‌شده پایین بیاور."
-            ]
-        },
 
+                    {
+                        id: "straight_arm_pullover",
 
-        {
-            id: "straight_arm_pullover",
+                        name:
+                            "پول‌اور سیم‌کش دست صاف با طناب",
 
-            name:
-                "پول‌اور سیم‌کش دست صاف با طناب",
+                        target:
+                            "2 × 10–15",
 
-            target:
-                "2 × 10–15",
+                        rest:
+                            "90 ثانیه",
 
-            rest:
-                "90 ثانیه",
+                        sets:
+                            2,
 
-            sets:
-                2,
+                        images: [
+                            "assets/exercises/straight_arm_cable_pullover.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/straight_arm_cable_pullover.mp4"
-            ],
+                        instructions: [
+                            "آرنج‌ها را کمی خم ولی تقریباً ثابت نگه دار.",
+                            "طناب را با عضلات پشت به سمت ران‌ها پایین بکش.",
+                            "در برگشت، کشش عضلات زیر بغل را حفظ کن."
+                        ]
+                    },
 
-            instructions: [
-                "آرنج‌ها را کمی خم ولی تقریباً ثابت نگه دار.",
-                "طناب را با عضلات پشت به سمت ران‌ها پایین بکش.",
-                "در برگشت، کشش عضلات زیر بغل را حفظ کن."
-            ]
-        },
 
+                    {
+                        id: "dumbbell_shoulder_press",
 
-        {
-            id: "dumbbell_shoulder_press",
+                        name:
+                            "پرس سرشانه دمبل نشسته",
 
-            name:
-                "پرس سرشانه دمبل نشسته",
+                        target:
+                            "3 × 8–12",
 
-            target:
-                "3 × 8–12",
+                        rest:
+                            "2 دقیقه",
 
-            rest:
-                "2 دقیقه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/dumbbell_shoulder_press_seated.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/dumbbell_shoulder_press_seated.mp4"
-            ],
+                        instructions: [
+                            "روی نیمکت با پشتی تقریباً عمودی بنشین.",
+                            "دمبل‌ها را در کنار سر قرار بده.",
+                            "بدون تاب دادن بدن، دمبل‌ها را به بالا فشار بده.",
+                            "در پایین حرکت آرنج‌ها را بیش از حد پایین نبر."
+                        ]
+                    },
 
-            instructions: [
-                "روی نیمکت با پشتی تقریباً عمودی بنشین.",
-                "دمبل‌ها را در کنار سر قرار بده.",
-                "بدون تاب دادن بدن، دمبل‌ها را به بالا فشار بده.",
-                "در پایین حرکت آرنج‌ها را بیش از حد پایین نبر."
-            ]
-        },
 
+                    {
+                        id: "dumbbell_lateral_raise",
 
-        {
-            id: "dumbbell_lateral_raise",
+                        name:
+                            "نشر جانب دمبل",
 
-            name:
-                "نشر جانب دمبل",
+                        target:
+                            "3 × 10–15",
 
-            target:
-                "3 × 10–15",
+                        rest:
+                            "60–90 ثانیه",
 
-            rest:
-                "60–90 ثانیه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/dumbbell_lateral_raise.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/dumbbell_lateral_raise.mp4"
-            ],
+                        instructions: [
+                            "دمبل‌ها را با آرنج کمی خم نگه دار.",
+                            "دست‌ها را تا حدود ارتفاع شانه بالا بیاور.",
+                            "از تاب دادن بدن و بالا بردن بیش از حد دست‌ها خودداری کن."
+                        ]
+                    },
 
-            instructions: [
-                "دمبل‌ها را با آرنج کمی خم نگه دار.",
-                "دست‌ها را تا حدود ارتفاع شانه بالا بیاور.",
-                "از تاب دادن بدن و بالا بردن بیش از حد دست‌ها خودداری کن."
-            ]
-        },
 
+                    {
+                        id: "rear_delt_fly",
 
-        {
-            id: "rear_delt_fly",
+                        name:
+                            "نشر خم دمبل خوابیده روی میز شیب‌دار",
 
-            name:
-                "نشر خم دمبل خوابیده روی میز شیب‌دار",
+                        target:
+                            "2 × 12–15",
 
-            target:
-                "2 × 12–15",
+                        rest:
+                            "60–90 ثانیه",
 
-            rest:
-                "60–90 ثانیه",
+                        sets:
+                            2,
 
-            sets:
-                2,
+                        images: [
+                            "assets/exercises/rear_delt_fly_incline_bench.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/rear_delt_fly_incline_bench.mp4"
-            ],
+                        instructions: [
+                            "سینه را کاملاً روی میز شیب‌دار قرار بده.",
+                            "دمبل‌ها را از زیر بدن به طرفین باز کن.",
+                            "حرکت را با پشت سرشانه انجام بده و از تاب دادن وزنه خودداری کن."
+                        ]
+                    },
 
-            instructions: [
-                "سینه را کاملاً روی میز شیب‌دار قرار بده.",
-                "دمبل‌ها را از زیر بدن به طرفین باز کن.",
-                "حرکت را با پشت سرشانه انجام بده و از تاب دادن وزنه خودداری کن."
-            ]
-        },
 
+                    {
+                        id: "pallof_press",
 
-        {
-            id: "pallof_press",
+                        name:
+                            "پرس پالوف",
 
-            name:
-                "پرس پالوف",
+                        target:
+                            "3 × 10–12 هر طرف",
 
-            target:
-                "3 × 10–12 هر طرف",
+                        rest:
+                            "45–60 ثانیه",
 
-            rest:
-                "45–60 ثانیه",
+                        sets:
+                            3,
 
-            sets:
-                3,
+                        images: [
+                            "assets/exercises/pallof_press.mp4"
+                        ],
 
-            images: [
-                "assets/exercises/pallof_press.mp4"
-            ],
+                        instructions: [
+                            "در کنار دستگاه سیم‌کش بایست و بدن را کاملاً ثابت نگه دار.",
+                            "دسته را جلوی سینه نگه دار.",
+                            "دسته را به سمت جلو فشار بده.",
+                            "اجازه نده کشش کابل بدن را به طرفین بچرخاند."
+                        ]
+                    }
 
-            instructions: [
-                "در کنار دستگاه سیم‌کش بایست و بدن را کاملاً ثابت نگه دار.",
-                "دسته را جلوی سینه نگه دار.",
-                "دسته را به سمت جلو فشار بده.",
-                "اجازه نده کشش کابل بدن را به طرفین بچرخاند."
-            ]
-        }
+                ]
 
-    ]
-
-},
-
+            },
 
 
             /* -------------------------
@@ -507,7 +504,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/leg_press.mp4"
+                        ],
 
                         instructions: [
                             "پاها را با فاصله مناسب روی صفحه قرار بده.",
@@ -532,7 +531,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/smith-squat.mp4"
+                        ],
 
                         instructions: [
                             "پاها را در وضعیت پایدار زیر میله قرار بده.",
@@ -557,7 +558,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/lying_leg_curl.mp4"
+                        ],
 
                         instructions: [
                             "لگن را روی دستگاه ثابت نگه دار.",
@@ -582,7 +585,9 @@ const workoutPrograms = {
                         sets:
                             2,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/leg_extension.mp4"
+                        ],
 
                         instructions: [
                             "زانو را با محور دستگاه هم‌راستا کن.",
@@ -607,7 +612,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/smith_standing_calf_raise.mp4"
+                        ],
 
                         instructions: [
                             "پنجه‌ها را روی سطح مناسب قرار بده.",
@@ -632,7 +639,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/dumbbell-hammer-curl.mp4"
+                        ],
 
                         instructions: [
                             "کف دست‌ها را رو به یکدیگر نگه دار.",
@@ -657,7 +666,9 @@ const workoutPrograms = {
                         sets:
                             2,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/cable-curl.mp4"
+                        ],
 
                         instructions: [
                             "آرنج‌ها را کنار بدن ثابت نگه دار.",
@@ -682,7 +693,9 @@ const workoutPrograms = {
                         sets:
                             3,
 
-                        images: [],
+                        images: [
+                            "assets/exercises/plank.mp4"
+                        ],
 
                         instructions: [
                             "بدن را از سر تا پاشنه در یک خط نگه دار.",
