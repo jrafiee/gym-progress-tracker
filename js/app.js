@@ -1,9 +1,10 @@
-
 let currentMonth = "month1";
 
 let viewingMonth = "month1";
 
 let currentSession = 1;
+
+let keepSelectedWeek = false;
 
 
 /* -------------------------
@@ -53,6 +54,11 @@ const volumeChange =
 const themeToggleBtn =
     document.getElementById(
         "themeToggleBtn"
+    );
+
+const finishWorkoutBtn =
+    document.getElementById(
+        "finishWorkoutBtn"
     );
 
 
@@ -167,6 +173,10 @@ function updatePersianWorkoutDate() {
 }
 
 
+/* -------------------------
+تاریخ اولیه
+------------------------- */
+
 workoutDate.value =
     getToday();
 
@@ -200,6 +210,29 @@ function getCurrentProgram() {
     return getViewingMonth().sessions[
         currentSession
     ];
+
+}
+
+
+/* =========================
+دریافت رکورد ذخیره‌شده
+برای تاریخ و جلسه جاری
+========================= */
+
+function getCurrentSavedWorkout() {
+
+    const workouts =
+        getSessionWorkouts(
+            viewingMonth,
+            currentSession
+        );
+
+
+    return workouts.find(
+        workout =>
+            workout.date ===
+            workoutDate.value
+    ) || null;
 
 }
 
@@ -309,11 +342,46 @@ function renderExercises() {
         );
 
 
+    /*
+       رکورد ذخیره‌شده برای همین
+       تاریخ و جلسه
+    */
+
+    const currentWorkout =
+        getCurrentSavedWorkout();
+
+
+    /*
+       اگر برای این تاریخ رکورد
+       ذخیره شده باشد، هفته آن را
+       نیز برمی‌گردانیم.
+    */
+
+    if (
+        !keepSelectedWeek &&
+        currentWorkout &&
+        currentWorkout.week
+    ) {
+
+        weekNumber.value =
+            currentWorkout.week;
+
+    }
+
+
     program.exercises.forEach(
         (exercise, index) => {
 
             const previousExercise =
                 previous?.exercises?.find(
+                    item =>
+                        item.id ===
+                        exercise.id
+                );
+
+
+            const currentExercise =
+                currentWorkout?.exercises?.find(
                     item =>
                         item.id ===
                         exercise.id
@@ -381,21 +449,7 @@ function renderExercises() {
                     </button>
 
 
-                    <div class="previous-result">
 
-                        جلسه قبل:
-
-                        <strong>
-
-                            ${
-                                formatPreviousExercise(
-                                    previousExercise
-                                )
-                            }
-
-                        </strong>
-
-                    </div>
 
                 </div>
 
@@ -407,7 +461,8 @@ function renderExercises() {
 
                     ${createSetRows(
                         exercise,
-                        previousExercise
+                        previousExercise,
+                        currentExercise
                     )}
 
                 </div>
@@ -430,6 +485,7 @@ function renderExercises() {
     attachExerciseHistoryEvents();
 
     updateSummary();
+
 
 }
 
@@ -512,11 +568,22 @@ function getExerciseHistory(
     exerciseId
 ) {
 
+    const raw =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
+
+    if (!raw) {
+
+        return [];
+
+    }
+
+
     const data =
         JSON.parse(
-            localStorage.getItem(
-                STORAGE_KEY
-            )
+            raw
         );
 
 
@@ -1204,9 +1271,9 @@ function formatPreviousExercise(
                 }
 
 
-                return `${
+                return `${ 
                     set.weight || "—"
-                }kg × ${
+                }kg × ${ 
                     set.reps || "—"
                 }`;
 
@@ -1223,7 +1290,8 @@ function formatPreviousExercise(
 
 function createSetRows(
     exercise,
-    previousExercise
+    previousExercise,
+    currentExercise
 ) {
 
     let html =
@@ -1238,6 +1306,22 @@ function createSetRows(
 
         const previousSet =
             previousExercise?.sets?.[i];
+
+
+        /*
+           اطلاعات ذخیره‌شده فعلی
+        */
+
+        const currentSet =
+            currentExercise?.sets?.[i];
+
+
+        const currentWeight =
+            currentSet?.weight || "";
+
+
+        const currentReps =
+            currentSet?.reps || "";
 
 
         html += `
@@ -1260,6 +1344,7 @@ function createSetRows(
                         placeholder="وزنه (kg)"
                         min="0"
                         step="0.5"
+                        value="${currentWeight}"
                     >
 
                 </div>
@@ -1273,6 +1358,7 @@ function createSetRows(
                         placeholder="تکرار"
                         min="0"
                         step="1"
+                        value="${currentReps}"
                     >
 
                 </div>
@@ -1405,6 +1491,257 @@ function collectWorkout() {
 
 
     return result;
+
+}
+
+
+/* =========================
+بررسی وجود اطلاعات
+========================= */
+
+function workoutHasData(
+    workout
+) {
+
+    return workout.exercises.some(
+        exercise =>
+            exercise.sets.some(
+                set =>
+                    set.weight !== "" ||
+                    set.reps !== ""
+            )
+    );
+
+}
+
+
+/* =========================
+ذخیره خودکار
+========================= */
+
+function autoSaveWorkout() {
+
+    /*
+       اگر تاریخ وجود نداشته باشد
+       چیزی ذخیره نمی‌کنیم.
+    */
+
+    if (!workoutDate.value) {
+
+        return;
+
+    }
+
+
+    /*
+       فقط ماه جاری قابل ذخیره است.
+    */
+
+    if (
+        viewingMonth !==
+        currentMonth
+    ) {
+
+        return;
+
+    }
+
+
+    const workout =
+        collectWorkout();
+
+
+    /*
+       اگر هنوز هیچ چیزی وارد نشده
+       چیزی ذخیره نمی‌کنیم.
+    */
+
+    if (
+        !workoutHasData(
+            workout
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       فقط ذخیره.
+       
+       مهم:
+       این تابع هرگز جلسه یا هفته
+       را تغییر نمی‌دهد.
+    */
+
+    addWorkout(
+        workout
+    );
+
+}
+
+
+/* =========================
+حرکت به جلسه بعد
+========================= */
+
+function goToNextWorkout() {
+
+    const currentWeek =
+        Number(
+            weekNumber.value
+        );
+
+
+    /*
+       جلسه ۱ → جلسه ۲
+    */
+
+    if (
+        currentSession === 1
+    ) {
+
+        currentSession =
+            2;
+
+    }
+
+
+    /*
+       جلسه ۲ → جلسه ۳
+    */
+
+    else if (
+        currentSession === 2
+    ) {
+
+        currentSession =
+            3;
+
+    }
+
+
+    /*
+       جلسه ۳ → جلسه ۱ هفته بعد
+    */
+
+    else if (
+        currentSession === 3 &&
+        currentWeek < 4
+    ) {
+
+        weekNumber.value =
+            currentWeek + 1;
+
+        currentSession =
+            1;
+
+    }
+
+
+    /*
+       هفته ۴ جلسه ۳
+    */
+
+    else {
+
+        alert(
+            "تبریک! هفته چهارم و جلسه سوم را هم به پایان رساندید."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       هفته‌ای که همینجا تعیین کردیم
+       باید بعد از renderAll نیز حفظ شود.
+    */
+
+    keepSelectedWeek = true;
+
+    renderAll();
+
+    keepSelectedWeek = false;
+
+}
+
+
+/* =========================
+پایان جلسه و رفتن به بعدی
+========================= */
+
+if (
+    finishWorkoutBtn
+) {
+
+    finishWorkoutBtn.addEventListener(
+        "click",
+        () => {
+
+            /*
+               ماه‌های قبلی فقط برای مشاهده هستند.
+            */
+
+            if (
+                viewingMonth !==
+                currentMonth
+            ) {
+
+                alert(
+                    "برنامه‌های قبلی فقط برای مشاهده هستند."
+                );
+
+                return;
+
+            }
+
+
+            /*
+               اطلاعات فعلی را جمع می‌کنیم.
+            */
+
+            const workout =
+                collectWorkout();
+
+
+            /*
+               بدون ثبت اطلاعات،
+               جلسه تمام نشده است.
+            */
+
+            if (
+                !workoutHasData(
+                    workout
+                )
+            ) {
+
+                alert(
+                    "هنوز اطلاعاتی برای این جلسه ثبت نشده است."
+                );
+
+                return;
+
+            }
+
+
+            /*
+               آخرین تغییرات را ذخیره کن.
+            */
+
+            autoSaveWorkout();
+
+
+            /*
+               حالا برو به جلسه بعد.
+            */
+
+            goToNextWorkout();
+
+        }
+    );
 
 }
 
@@ -1546,7 +1883,7 @@ function updateSummary() {
 
 
     volumeChange.textContent =
-        `${
+        `${ 
             rounded > 0
                 ? "+"
                 : ""
@@ -1556,14 +1893,26 @@ function updateSummary() {
 
 
 /* =========================
-ذخیره جلسه
+ذخیره دستی جلسه
 ========================= */
 
-document
-    .getElementById(
+/*
+   این بخش دیگر لازم نیست،
+   چون دکمه «ثبت جلسه» حذف شده است.
+
+   اگر دکمه قدیمی هنوز در HTML وجود داشته باشد،
+   این کد همچنان از آن پشتیبانی می‌کند.
+*/
+
+const saveWorkoutBtn =
+    document.getElementById(
         "saveWorkoutBtn"
-    )
-    .addEventListener(
+    );
+
+
+if (saveWorkoutBtn) {
+
+    saveWorkoutBtn.addEventListener(
         "click",
         () => {
 
@@ -1572,13 +1921,8 @@ document
 
 
             const hasData =
-                workout.exercises.some(
-                    exercise =>
-                        exercise.sets.some(
-                            set =>
-                                set.weight !== "" ||
-                                set.reps !== ""
-                        )
+                workoutHasData(
+                    workout
                 );
 
 
@@ -1593,12 +1937,9 @@ document
             }
 
 
-            /*
-               فقط برنامه جاری قابل ثبت است.
-            */
-
             if (
-                viewingMonth !== currentMonth
+                viewingMonth !==
+                currentMonth
             ) {
 
                 alert(
@@ -1615,15 +1956,14 @@ document
             );
 
 
-            renderAll();
-
-
             alert(
-                "جلسه با موفقیت ثبت شد."
+                "اطلاعات جلسه ذخیره شد."
             );
 
         }
     );
+
+}
 
 
 /* =========================
@@ -1650,7 +1990,45 @@ weekNumber.addEventListener(
     "change",
     () => {
 
-        renderHistory();
+        /*
+           تغییر هفته فقط جابه‌جایی بین
+           هفته‌های برنامه است.
+
+           چون اطلاعات هنگام ورود هر
+           وزن/تکرار خودکار ذخیره شده،
+           اینجا دیگر نباید autoSaveWorkout()
+           اجرا شود.
+        */
+
+        let week =
+            Number(
+                weekNumber.value
+            );
+
+
+        if (
+            week < 1
+        ) {
+
+            week = 1;
+
+        }
+
+
+        if (
+            week > 4
+        ) {
+
+            week = 4;
+
+        }
+
+
+        weekNumber.value =
+            week;
+
+
+        renderAll();
 
     }
 );
@@ -1671,7 +2049,24 @@ function attachInputEvents() {
 
                 input.addEventListener(
                     "input",
-                    updateSummary
+                    () => {
+
+                        /*
+                           اول خلاصه را
+                           به‌روزرسانی می‌کنیم.
+                        */
+
+                        updateSummary();
+
+
+                        /*
+                           سپس اطلاعات را
+                           بلافاصله ذخیره می‌کنیم.
+                        */
+
+                        autoSaveWorkout();
+
+                    }
                 );
 
             }
@@ -1792,11 +2187,11 @@ function renderHistory() {
 
 
                     change =
-                        `${
+                        `${ 
                             percent > 0
                                 ? "+"
                                 : ""
-                        }${
+                        }${ 
                             Math.round(
                                 percent * 10
                             ) / 10

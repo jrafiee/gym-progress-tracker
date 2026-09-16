@@ -527,25 +527,6 @@ select:focus {
 }
 
 
-.sets-container::before {
-    content:
-        "ست          وزنه (kg)          تکرار";
-
-    display: block;
-
-    padding:
-        0
-        5px
-        6px;
-
-    font-size: 12px;
-
-    color: #9ca3af;
-
-    white-space: pre;
-
-    text-align: right;
-}
 
 
 .set-row {
