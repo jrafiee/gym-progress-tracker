@@ -481,6 +481,44 @@ select:focus {
 
 
 /* =========================
+   Exercise History Button
+========================= */
+
+.exercise-history-btn {
+    margin-top: 8px;
+
+    min-height: 38px;
+
+    padding:
+        7px
+        12px;
+
+    border:
+        1px solid
+        #d1d5db;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #2563eb;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.exercise-history-btn:active {
+    background: #eff6ff;
+}
+
+
+/* =========================
    Sets
 ========================= */
 
@@ -747,6 +785,137 @@ select:focus {
     font-size: 12px;
 
     color: #9ca3af;
+}
+
+
+/* =========================
+   Exercise History
+========================= */
+
+.exercise-history-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 14px;
+}
+
+
+.exercise-history-item {
+    padding: 12px;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #f9fafb;
+}
+
+
+/* اطلاعات جلسه */
+
+.exercise-history-info {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    padding-bottom: 9px;
+
+    border-bottom:
+        1px solid
+        #e5e7eb;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+.exercise-history-info strong {
+    color: #1f2937;
+}
+
+
+.exercise-history-info span {
+    color: #6b7280;
+
+    white-space: nowrap;
+}
+
+
+/* ست‌ها */
+
+.exercise-history-sets {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 6px;
+}
+
+
+/* هر ست */
+
+.history-set {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 55px;
+
+    padding: 6px;
+
+    border-radius: 8px;
+
+    background: white;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    text-align: center;
+}
+
+
+.history-set-number {
+    font-size: 10px;
+
+    color: #9ca3af;
+
+    margin-bottom: 3px;
+}
+
+
+.history-set-weight {
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #1f2937;
+
+    direction: ltr;
+}
+
+
+.history-set-reps {
+    font-size: 11px;
+
+    color: #6b7280;
 }
 
 
@@ -1193,6 +1362,12 @@ select:focus {
         width: 100%;
     }
 
+
+    .exercise-history-sets {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
 }
 
 
@@ -1412,6 +1587,68 @@ body.dark-mode .history-table td {
 
 body.dark-mode .history-empty {
     color: #6b7280;
+}
+
+
+/* =========================
+   Exercise History - Dark Mode
+========================= */
+
+body.dark-mode .exercise-history-btn {
+    background: #1f2937;
+
+    border-color: #4b5563;
+
+    color: #93c5fd;
+}
+
+
+body.dark-mode .exercise-history-btn:active {
+    background: #172554;
+}
+
+
+body.dark-mode .exercise-history-item {
+    background: #18212f;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode .exercise-history-info {
+    border-color: #374151;
+}
+
+
+body.dark-mode .exercise-history-info strong {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .exercise-history-info span {
+    color: #9ca3af;
+}
+
+
+body.dark-mode .history-set {
+    background: #1f2937;
+
+    border-color: #374151;
+}
+
+
+body.dark-mode .history-set-number {
+    color: #6b7280;
+}
+
+
+body.dark-mode .history-set-weight {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .history-set-reps {
+    color: #9ca3af;
 }
 
 

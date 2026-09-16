@@ -1,3 +1,4 @@
+
 let currentMonth = "month1";
 
 let viewingMonth = "month1";
@@ -12,6 +13,11 @@ let currentSession = 1;
 const workoutDate =
     document.getElementById(
         "workoutDate"
+    );
+
+const persianWorkoutDate =
+    document.getElementById(
+        "persianWorkoutDate"
     );
 
 const weekNumber =
@@ -83,8 +89,88 @@ function getToday() {
 }
 
 
+/* -------------------------
+تبدیل تاریخ میلادی به شمسی
+فقط برای نمایش
+------------------------- */
+
+function formatPersianDate(
+    dateString,
+    longFormat = false
+) {
+
+    if (!dateString) {
+
+        return "";
+
+    }
+
+
+    const [
+        year,
+        month,
+        day
+    ] =
+        dateString
+            .split("-")
+            .map(Number);
+
+
+    const date =
+        new Date(
+            year,
+            month - 1,
+            day,
+            12,
+            0,
+            0
+        );
+
+
+    return new Intl.DateTimeFormat(
+        "fa-IR-u-ca-persian",
+        longFormat
+            ? {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }
+            : {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            }
+    ).format(date);
+
+}
+
+
+/* -------------------------
+نمایش تاریخ شمسی زیر تاریخ
+------------------------- */
+
+function updatePersianWorkoutDate() {
+
+    if (!persianWorkoutDate) {
+
+        return;
+
+    }
+
+
+    persianWorkoutDate.textContent =
+        formatPersianDate(
+            workoutDate.value,
+            true
+        );
+
+}
+
+
 workoutDate.value =
     getToday();
+
+updatePersianWorkoutDate();
 
 
 /* =========================
@@ -286,6 +372,15 @@ function renderExercises() {
                     </button>
 
 
+                    <button
+                        type="button"
+                        class="exercise-history-btn"
+                        data-exercise-id="${exercise.id}"
+                    >
+                        📈 سابقه حرکت
+                    </button>
+
+
                     <div class="previous-result">
 
                         جلسه قبل:
@@ -332,6 +427,8 @@ function renderExercises() {
 
     attachExerciseHelpEvents();
 
+    attachExerciseHistoryEvents();
+
     updateSummary();
 
 }
@@ -367,6 +464,422 @@ function attachExerciseHelpEvents() {
 
             }
         );
+
+}
+
+
+/* =========================
+سابقه حرکت
+========================= */
+
+function attachExerciseHistoryEvents() {
+
+    document
+        .querySelectorAll(
+            ".exercise-history-btn"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const exerciseId =
+                            button.dataset
+                                .exerciseId;
+
+
+                        showExerciseHistory(
+                            exerciseId
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================
+پیدا کردن سابقه یک حرکت
+در کل برنامه
+========================= */
+
+function getExerciseHistory(
+    exerciseId
+) {
+
+    const data =
+        JSON.parse(
+            localStorage.getItem(
+                STORAGE_KEY
+            )
+        );
+
+
+    if (
+        !data ||
+        !Array.isArray(
+            data.workouts
+        )
+    ) {
+
+        return [];
+
+    }
+
+
+    const history = [];
+
+
+    data.workouts.forEach(
+        workout => {
+
+            const exercise =
+                workout.exercises?.find(
+                    item =>
+                        item.id ===
+                        exerciseId
+                );
+
+
+            if (!exercise) {
+
+                return;
+
+            }
+
+
+            const hasData =
+                exercise.sets?.some(
+                    set =>
+                        set.weight !== "" ||
+                        set.reps !== ""
+                );
+
+
+            if (!hasData) {
+
+                return;
+
+            }
+
+
+            history.push({
+
+                date:
+                    workout.date,
+
+                week:
+                    workout.week,
+
+                month:
+                    workout.month,
+
+                session:
+                    workout.session,
+
+                sets:
+                    exercise.sets
+
+            });
+
+        }
+    );
+
+
+    /*
+       جدیدترین رکورد اول
+    */
+
+    history.sort(
+        (a, b) =>
+            b.date.localeCompare(
+                a.date
+            )
+    );
+
+
+    return history;
+
+}
+
+
+/* =========================
+نمایش سابقه یک حرکت
+========================= */
+
+function showExerciseHistory(
+    exerciseId
+) {
+
+    const exercise =
+        getCurrentProgram()
+            .exercises
+            .find(
+                item =>
+                    item.id ===
+                    exerciseId
+            );
+
+
+    if (!exercise) {
+
+        return;
+
+    }
+
+
+    const history =
+        getExerciseHistory(
+            exerciseId
+        );
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "exercise-guide-overlay";
+
+
+    let historyHtml =
+        "";
+
+
+    if (
+        history.length === 0
+    ) {
+
+        historyHtml = `
+
+            <div class="history-empty">
+
+                هنوز سابقه‌ای برای این حرکت ثبت نشده است.
+
+            </div>
+
+        `;
+
+    }
+    else {
+
+        historyHtml = `
+
+            <div class="exercise-history-list">
+
+                ${
+                    history
+                        .map(
+                            record => `
+
+                                <div class="exercise-history-item">
+
+                                    <div class="exercise-history-info">
+
+                                        <strong>
+                                            ${formatPersianDate(
+                                                record.date,
+                                                true
+                                            )}
+                                        </strong>
+
+                                        <span>
+                                            هفته ${record.week}
+                                            |
+                                            جلسه ${record.session}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="exercise-history-sets">
+
+                                        ${
+                                            formatHistorySets(
+                                                record.sets
+                                            )
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            `
+                        )
+                        .join("")
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
+    overlay.innerHTML = `
+
+        <div class="exercise-guide-modal">
+
+            <div class="exercise-guide-header">
+
+                <h2>
+                    سابقه — ${exercise.name}
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="exercise-guide-close"
+                    aria-label="بستن"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            ${historyHtml}
+
+
+            <button
+                type="button"
+                class="primary-btn exercise-guide-done"
+            >
+                بستن
+            </button>
+
+        </div>
+
+    `;
+
+
+    overlay
+        .querySelector(
+            ".exercise-guide-close"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                overlay.remove();
+
+            }
+        );
+
+
+    overlay
+        .querySelector(
+            ".exercise-guide-done"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                overlay.remove();
+
+            }
+        );
+
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                overlay
+            ) {
+
+                overlay.remove();
+
+            }
+
+        }
+    );
+
+
+    const closeWithEscape =
+        event => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                overlay.remove();
+
+                document.removeEventListener(
+                    "keydown",
+                    closeWithEscape
+                );
+
+            }
+
+        };
+
+
+    document.addEventListener(
+        "keydown",
+        closeWithEscape
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+}
+
+
+/* =========================
+فرمت ست‌های سابقه
+========================= */
+
+function formatHistorySets(
+    sets
+) {
+
+    if (
+        !sets ||
+        sets.length === 0
+    ) {
+
+        return "—";
+
+    }
+
+
+    return sets
+        .map(
+            set => {
+
+                if (
+                    set.weight === "" &&
+                    set.reps === ""
+                ) {
+
+                    return "—";
+
+                }
+
+
+                return `
+                    <span class="history-set">
+                        ${set.weight || "—"}kg ×
+                        ${set.reps || "—"}
+                    </span>
+                `;
+
+            }
+        )
+        .join("");
 
 }
 
@@ -1121,6 +1634,8 @@ workoutDate.addEventListener(
     "change",
     () => {
 
+        updatePersianWorkoutDate();
+
         renderAll();
 
     }
@@ -1297,7 +1812,9 @@ function renderHistory() {
                 <tr>
 
                     <td>
-                        ${workout.date}
+                        ${formatPersianDate(
+                            workout.date
+                        )}
                     </td>
 
                     <td>
