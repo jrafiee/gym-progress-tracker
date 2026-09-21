@@ -75,7 +75,7 @@ const exerciseCatalog = {
 
     cable_crossover: {
         name: "کراس اور سیم‌کش",
-        images: ["assets/exercises/cable-crossover.mp4"],
+        images: ["assets/exercises/cable-crossover.gif"],
         instructions: [
             "دسته‌های سیم‌کش را در ارتفاع مناسب تنظیم کن.",
             "یک قدم جلو برو و بدن را پایدار نگه دار.",
