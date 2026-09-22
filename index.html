@@ -1,63 +1,26 @@
-
 <!DOCTYPE html>
-
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <link
-        rel="manifest"
-        href="manifest.json"
-    >
-
-    <meta
-        name="theme-color"
-        content="#2563eb"
-    >
-
-    <title>
-        Gym Progress Tracker
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <title>Gym Progress Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 
 <body>
 
-
 <div class="container">
-
 
     <!-- =========================
          Header
     ========================= -->
-
     <header class="page-header">
-
         <div>
-
-            <h1>
-                Gym Progress Tracker
-            </h1>
-
-            <p id="sessionTitle">
-                جلسه ۱ — سینه + پشت بازو + شکم
-            </p>
-
+            <h1>Gym Progress Tracker</h1>
+            <p id="sessionTitle">جلسه ۱ — سینه + پشت بازو + شکم</p>
         </div>
-
 
         <button
             type="button"
@@ -67,257 +30,110 @@
         >
             ⚙️
         </button>
-
     </header>
-
-
 
     <!-- =========================
          Empty state
-         (وقتی هیچ برنامه‌ای بارگذاری نشده)
     ========================= -->
-
-    <section
-        id="emptyProgramState"
-        class="card"
-        style="display: none;"
-    >
-
+    <section id="emptyProgramState" class="card" style="display: none;">
         <div class="selector-title">
             هنوز برنامه‌ی تمرینی‌ای بارگذاری نشده
         </div>
-
         <p>
             از بخش «⚙️ تنظیمات و پشتیبان» پایین صفحه، گزینه‌ی
-            «بارگذاری برنامه‌ی جدید» را بزن و فایل برنامه‌ات
-            را انتخاب کن.
+            «بارگذاری برنامه‌ی جدید» را بزن و فایل برنامه‌ات را انتخاب کن.
         </p>
-
     </section>
 
-
-
     <div id="programContent">
-
 
     <!-- =========================
          Session selector
     ========================= -->
-
     <section class="session-selector card">
-
-        <div class="selector-title">
-            جلسه تمرینی
-        </div>
-
-
-        <div
-            id="sessionButtons"
-            class="session-buttons"
-        ></div>
-
+        <div class="selector-title">جلسه تمرینی</div>
+        <div id="sessionButtons" class="session-buttons"></div>
     </section>
-
-
-
 
     <!-- =========================
          Session info
     ========================= -->
-
     <section class="session-info card">
-
-
         <div class="field">
-
-            <label for="workoutDateBtn">
-                تاریخ
-            </label>
-
-            <input
-                type="hidden"
-                id="workoutDate"
-            >
-
-            <button
-                type="button"
-                id="workoutDateBtn"
-                class="date-picker-btn"
-            >
-
-                <span
-                    id="persianWorkoutDate"
-                    class="persian-date-display"
-                ></span>
-
-                <span class="date-picker-icon">
-                    📅
-                </span>
-
+            <label for="workoutDateBtn">تاریخ</label>
+            <input type="hidden" id="workoutDate">
+            <button type="button" id="workoutDateBtn" class="date-picker-btn">
+                <span id="persianWorkoutDate" class="persian-date-display"></span>
+                <span class="date-picker-icon">📅</span>
             </button>
-
         </div>
-
 
         <div class="field">
-
-            <label for="weekNumber">
-                هفته
-            </label>
-
+            <label for="weekNumber">هفته</label>
             <select id="weekNumber">
-
-                <option value="1">
-                    هفته ۱
-                </option>
-
-                <option value="2">
-                    هفته ۲
-                </option>
-
-                <option value="3">
-                    هفته ۳
-                </option>
-
-                <option value="4">
-                    هفته ۴
-                </option>
-
+                <option value="1">هفته ۱</option>
+                <option value="2">هفته ۲</option>
+                <option value="3">هفته ۳</option>
+                <option value="4">هفته ۴</option>
             </select>
-
         </div>
-
 
         <div class="session-note">
-
-            <strong>
-                قانون تمرین:
-            </strong>
-
-            بیشتر ست‌ها را با حدود
-            <strong>RIR 2</strong>
-            انجام بده.
-
+            <strong>قانون تمرین:</strong> بیشتر ست‌ها را با حدود <strong>RIR 2</strong> انجام بده.
         </div>
-
     </section>
-
-
 
     <!-- =========================
          Exercises
     ========================= -->
-
     <main id="exerciseList"></main>
-
-
 
     <!-- =========================
          Workout summary
     ========================= -->
-
     <section class="summary-grid">
-
-
         <div class="summary-card">
-
-            <span>
-                حجم تمرین
-            </span>
-
-            <strong id="totalVolume">
-                0
-            </strong>
-
-            <small>
-                kg × reps
-            </small>
-
+            <span>حجم تمرین</span>
+            <strong id="totalVolume">0</strong>
+            <small>kg × reps</small>
         </div>
 
-
         <div class="summary-card">
-
-            <span>
-                تغییر نسبت به جلسه قبل
-            </span>
-
-            <strong id="volumeChange">
-                —
-            </strong>
-
+            <span>تغییر نسبت به جلسه قبل</span>
+            <strong id="volumeChange">—</strong>
         </div>
-
-
     </section>
-
-
 
     <!-- =========================
          Save workout
     ========================= -->
-
     <section class="save-workout-section">
-
-<button
-    type="button"
-    id="finishWorkoutBtn"
-    class="primary-btn"
->
-    ✓ پایان جلسه و رفتن به تمرین بعدی
-</button>
-
+        <button type="button" id="finishWorkoutBtn" class="primary-btn">
+            ✓ پایان جلسه و رفتن به تمرین بعدی
+        </button>
     </section>
-
-
 
     <!-- =========================
          History
     ========================= -->
-
     <section class="history-section card">
-
-
         <div class="section-title">
-
             <div>
-
-                <h2>
-                    روند پیشرفت
-                </h2>
-
-                <p>
-                    سابقه همین جلسه تمرینی
-                </p>
-
+                <h2>روند پیشرفت</h2>
+                <p>سابقه همین جلسه تمرینی</p>
             </div>
-
         </div>
-
-
         <div id="historyContainer"></div>
-
     </section>
 
-
     </div>
-
-
 
     <!-- =========================
          Settings (full page)
     ========================= -->
-
-    <div
-        id="settingsPage"
-        class="settings-page-overlay"
-        style="display: none;"
-    >
-
+    <div id="settingsPage" class="settings-page-overlay" style="display: none;">
         <div class="settings-page">
-
             <div class="settings-page-header">
-
                 <button
                     type="button"
                     id="closeSettingsBtn"
@@ -326,327 +142,117 @@
                 >
                     ×
                 </button>
-
-                <h2>
-                    تنظیمات و پشتیبان
-                </h2>
-
+                <h2>تنظیمات و پشتیبان</h2>
             </div>
-
-
 
             <div class="settings-content">
-
-
-                <!-- =====================
-                 Appearance
-            ===================== -->
-
-            <div class="setting-row">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        ظاهر برنامه
-                    </strong>
-
-                    <span>
-                        تغییر بین حالت روشن و تاریک
-                    </span>
-
-                </div>
-
-
-                <button
-                    id="themeToggleBtn"
-                    class="secondary-btn"
-                    type="button"
-                >
-                    🌙 حالت تاریک
-                </button>
-
-
-            </div>
-
-
-
-            <!-- =====================
-                 Backup
-            ===================== -->
-
-            <div class="setting-row backup-setting">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        پشتیبان اطلاعات
-                    </strong>
-
-                    <span>
-                        یک فایل شامل تاریخچه‌ی تمرین‌ها و برنامه‌ی
-                        آپلودی‌ات دانلود می‌شود. همین‌جا («بازیابی
-                        پشتیبان») همه‌چیز را با هم برمی‌گرداند.
-                    </span>
-
-                </div>
-
-
-                <div class="backup-actions">
-
-
-                    <button
-                        id="exportBtn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-                        دریافت پشتیبان
+                <!-- Appearance -->
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>ظاهر برنامه</strong>
+                        <span>تغییر بین حالت روشن و تاریک</span>
+                    </div>
+                    <button id="themeToggleBtn" class="secondary-btn" type="button">
+                        🌙 حالت تاریک
                     </button>
-
-
-                    <label
-                        class="secondary-btn file-btn"
-                    >
-
-                        بازیابی پشتیبان
-
-
-                        <input
-                            type="file"
-                            id="importInput"
-                            accept=".json"
-                            hidden
-                        >
-
-                    </label>
-
-
                 </div>
 
+                <!-- Exercise Bank -->
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>بانک حرکات</strong>
+                        <span>فهرست کامل حرکات ورزشی کاتالوگ با تصویر، شناسه و نحوه اجرا</span>
+                    </div>
+                    <button id="openExerciseBankBtn" class="secondary-btn" type="button">
+                        نمایش بانک حرکات
+                    </button>
+                </div>
 
+                <!-- My programs -->
+                <div class="setting-row my-programs-setting">
+                    <div class="setting-info">
+                        <strong>برنامه‌های من</strong>
+                        <span>فهرست برنامه‌های ماهانه، بازه‌ی تمرین هرکدام و جزئیات جلسات و حرکات.</span>
+                    </div>
+                    <button id="openMyProgramsBtn" class="secondary-btn" type="button">
+                        مشاهده
+                    </button>
+                </div>
+
+                <!-- Backup -->
+                <div class="setting-row backup-setting">
+                    <div class="setting-info">
+                        <strong>پشتیبان اطلاعات</strong>
+                        <span>یک فایل شامل تاریخچه‌ی تمرین‌ها و برنامه‌ی آپلودی‌ات دانلود می‌شود. همین‌جا («بازیابی پشتیبان») همه‌چیز را با هم برمی‌گرداند.</span>
+                    </div>
+                    <div class="backup-actions">
+                        <button id="exportBtn" class="secondary-btn" type="button">
+                            دریافت پشتیبان
+                        </button>
+                        <label class="secondary-btn file-btn">
+                            بازیابی پشتیبان
+                            <input type="file" id="importInput" accept=".json" hidden>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Program upload -->
+                <div class="setting-row program-setting">
+                    <div class="setting-info">
+                        <strong>برنامه‌ی تمرینی</strong>
+                        <span>وقتی باشگاه برنامه‌ی جدید داد، فایل آماده‌شده را اینجا بارگذاری کن تا به‌عنوان یک ماه جدید اضافه شود.</span>
+                    </div>
+                    <div class="program-actions">
+                        <label class="secondary-btn file-btn">
+                            بارگذاری برنامه‌ی جدید
+                            <input type="file" id="programImportInput" accept=".json" hidden>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Delete data -->
+                <div class="setting-row danger-setting">
+                    <div class="setting-info">
+                        <strong>حذف تاریخچه‌ی تمرین‌ها</strong>
+                        <span>فقط وزنه/تکرارهای ثبت‌شده پاک می‌شود؛ برنامه‌ی تمرینی دست‌نخورده می‌ماند.</span>
+                    </div>
+                    <button id="clearBtn" class="danger-btn" type="button">
+                        حذف تاریخچه
+                    </button>
+                </div>
+
+                <!-- Full reset -->
+                <div class="setting-row danger-setting">
+                    <div class="setting-info">
+                        <strong>بازنشانی کامل</strong>
+                        <span>همه‌چیز پاک می‌شود: تاریخچه‌ی تمرین‌ها و برنامه‌ی آپلودی. برنامه به حالت اولیه برمی‌گردد.</span>
+                    </div>
+                    <button id="fullResetBtn" class="danger-btn" type="button">
+                        حذف همه‌چیز
+                    </button>
+                </div>
             </div>
-
-
-
-            <!-- =====================
-                 Program upload
-            ===================== -->
-
-            <div class="setting-row program-setting">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        برنامه‌ی تمرینی
-                    </strong>
-
-                    <span>
-                        وقتی باشگاه برنامه‌ی جدید داد، فایل آماده‌شده را
-                        اینجا بارگذاری کن تا به‌عنوان یک ماه جدید
-                        اضافه شود؛ برنامه‌های قبلی و سابقه‌ی تمرین‌ها
-                        دست‌نخورده باقی می‌مانند.
-                    </span>
-
-                </div>
-
-
-                <div class="program-actions">
-
-                    <label
-                        class="secondary-btn file-btn"
-                    >
-
-                        بارگذاری برنامه‌ی جدید
-
-
-                        <input
-                            type="file"
-                            id="programImportInput"
-                            accept=".json"
-                            hidden
-                        >
-
-                    </label>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =====================
-                 My programs
-            ===================== -->
-
-            <div class="setting-row my-programs-setting">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        برنامه‌های من
-                    </strong>
-
-                    <span>
-                        فهرست برنامه‌های ماهانه، بازه‌ی تمرین هرکدام و
-                        جزئیات جلسات و حرکات.
-                    </span>
-
-                </div>
-
-
-                <button
-                    id="openMyProgramsBtn"
-                    class="secondary-btn"
-                    type="button"
-                >
-                    مشاهده
-                </button>
-
-
-            </div>
-
-
-
-            <!-- =====================
-                 Delete data
-            ===================== -->
-
-            <div class="setting-row danger-setting">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        حذف تاریخچه‌ی تمرین‌ها
-                    </strong>
-
-                    <span>
-                        فقط وزنه/تکرارهای ثبت‌شده پاک می‌شود؛
-                        برنامه‌ی تمرینی دست‌نخورده می‌ماند.
-                    </span>
-
-                </div>
-
-
-                <button
-                    id="clearBtn"
-                    class="danger-btn"
-                    type="button"
-                >
-                    حذف تاریخچه
-                </button>
-
-
-            </div>
-
-
-
-            <!-- =====================
-                 Full reset
-            ===================== -->
-
-            <div class="setting-row danger-setting">
-
-
-                <div class="setting-info">
-
-                    <strong>
-                        بازنشانی کامل
-                    </strong>
-
-                    <span>
-                        همه‌چیز پاک می‌شود: تاریخچه‌ی تمرین‌ها و خودِ
-                        برنامه‌ی آپلودی. برنامه به حالت اولیه (بدون
-                        هیچ برنامه‌ای) برمی‌گردد.
-                    </span>
-
-                </div>
-
-
-                <button
-                    id="fullResetBtn"
-                    class="danger-btn"
-                    type="button"
-                >
-                    حذف همه‌چیز
-                </button>
-
-
-            </div>
-
-
         </div>
-
-
-        </div>
-
     </div>
-
 
 </div>
 
-
-
-<!-- =========================
-     JavaScript
-========================= -->
-
+<!-- JavaScript -->
 <script src="js/exercise-catalog.js"></script>
-
 <script src="js/workout-programs.js"></script>
-
 <script src="js/workout-data.js"></script>
-
 <script src="js/storage.js"></script>
-
 <script src="js/app.js"></script>
 
-
 <script>
-
     if ("serviceWorker" in navigator) {
-
-        window.addEventListener(
-            "load",
-            () => {
-
-                navigator.serviceWorker.register(
-                    "./service-worker.js"
-                )
-                .then(
-                    registration => {
-
-                        console.log(
-                            "Service Worker registered:",
-                            registration.scope
-                        );
-
-                    }
-                )
-                .catch(
-                    error => {
-
-                        console.error(
-                            "Service Worker registration failed:",
-                            error
-                        );
-
-                    }
-                );
-
-            }
-        );
-
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./service-worker.js")
+            .then(reg => console.log("Service Worker registered:", reg.scope))
+            .catch(err => console.error("Service Worker registration failed:", err));
+        });
     }
-
 </script>
 
-
 </body>
-
 </html>
-

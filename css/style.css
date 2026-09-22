@@ -1,1878 +1,1102 @@
 * {
     box-sizing: border-box;
-
     -webkit-tap-highlight-color: transparent;
 }
-
 
 html {
     font-size: 16px;
 }
 
-
 body {
     margin: 0;
-
-    font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
-
+    font-family: Tahoma, Arial, sans-serif;
     background: #f2f4f7;
-
     color: #1f2937;
-
     direction: rtl;
 }
-
 
 /* =========================
    Container
 ========================= */
-
 .container {
     width: 100%;
-
     max-width: 600px;
-
     margin: 0 auto;
-
-    padding:
-        12px
-        12px
-        40px;
+    padding: 12px 12px 40px;
 }
-
 
 /* =========================
    Header
 ========================= */
-
 .page-header {
     display: flex;
-
     align-items: flex-start;
-
     justify-content: space-between;
-
     gap: 10px;
-
     margin-bottom: 12px;
 }
 
-
 .page-header h1 {
     margin: 0;
-
     font-size: 22px;
-
     line-height: 1.4;
 }
 
-
 .page-header p {
     margin: 3px 0 0;
-
     font-size: 13px;
-
     color: #6b7280;
 }
 
-
 .settings-icon-btn {
     flex: 0 0 auto;
-
     width: 40px;
-
     height: 40px;
-
     border: none;
-
     border-radius: 50%;
-
     background: #f3f4f6;
-
     font-size: 18px;
-
     line-height: 1;
-
     cursor: pointer;
 }
-
 
 .settings-icon-btn:hover {
     background: #e5e7eb;
 }
 
-
 /* =========================
    Buttons
 ========================= */
-
 button,
 .secondary-btn {
     min-height: 46px;
-
     border-radius: 10px;
-
     border: 1px solid transparent;
-
-    padding:
-        10px
-        12px;
-
+    padding: 10px 12px;
     font-family: inherit;
-
     font-size: 14px;
-
     cursor: pointer;
-
     touch-action: manipulation;
 }
 
-
 .primary-btn {
     background: #2563eb;
-
     color: white;
-
     font-weight: bold;
 }
 
-
 .secondary-btn {
     background: white;
-
     border-color: #d1d5db;
-
     color: #374151;
 }
 
-
 .danger-btn {
     background: #fee2e2;
-
     color: #991b1b;
-
     border-color: #fecaca;
 }
-
 
 /* =========================
    Cards
 ========================= */
-
 .card {
     background: white;
-
     border-radius: 12px;
-
-    border:
-        1px solid
-        #e5e7eb;
-
+    border: 1px solid #e5e7eb;
     padding: 14px;
-
     margin-bottom: 12px;
 }
-
 
 /* =========================
    Session selector
 ========================= */
-
 .session-selector {
     padding: 10px;
 }
 
-
 .selector-title {
     font-size: 12px;
-
     color: #6b7280;
-
-    margin:
-        2px
-        4px
-        8px;
+    margin: 2px 4px 8px;
 }
-
 
 .session-buttons {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
 }
 
-
 .session-btn {
     min-height: 62px;
-
-    padding:
-        7px
-        4px;
-
+    padding: 7px 4px;
     border-radius: 9px;
-
-    border:
-        1px solid
-        #d1d5db;
-
+    border: 1px solid #d1d5db;
     background: white;
-
     color: #374151;
-
     font-family: inherit;
-
     cursor: pointer;
 }
 
-
 .session-btn strong {
     display: block;
-
     font-size: 13px;
-
     margin-bottom: 4px;
 }
 
-
 .session-btn span {
     display: block;
-
     font-size: 10px;
-
     line-height: 1.4;
-
     color: #6b7280;
 }
 
-
 .session-btn.active {
     background: #eff6ff;
-
     border-color: #2563eb;
-
     color: #1d4ed8;
 }
-
 
 .session-btn.active span {
     color: #2563eb;
 }
 
-
 /* =========================
    Session info
 ========================= */
-
 .session-info {
     display: grid;
-
-    grid-template-columns:
-        1fr
-        1fr;
-
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
 
-
 .field {
     display: flex;
-
     flex-direction: column;
-
     gap: 5px;
 }
 
-
 .field label {
     font-size: 14px;
-
     color: #6b7280;
-
     font-weight: 600;
 }
-
 
 input,
 select {
     width: 100%;
-
     height: 44px;
-
-    padding:
-        8px
-        10px;
-
-    border:
-        1px solid
-        #d1d5db;
-
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-
     background: white;
-
     font-family: inherit;
-
     font-size: 16px;
-
     color: #1f2937;
 }
-
 
 input:focus,
 select:focus {
     outline: none;
-
     border-color: #2563eb;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
-
 
 .session-note {
     grid-column: 1 / -1;
-
-    padding:
-        9px
-        11px;
-
+    padding: 9px 11px;
     border-radius: 8px;
-
     background: #eff6ff;
-
     color: #1e40af;
-
     font-size: 11px;
-
     line-height: 1.7;
 }
-
 
 /* =========================
    Date picker trigger button
 ========================= */
-
 .date-picker-btn {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     width: 100%;
-
     height: 44px;
-
-    padding:
-        8px
-        12px;
-
-    border:
-        1px solid
-        #d1d5db;
-
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-
     background: white;
-
     font-family: inherit;
-
     font-size: 14px;
-
     color: #1f2937;
-
     cursor: pointer;
 }
-
 
 .date-picker-btn:hover {
     border-color: #9ca3af;
 }
 
-
 .date-picker-icon {
     font-size: 16px;
 }
 
-
 /* =========================
    Date picker calendar (modal)
 ========================= */
-
 .date-picker-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     padding: 16px;
-
     background: rgba(17, 24, 39, 0.5);
 }
 
-
 .date-picker-modal {
     width: 100%;
-
     max-width: 340px;
-
     padding: 16px;
-
     border-radius: 16px;
-
     background: white;
 }
 
-
 .date-picker-header {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     margin-bottom: 10px;
 }
 
-
 .date-picker-header h3 {
     margin: 0;
-
     font-size: 15px;
 }
 
-
 .date-picker-nav {
     width: 32px;
-
     height: 32px;
-
     border: none;
-
     border-radius: 8px;
-
     background: #f3f4f6;
-
     font-size: 18px;
-
     line-height: 1;
-
     cursor: pointer;
 }
-
 
 .date-picker-nav:hover {
     background: #e5e7eb;
 }
 
-
 .date-picker-weekdays {
     display: grid;
-
-    grid-template-columns:
-        repeat(7, 1fr);
-
+    grid-template-columns: repeat(7, 1fr);
     margin-bottom: 4px;
-
     font-size: 11px;
-
     color: #9ca3af;
-
     text-align: center;
 }
 
-
 .date-picker-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(7, 1fr);
-
+    grid-template-columns: repeat(7, 1fr);
     gap: 4px;
 }
 
-
 .date-picker-day {
     position: relative;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     height: 40px;
-
     border: none;
-
     border-radius: 8px;
-
     background: transparent;
-
     font-family: inherit;
-
     font-size: 13px;
-
     color: #1f2937;
-
     cursor: pointer;
 }
-
 
 .date-picker-day.empty {
     cursor: default;
 }
 
-
 .date-picker-day:not(.empty):hover {
     background: #f3f4f6;
 }
 
-
 .date-picker-day.today {
-    box-shadow:
-        inset 0 0 0 1px
-        #2563eb;
+    box-shadow: inset 0 0 0 1px #2563eb;
 }
-
 
 .date-picker-day.selected {
     background: #2563eb;
-
     color: white;
 }
 
-
 .date-picker-day-dot {
     position: absolute;
-
     bottom: 4px;
-
     width: 5px;
-
     height: 5px;
-
     border-radius: 50%;
-
     background: #16a34a;
 }
-
 
 .date-picker-day.selected .date-picker-day-dot {
     background: white;
 }
 
-
 .date-picker-legend {
     display: flex;
-
     align-items: center;
-
     gap: 6px;
-
-    margin:
-        10px
-        0;
-
+    margin: 10px 0;
     font-size: 11px;
-
     color: #6b7280;
 }
-
 
 .date-picker-legend .date-picker-day-dot {
     position: static;
 }
 
-
 .date-picker-close {
     width: 100%;
 }
 
-
 /* =========================
    Exercise card
 ========================= */
-
 .exercise-card {
     background: white;
-
-    border:
-        1px solid
-        #e5e7eb;
-
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
-
     margin-bottom: 12px;
-
     overflow: hidden;
 }
 
-
 .exercise-header {
     padding: 12px;
-
     background: #fafafa;
-
-    border-bottom:
-        1px solid
-        #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
 }
-
 
 .exercise-title {
     display: flex;
-
     align-items: center;
-
     gap: 9px;
 }
 
-
 .exercise-number {
     flex: 0 0 auto;
-
     width: 30px;
-
     height: 30px;
-
     border-radius: 50%;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     background: #2563eb;
-
     color: white;
-
     font-size: 13px;
-
     font-weight: bold;
 }
 
-
 .exercise-header h2 {
-    margin:
-        0
-        0
-        5px;
-
+    margin: 0 0 5px;
     font-size: 19px;
-
     line-height: 1.45;
-
     font-weight: 700;
 }
 
-
 .exercise-meta {
     font-size: 12px;
-
     line-height: 1.8;
-
     color: #6b7280;
 }
 
-
 /* =========================
-   Previous result
+   Exercise action buttons
 ========================= */
-
-.previous-result {
-    margin-top: 8px;
-
-    padding-top: 7px;
-
-    border-top:
-        1px solid
-        #e5e7eb;
-
-    font-size: 10px;
-
-    color: #9ca3af;
-}
-
-
-.previous-result strong {
-    display: block;
-
-    margin-top: 3px;
-
-    font-size: 11px;
-
-    color: #4b5563;
-
-    direction: ltr;
-
-    text-align: right;
-}
-
-
-/* =========================
-   Exercise help button
-========================= */
-
-.exercise-help-btn {
-    margin-top: 8px;
-
-    min-height: 38px;
-
-    padding:
-        7px
-        12px;
-
-    border:
-        1px solid
-        #d1d5db;
-
-    border-radius: 8px;
-
-    background: white;
-
-    color: #2563eb;
-
-    font-family: inherit;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-.exercise-help-btn:active {
-    background: #eff6ff;
-}
-
-
-/* =========================
-   Exercise History Button
-========================= */
-
+.exercise-help-btn,
 .exercise-history-btn {
     margin-top: 8px;
-
     min-height: 38px;
-
-    padding:
-        7px
-        12px;
-
-    border:
-        1px solid
-        #d1d5db;
-
+    padding: 7px 12px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-
     background: white;
-
     color: #2563eb;
-
     font-family: inherit;
-
     font-size: 14px;
-
     font-weight: 600;
-
     cursor: pointer;
 }
 
-
+.exercise-help-btn:active,
 .exercise-history-btn:active {
     background: #eff6ff;
 }
 
-
 /* =========================
    Sets
 ========================= */
-
 .sets-container {
     padding: 10px;
 }
 
-
-
-
 .set-row {
     display: grid;
-
-    grid-template-columns:
-        58px
-        1fr
-        1fr;
-
+    grid-template-columns: 58px 1fr 1fr;
     gap: 7px;
-
     align-items: center;
-
     margin-bottom: 7px;
 }
 
-
 .set-label {
     font-size: 14px;
-
     color: #4b5563;
-
     text-align: center;
-
     font-weight: bold;
-
     white-space: nowrap;
 }
 
-
 .set-row input {
     height: 44px;
-
     text-align: center;
-
     font-size: 16px;
-
     direction: ltr;
 }
 
-
 .set-difference {
-    grid-column:
-        2 / 4;
-
-    padding:
-        2px
-        5px;
-
+    grid-column: 2 / 4;
+    padding: 2px 5px;
     min-height: 14px;
-
     font-size: 9px;
-
     color: #9ca3af;
-
     text-align: right;
-
     direction: rtl;
 }
-
 
 .set-difference:empty {
     display: none;
 }
 
-
 /* =========================
    Workout summary
 ========================= */
-
 .summary-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-
-    margin:
-        16px
-        0
-        12px;
+    margin: 16px 0 12px;
 }
-
 
 .summary-card {
     background: white;
-
-    border:
-        1px solid
-        #e5e7eb;
-
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-
     padding: 11px;
-
     text-align: center;
 }
 
-
 .summary-card span {
     display: block;
-
     font-size: 11px;
-
     color: #6b7280;
-
     margin-bottom: 5px;
 }
-
 
 .summary-card strong {
     font-size: 19px;
 }
 
-
 .summary-card small {
     display: block;
-
     margin-top: 2px;
-
     font-size: 9px;
-
     color: #9ca3af;
 }
-
 
 /* =========================
    Save workout
 ========================= */
-
 .save-workout-section {
-    margin:
-        4px
-        0
-        18px;
+    margin: 4px 0 18px;
 }
-
-
-.save-workout-btn {
-    width: 100%;
-
-    min-height: 52px;
-
-    font-size: 16px;
-
-    border-radius: 11px;
-
-    box-shadow:
-        0 2px 5px
-        rgba(37, 99, 235, 0.15);
-}
-
-
-.save-workout-btn:active {
-    transform: translateY(1px);
-}
-
 
 /* =========================
    History
 ========================= */
-
 .history-section {
     margin-top: 16px;
 }
 
-
 .section-title h2 {
     margin: 0;
-
     font-size: 17px;
 }
 
-
 .section-title p {
-    margin:
-        4px
-        0
-        0;
-
+    margin: 4px 0 0;
     font-size: 11px;
-
     color: #6b7280;
 }
-
 
 .history-table-wrapper {
     margin-top: 12px;
-
     overflow-x: auto;
 }
 
-
 .history-table {
     width: 100%;
-
     border-collapse: collapse;
-
     font-size: 11px;
 }
 
-
 .history-table th,
 .history-table td {
-    padding:
-        9px
-        5px;
-
-    border-bottom:
-        1px solid
-        #e5e7eb;
-
+    padding: 9px 5px;
+    border-bottom: 1px solid #e5e7eb;
     text-align: center;
-
     white-space: nowrap;
 }
 
-
 .history-table th {
     color: #6b7280;
-
     background: #f9fafb;
-
     font-weight: normal;
 }
 
-
 .history-empty {
-    padding:
-        25px
-        10px;
-
+    padding: 25px 10px;
     text-align: center;
-
     font-size: 12px;
-
     color: #9ca3af;
 }
 
-
 /* =========================
-   Exercise History
+   Exercise History Modal
 ========================= */
-
 .exercise-history-list {
     display: flex;
-
     flex-direction: column;
-
     gap: 12px;
-
     margin-top: 14px;
 }
 
-
 .exercise-history-item {
     padding: 12px;
-
-    border:
-        1px solid
-        #e5e7eb;
-
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-
     background: #f9fafb;
 }
 
-
-/* اطلاعات جلسه */
-
 .exercise-history-info {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 8px;
-
     margin-bottom: 10px;
-
     padding-bottom: 9px;
-
-    border-bottom:
-        1px solid
-        #e5e7eb;
-
+    border-bottom: 1px solid #e5e7eb;
     font-size: 12px;
-
     line-height: 1.7;
 }
-
 
 .exercise-history-info strong {
     color: #1f2937;
 }
 
-
 .exercise-history-info span {
     color: #6b7280;
-
     white-space: nowrap;
 }
 
-
-/* ست‌ها */
-
 .exercise-history-sets {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
 }
 
-
-/* هر ست */
-
 .history-set {
     display: flex;
-
-    flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
-    min-height: 55px;
-
+    min-height: 48px;
     padding: 6px;
-
     border-radius: 8px;
-
     background: white;
-
-    border:
-        1px solid
-        #e5e7eb;
-
-    text-align: center;
-}
-
-
-.history-set-number {
-    font-size: 10px;
-
-    color: #9ca3af;
-
-    margin-bottom: 3px;
-}
-
-
-.history-set-weight {
-    font-size: 14px;
-
+    border: 1px solid #e5e7eb;
+    font-size: 13px;
     font-weight: bold;
-
     color: #1f2937;
-
     direction: ltr;
 }
-
-
-.history-set-reps {
-    font-size: 11px;
-
-    color: #6b7280;
-}
-
 
 /* =========================
    Settings (full page)
 ========================= */
-
 .settings-page-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
     background: white;
 }
 
-
 .settings-page {
     display: flex;
-
     flex-direction: column;
-
     height: 100%;
 }
 
-
 .settings-page-header {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     padding: 16px;
-
-    border-bottom:
-        1px solid
-        #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
 }
-
 
 .settings-page-header h2 {
     margin: 0;
-
     font-size: 18px;
 }
 
-
 .settings-content {
     flex: 1;
-
     overflow-y: auto;
 }
 
-
 .setting-row {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 12px;
-
-    padding:
-        14px;
-
-    border-bottom:
-        1px solid
-        #f3f4f6;
+    padding: 14px;
+    border-bottom: 1px solid #f3f4f6;
 }
-
 
 .setting-row:last-child {
     border-bottom: none;
 }
 
-
 .setting-info {
     min-width: 0;
-
     flex: 1;
 }
 
-
 .setting-info strong {
     display: block;
-
     margin-bottom: 4px;
-
     font-size: 13px;
-
     color: #374151;
 }
 
-
 .setting-info span {
     display: block;
-
     font-size: 10px;
-
     line-height: 1.7;
-
     color: #9ca3af;
 }
 
-
 .setting-row .secondary-btn,
 .setting-row .danger-btn {
-    flex:
-        0 0 auto;
-
+    flex: 0 0 auto;
     min-height: 42px;
-
     font-size: 12px;
 }
 
-
-.backup-setting {
-    align-items: flex-start;
-
-    flex-direction: column;
-}
-
-
-.backup-setting .setting-info {
-    width: 100%;
-}
-
-
-.backup-actions {
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        1fr;
-
-    gap: 8px;
-
-    width: 100%;
-
-    margin-top: 4px;
-}
-
-
+.backup-setting,
 .program-setting {
     align-items: flex-start;
-
     flex-direction: column;
 }
 
-
+.backup-setting .setting-info,
 .program-setting .setting-info {
     width: 100%;
 }
 
-
+.backup-actions,
 .program-actions {
     display: grid;
-
-    grid-template-columns:
-        1fr;
-
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-
     width: 100%;
-
     margin-top: 4px;
 }
 
+.program-actions {
+    grid-template-columns: 1fr;
+}
 
 .file-btn {
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     min-height: 42px;
 }
-
-
-.danger-setting {
-    align-items: center;
-}
-
 
 .danger-setting .setting-info strong {
     color: #991b1b;
 }
 
-
 /* =========================
    My Programs (full page)
 ========================= */
-
 .my-programs-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
     background: white;
 }
 
-
 .my-programs-page {
     display: flex;
-
     flex-direction: column;
-
     height: 100%;
 }
 
-
 .my-programs-header {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 10px;
-
     padding: 16px;
-
-    border-bottom:
-        1px solid
-        #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
 }
-
 
 .my-programs-header h2 {
     margin: 0;
-
     font-size: 20px;
 }
 
-
 .my-programs-list {
     flex: 1;
-
     overflow-y: auto;
-
     padding: 16px;
 }
 
-
 .my-programs-empty {
     font-size: 13px;
-
     color: #9ca3af;
 }
-
 
 .my-program-card {
     margin-bottom: 12px;
-
     padding: 14px;
-
     border-radius: 14px;
-
     background: #f9fafb;
 }
 
-
-.my-program-card:last-child {
-    margin-bottom: 0;
-}
-
-
 .my-program-summary {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 10px;
 }
 
-
 .my-program-summary-info h3 {
     margin: 0 0 4px;
-
     font-size: 14px;
-
     color: #374151;
 }
 
-
 .my-program-current-badge {
     margin-right: 6px;
-
     padding: 2px 8px;
-
     border-radius: 999px;
-
     background: #dbeafe;
-
     color: #1d4ed8;
-
     font-size: 10px;
 }
 
-
 .my-program-dates {
     display: block;
-
     font-size: 11px;
-
     color: #9ca3af;
 }
 
-
-.my-program-toggle-btn {
-    flex: 0 0 auto;
-
-    min-height: 38px;
-
-    font-size: 12px;
-}
-
-
 .my-program-details {
     margin-top: 12px;
-
     padding-top: 12px;
-
-    border-top:
-        1px solid
-        #e5e7eb;
+    border-top: 1px solid #e5e7eb;
 }
-
 
 .my-program-session {
     margin-bottom: 10px;
 }
 
-
-.my-program-session:last-child {
-    margin-bottom: 0;
-}
-
-
 .my-program-session h4 {
     margin: 0 0 4px;
-
     font-size: 11px;
-
     color: #6b7280;
 }
 
-
 .my-program-exercise-list {
     margin: 0;
-
     padding-right: 16px;
-
     list-style: disc;
 }
 
-
 .my-program-exercise-list li {
     margin-bottom: 4px;
-
     font-size: 11px;
-
     line-height: 1.7;
 }
 
-
 .my-program-exercise-name {
     display: block;
-
     color: #374151;
 }
 
-
 .my-program-exercise-meta {
     display: block;
-
     color: #9ca3af;
-
     font-size: 10px;
 }
-
 
 /* =========================
    Exercise Guide Modal
 ========================= */
-
 .exercise-guide-overlay {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
-    background:
-        rgba(0, 0, 0, 0.55);
-
+    background: rgba(0, 0, 0, 0.55);
     display: flex;
-
     align-items: flex-end;
-
     justify-content: center;
-
     padding: 0;
 }
-
 
 .exercise-guide-modal {
     width: 100%;
-
     max-width: 600px;
-
     max-height: 90vh;
-
     overflow-y: auto;
-
     background: white;
-
-    border-radius:
-        18px
-        18px
-        0
-        0;
-
+    border-radius: 18px 18px 0 0;
     padding: 16px;
 }
 
-
-/* =========================
-   Guide Header
-========================= */
-
 .exercise-guide-header {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 10px;
-
     margin-bottom: 12px;
 }
 
-
 .exercise-guide-header h2 {
     margin: 0;
-
     font-size: 22px;
-
     line-height: 1.5;
 }
 
-
 .exercise-guide-close {
     width: 38px;
-
     height: 38px;
-
     min-height: 38px;
-
     padding: 0;
-
     border: none;
-
     border-radius: 50%;
-
     background: #f3f4f6;
-
     color: #374151;
-
     font-size: 24px;
-
     line-height: 1;
+    cursor: pointer;
 }
-
-
-/* =========================
-   Exercise Images
-========================= */
 
 .exercise-guide-images {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
 }
-
 
 .exercise-guide-image,
 .exercise-guide-video {
     display: block;
-
     width: 100%;
-
     max-width: 420px;
-
     max-height: 60vh;
-
-    margin:
-        0
-        auto
-        20px;
-
+    margin: 0 auto 20px;
     object-fit: contain;
-
     border-radius: 12px;
 }
 
-
-.exercise-guide-images img {
-    width: 100%;
-
-    display: block;
-
-    border-radius: 10px;
-
-    background: #f3f4f6;
-}
-
-
 .exercise-guide-no-image {
     min-height: 120px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     text-align: center;
-
     padding: 20px;
-
     border-radius: 10px;
-
     background: #f3f4f6;
-
     color: #9ca3af;
-
     font-size: 12px;
 }
 
-
-/* =========================
-   Exercise Instructions
-========================= */
-
 .exercise-guide-instructions {
-    margin:
-        18px
-        0;
-
+    margin: 18px 0;
     padding-right: 26px;
-
-    font-size: 17px;
-
+    font-size: 16px;
     line-height: 2;
-
     color: #374151;
 }
 
-
-.exercise-guide-instructions li {
-    margin-bottom: 8px;
-}
-
-
-/* =========================
-   Guide Bottom Button
-========================= */
-
 .exercise-guide-done {
     width: 100%;
-
     margin-top: 4px;
 }
 
-
 /* =========================
-   Very small phones
+   Exercise Bank Page
 ========================= */
-
-@media (max-width: 360px) {
-
-    .container {
-        padding:
-            8px
-            8px
-            30px;
-    }
-
-
-    .page-header h1 {
-        font-size: 20px;
-    }
-
-
-    .session-btn span {
-        font-size: 9px;
-    }
-
-
-    .exercise-header h2 {
-        font-size: 18px;
-    }
-
-
-    .exercise-meta {
-        font-size: 11px;
-    }
-
-
-    .exercise-guide-modal {
-        padding: 12px;
-    }
-
-
-    .exercise-guide-images {
-        grid-template-columns: 1fr;
-    }
-
-
-    .setting-row {
-        align-items: stretch;
-
-        flex-direction: column;
-    }
-
-
-    .setting-row .secondary-btn,
-    .setting-row .danger-btn {
-        width: 100%;
-    }
-
-
-    .exercise-history-sets {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
-
+.exercise-bank-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: white;
 }
 
-
-@media (max-width: 600px) {
-
-    input,
-    select {
-        font-size: 17px;
-    }
-
-
-    button {
-        font-size: 16px;
-    }
-
+.exercise-bank-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
+.exercise-bank-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.exercise-bank-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.exercise-bank-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.exercise-bank-category-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exercise-bank-category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px 6px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.exercise-bank-category-badge {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.exercise-bank-category-count {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.exercise-bank-category-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exercise-bank-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.exercise-bank-item:active {
+    background: #eff6ff;
+    border-color: #93c5fd;
+}
+
+.exercise-bank-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.exercise-bank-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.exercise-bank-thumb-placeholder {
+    font-size: 24px;
+}
+
+.exercise-bank-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.exercise-bank-name {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.exercise-bank-id {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+    direction: ltr;
+    text-align: right;
+    font-family: monospace, Arial, sans-serif;
+}
 
 /* =========================
    Dark Mode
 ========================= */
-
 body.dark-mode {
     background: #111827;
-
     color: #f3f4f6;
 }
-
-
-/* Cards */
 
 body.dark-mode .card,
 body.dark-mode .summary-card,
 body.dark-mode .exercise-card {
     background: #1f2937;
-
     border-color: #374151;
 }
-
-
-/* Header */
 
 body.dark-mode .page-header p,
 body.dark-mode .selector-title,
@@ -1882,418 +1106,344 @@ body.dark-mode .section-title p {
     color: #9ca3af;
 }
 
-
-/* Session buttons */
-
 body.dark-mode .session-btn {
     background: #1f2937;
-
     border-color: #4b5563;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .session-btn span {
     color: #9ca3af;
 }
 
-
 body.dark-mode .session-btn.active {
     background: #1e3a8a;
-
     border-color: #3b82f6;
-
     color: #dbeafe;
 }
-
 
 body.dark-mode .session-btn.active span {
     color: #bfdbfe;
 }
 
-
-/* Inputs */
-
 body.dark-mode input,
 body.dark-mode select {
     background: #111827;
-
     border-color: #4b5563;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode input:focus,
 body.dark-mode select:focus {
     border-color: #60a5fa;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(96, 165, 250, 0.15);
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.15);
 }
-
-
-/* Date picker */
 
 body.dark-mode .date-picker-btn {
     background: #111827;
-
     border-color: #4b5563;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .date-picker-modal {
     background: #1f2937;
 }
 
-
 body.dark-mode .date-picker-header h3 {
     color: #f3f4f6;
 }
 
-
 body.dark-mode .date-picker-nav {
     background: #374151;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .date-picker-nav:hover {
     background: #4b5563;
 }
 
-
 body.dark-mode .date-picker-day {
     color: #e5e7eb;
 }
-
 
 body.dark-mode .date-picker-day:not(.empty):hover {
     background: #374151;
 }
 
-
 body.dark-mode .date-picker-legend {
     color: #9ca3af;
 }
 
-
-/* Session note */
-
 body.dark-mode .session-note {
     background: #172554;
-
     color: #bfdbfe;
 }
-
-
-/* Summary */
 
 body.dark-mode .summary-card span {
     color: #9ca3af;
 }
 
-
 body.dark-mode .summary-card small {
     color: #6b7280;
 }
 
-
-/* Exercise header */
-
 body.dark-mode .exercise-header {
     background: #18212f;
-
     border-color: #374151;
 }
-
-
-/* Previous result */
-
-body.dark-mode .previous-result {
-    border-color: #374151;
-
-    color: #6b7280;
-}
-
-
-body.dark-mode .previous-result strong {
-    color: #d1d5db;
-}
-
-
-/* Set header */
-
-body.dark-mode .sets-container::before {
-    color: #6b7280;
-}
-
-
-/* Set label */
 
 body.dark-mode .set-label {
     color: #d1d5db;
 }
 
-
-/* Previous set */
-
 body.dark-mode .set-difference {
     color: #6b7280;
 }
 
-
-/* Secondary buttons */
-
 body.dark-mode .secondary-btn {
     background: #1f2937;
-
     border-color: #4b5563;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .secondary-btn:active {
     background: #374151;
 }
 
-
-/* Help button */
-
-body.dark-mode .exercise-help-btn {
+body.dark-mode .exercise-help-btn,
+body.dark-mode .exercise-history-btn {
     background: #1f2937;
-
     border-color: #4b5563;
-
     color: #93c5fd;
 }
 
-
-body.dark-mode .exercise-help-btn:active {
+body.dark-mode .exercise-help-btn:active,
+body.dark-mode .exercise-history-btn:active {
     background: #172554;
 }
 
-
-/* History */
-
 body.dark-mode .history-table th {
     background: #111827;
-
     color: #9ca3af;
 }
-
 
 body.dark-mode .history-table th,
 body.dark-mode .history-table td {
     border-color: #374151;
 }
 
-
-/* Empty history */
-
 body.dark-mode .history-empty {
     color: #6b7280;
 }
 
-
-/* =========================
-   Exercise History - Dark Mode
-========================= */
-
-body.dark-mode .exercise-history-btn {
-    background: #1f2937;
-
-    border-color: #4b5563;
-
-    color: #93c5fd;
-}
-
-
-body.dark-mode .exercise-history-btn:active {
-    background: #172554;
-}
-
-
 body.dark-mode .exercise-history-item {
     background: #18212f;
-
     border-color: #374151;
 }
-
 
 body.dark-mode .exercise-history-info {
     border-color: #374151;
 }
 
-
 body.dark-mode .exercise-history-info strong {
     color: #f3f4f6;
 }
-
 
 body.dark-mode .exercise-history-info span {
     color: #9ca3af;
 }
 
-
 body.dark-mode .history-set {
     background: #1f2937;
-
     border-color: #374151;
-}
-
-
-body.dark-mode .history-set-number {
-    color: #6b7280;
-}
-
-
-body.dark-mode .history-set-weight {
     color: #f3f4f6;
 }
-
-
-body.dark-mode .history-set-reps {
-    color: #9ca3af;
-}
-
-
-/* =========================
-   Settings - Dark Mode
-========================= */
 
 body.dark-mode .settings-icon-btn {
     background: #374151;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .settings-icon-btn:hover {
     background: #4b5563;
 }
 
-
 body.dark-mode .settings-page-overlay {
     background: #111827;
 }
-
 
 body.dark-mode .settings-page-header {
     border-color: #374151;
 }
 
-
 body.dark-mode .settings-page-header h2 {
     color: #f3f4f6;
 }
-
 
 body.dark-mode .settings-content {
     border-color: #374151;
 }
 
-
 body.dark-mode .setting-row {
     border-color: #374151;
 }
-
 
 body.dark-mode .setting-info strong {
     color: #f3f4f6;
 }
 
-
 body.dark-mode .setting-info span {
     color: #9ca3af;
 }
-
 
 body.dark-mode .danger-setting .setting-info strong {
     color: #fecaca;
 }
 
-
 body.dark-mode .my-programs-overlay {
     background: #111827;
 }
-
 
 body.dark-mode .my-programs-header {
     border-color: #374151;
 }
 
-
 body.dark-mode .my-programs-header h2 {
     color: #f3f4f6;
 }
-
 
 body.dark-mode .my-program-card {
     background: #1f2937;
 }
 
-
 body.dark-mode .my-program-summary-info h3 {
     color: #f3f4f6;
 }
-
 
 body.dark-mode .my-program-details {
     border-color: #374151;
 }
 
-
 body.dark-mode .my-program-session h4 {
     color: #d1d5db;
 }
-
 
 body.dark-mode .my-program-exercise-name {
     color: #e5e7eb;
 }
 
-
-/* Exercise guide */
-
 body.dark-mode .exercise-guide-modal {
     background: #1f2937;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .exercise-guide-close {
     background: #374151;
-
     color: #f3f4f6;
 }
-
 
 body.dark-mode .exercise-guide-instructions {
     color: #d1d5db;
 }
 
-
 body.dark-mode .exercise-guide-no-image {
     background: #111827;
-
     color: #6b7280;
 }
 
-
-/* Danger */
-
 body.dark-mode .danger-btn {
     background: #450a0a;
-
     border-color: #7f1d1d;
-
     color: #fecaca;
+}
+
+/* Dark mode for Exercise Bank */
+body.dark-mode .exercise-bank-overlay {
+    background: #111827;
+}
+
+body.dark-mode .exercise-bank-header {
+    border-color: #374151;
+}
+
+body.dark-mode .exercise-bank-header h2 {
+    color: #f3f4f6;
+}
+
+body.dark-mode .exercise-bank-category-header {
+    border-color: #374151;
+}
+
+body.dark-mode .exercise-bank-category-badge {
+    color: #60a5fa;
+}
+
+body.dark-mode .exercise-bank-category-count {
+    color: #9ca3af;
+}
+
+body.dark-mode .exercise-bank-item {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+body.dark-mode .exercise-bank-item:active {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+}
+
+body.dark-mode .exercise-bank-thumb {
+    background: #374151;
+}
+
+body.dark-mode .exercise-bank-name {
+    color: #f3f4f6;
+}
+
+body.dark-mode .exercise-bank-id {
+    color: #9ca3af;
+}
+/* دسته‌بندی‌های بانک حرکات */
+.exercise-bank-category-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exercise-bank-category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px 4px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.exercise-bank-category-badge {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.exercise-bank-category-count {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.exercise-bank-category-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* حالت تاریک بانک حرکات */
+body.dark-mode .exercise-bank-category-header {
+    border-color: #374151;
+}
+
+body.dark-mode .exercise-bank-category-badge {
+    color: #60a5fa;
+}
+
+body.dark-mode .exercise-bank-category-count {
+    color: #9ca3af;
 }
