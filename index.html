@@ -58,8 +58,46 @@
 
         </div>
 
+
+        <button
+            type="button"
+            id="openSettingsBtn"
+            class="settings-icon-btn"
+            aria-label="تنظیمات"
+        >
+            ⚙️
+        </button>
+
     </header>
 
+
+
+    <!-- =========================
+         Empty state
+         (وقتی هیچ برنامه‌ای بارگذاری نشده)
+    ========================= -->
+
+    <section
+        id="emptyProgramState"
+        class="card"
+        style="display: none;"
+    >
+
+        <div class="selector-title">
+            هنوز برنامه‌ی تمرینی‌ای بارگذاری نشده
+        </div>
+
+        <p>
+            از بخش «⚙️ تنظیمات و پشتیبان» پایین صفحه، گزینه‌ی
+            «بارگذاری برنامه‌ی جدید» را بزن و فایل برنامه‌ات
+            را انتخاب کن.
+        </p>
+
+    </section>
+
+
+
+    <div id="programContent">
 
 
     <!-- =========================
@@ -82,6 +120,7 @@
 
 
 
+
     <!-- =========================
          Session info
     ========================= -->
@@ -91,19 +130,31 @@
 
         <div class="field">
 
-            <label for="workoutDate">
+            <label for="workoutDateBtn">
                 تاریخ
             </label>
 
             <input
-                type="date"
+                type="hidden"
                 id="workoutDate"
             >
 
-            <div
-                id="persianWorkoutDate"
-                class="persian-date-display"
-            ></div>
+            <button
+                type="button"
+                id="workoutDateBtn"
+                class="date-picker-btn"
+            >
+
+                <span
+                    id="persianWorkoutDate"
+                    class="persian-date-display"
+                ></span>
+
+                <span class="date-picker-icon">
+                    📅
+                </span>
+
+            </button>
 
         </div>
 
@@ -249,31 +300,45 @@
     </section>
 
 
+    </div>
+
+
 
     <!-- =========================
-         Settings
+         Settings (full page)
     ========================= -->
 
-    <details class="settings-section card">
+    <div
+        id="settingsPage"
+        class="settings-page-overlay"
+        style="display: none;"
+    >
+
+        <div class="settings-page">
+
+            <div class="settings-page-header">
+
+                <button
+                    type="button"
+                    id="closeSettingsBtn"
+                    class="exercise-guide-close"
+                    aria-label="بازگشت"
+                >
+                    ×
+                </button>
+
+                <h2>
+                    تنظیمات و پشتیبان
+                </h2>
+
+            </div>
 
 
-        <summary>
-            <span>
-                ⚙️ تنظیمات و پشتیبان
-            </span>
 
-            <span class="settings-arrow">
-                ▼
-            </span>
-
-        </summary>
+            <div class="settings-content">
 
 
-
-        <div class="settings-content">
-
-
-            <!-- =====================
+                <!-- =====================
                  Appearance
             ===================== -->
 
@@ -320,9 +385,9 @@
                     </strong>
 
                     <span>
-                        اطلاعات تمرین‌ها در همین مرورگر ذخیره می‌شود.
-                        برای جلوگیری از از دست رفتن اطلاعات،
-                        هر چند وقت یک‌بار پشتیبان بگیر.
+                        یک فایل شامل تاریخچه‌ی تمرین‌ها و برنامه‌ی
+                        آپلودی‌ات دانلود می‌شود. همین‌جا («بازیابی
+                        پشتیبان») همه‌چیز را با هم برمی‌گرداند.
                     </span>
 
                 </div>
@@ -365,6 +430,88 @@
 
 
             <!-- =====================
+                 Program upload
+            ===================== -->
+
+            <div class="setting-row program-setting">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        برنامه‌ی تمرینی
+                    </strong>
+
+                    <span>
+                        وقتی باشگاه برنامه‌ی جدید داد، فایل آماده‌شده را
+                        اینجا بارگذاری کن تا به‌عنوان یک ماه جدید
+                        اضافه شود؛ برنامه‌های قبلی و سابقه‌ی تمرین‌ها
+                        دست‌نخورده باقی می‌مانند.
+                    </span>
+
+                </div>
+
+
+                <div class="program-actions">
+
+                    <label
+                        class="secondary-btn file-btn"
+                    >
+
+                        بارگذاری برنامه‌ی جدید
+
+
+                        <input
+                            type="file"
+                            id="programImportInput"
+                            accept=".json"
+                            hidden
+                        >
+
+                    </label>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =====================
+                 My programs
+            ===================== -->
+
+            <div class="setting-row my-programs-setting">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        برنامه‌های من
+                    </strong>
+
+                    <span>
+                        فهرست برنامه‌های ماهانه، بازه‌ی تمرین هرکدام و
+                        جزئیات جلسات و حرکات.
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="openMyProgramsBtn"
+                    class="secondary-btn"
+                    type="button"
+                >
+                    مشاهده
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =====================
                  Delete data
             ===================== -->
 
@@ -374,11 +521,12 @@
                 <div class="setting-info">
 
                     <strong>
-                        حذف اطلاعات
+                        حذف تاریخچه‌ی تمرین‌ها
                     </strong>
 
                     <span>
-                        حذف تمام رکوردهای ذخیره‌شده
+                        فقط وزنه/تکرارهای ثبت‌شده پاک می‌شود؛
+                        برنامه‌ی تمرینی دست‌نخورده می‌ماند.
                     </span>
 
                 </div>
@@ -389,7 +537,42 @@
                     class="danger-btn"
                     type="button"
                 >
-                    حذف همه اطلاعات
+                    حذف تاریخچه
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =====================
+                 Full reset
+            ===================== -->
+
+            <div class="setting-row danger-setting">
+
+
+                <div class="setting-info">
+
+                    <strong>
+                        بازنشانی کامل
+                    </strong>
+
+                    <span>
+                        همه‌چیز پاک می‌شود: تاریخچه‌ی تمرین‌ها و خودِ
+                        برنامه‌ی آپلودی. برنامه به حالت اولیه (بدون
+                        هیچ برنامه‌ای) برمی‌گردد.
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="fullResetBtn"
+                    class="danger-btn"
+                    type="button"
+                >
+                    حذف همه‌چیز
                 </button>
 
 
@@ -399,7 +582,9 @@
         </div>
 
 
-    </details>
+        </div>
+
+    </div>
 
 
 </div>

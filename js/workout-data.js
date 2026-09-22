@@ -13,10 +13,11 @@
    نیازی به تغییر ندارند و همچنان با global
    "workoutPrograms" کار می‌کنند.
 
-   این همان تابعی است که بعداً، وقتی امکان آپلود
-   برنامه از داخل برنامه اضافه شود، دوباره روی
-   کاتالوگ + برنامه‌ی وارد‌شده توسط کاربر هم صدا
-   زده خواهد شد.
+   خودِ global "workoutPrograms" دیگر در همین فایل
+   ساخته نمی‌شود — چون باید هم شامل داده‌ی پیش‌فرض
+   باشد و هم برنامه‌هایی که کاربر از داخل برنامه
+   آپلود کرده (در storage.js نگه‌داری می‌شوند).
+   ساخت نهایی آن در app.js انجام می‌شود.
 ===================================================== */
 
 function buildWorkoutPrograms(catalog, programsRaw) {
@@ -73,9 +74,3 @@ function buildWorkoutPrograms(catalog, programsRaw) {
     return result;
 
 }
-
-
-const workoutPrograms = buildWorkoutPrograms(
-    exerciseCatalog,
-    workoutProgramsRaw
-);

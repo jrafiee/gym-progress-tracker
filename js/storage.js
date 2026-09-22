@@ -180,15 +180,21 @@ function deleteAllData() {
 
 function exportData() {
 
-    const data =
-        loadData();
+    const backup = {
+        workouts:
+            getWorkouts(),
+        catalogAdditions:
+            loadCatalogOverrides(),
+        programsRaw:
+            loadProgramOverrides()
+    };
 
 
     const blob =
         new Blob(
             [
                 JSON.stringify(
-                    data,
+                    backup,
                     null,
                     2
                 )
@@ -226,5 +232,255 @@ function exportData() {
     URL.revokeObjectURL(
         url
     );
+
+}
+
+
+/* =====================================================
+   برنامه‌ی تمرینی آپلودی
+
+   کاتالوگ و برنامه‌ی پیش‌فرض (exerciseCatalog و
+   workoutProgramsRaw) داخل کد هستند و تغییر نمی‌کنند.
+   هر برنامه‌ی جدیدی که از تنظیمات آپلود می‌شود، اینجا
+   در localStorage به‌عنوان "اضافه" نگه‌داری می‌شود و
+   روی پیش‌فرض‌ها merge می‌گردد — یعنی برنامه‌های قبلی
+   و سابقه‌ی تمرین‌ها هیچ‌وقت پاک نمی‌شوند.
+===================================================== */
+
+const CATALOG_OVERRIDES_KEY =
+    "gymProgressTracker_catalogOverrides";
+
+const PROGRAM_OVERRIDES_KEY =
+    "gymProgressTracker_programOverrides";
+
+
+function loadCatalogOverrides() {
+
+    const raw =
+        localStorage.getItem(
+            CATALOG_OVERRIDES_KEY
+        );
+
+    if (!raw) {
+
+        return {};
+
+    }
+
+    try {
+
+        return JSON.parse(raw);
+
+    }
+    catch (error) {
+
+        console.error(
+            "خطا در خواندن کاتالوگ آپلودی:",
+            error
+        );
+
+        return {};
+
+    }
+
+}
+
+
+function loadProgramOverrides() {
+
+    const raw =
+        localStorage.getItem(
+            PROGRAM_OVERRIDES_KEY
+        );
+
+    if (!raw) {
+
+        return {};
+
+    }
+
+    try {
+
+        return JSON.parse(raw);
+
+    }
+    catch (error) {
+
+        console.error(
+            "خطا در خواندن برنامه‌های آپلودی:",
+            error
+        );
+
+        return {};
+
+    }
+
+}
+
+
+/* -------------------------
+   کاتالوگ + برنامه‌ی نهایی
+   (پیش‌فرض + آپلودی)
+------------------------- */
+
+function getEffectiveCatalog() {
+
+    return {
+        ...exerciseCatalog,
+        ...loadCatalogOverrides()
+    };
+
+}
+
+
+function getEffectiveProgramsRaw() {
+
+    return {
+        ...workoutProgramsRaw,
+        ...loadProgramOverrides()
+    };
+
+}
+
+
+/* -------------------------
+   اعتبارسنجی ساده‌ی فایل آپلودی
+
+   انتظار داریم فایل شامل حداقل یکی از
+   دو بخش زیر باشد:
+   { catalogAdditions: {...}, programsRaw: {...} }
+------------------------- */
+
+function validateProgramPackage(pkg) {
+
+    if (
+        !pkg ||
+        typeof pkg !== "object"
+    ) {
+
+        return "فایل معتبر نیست.";
+
+    }
+
+
+    const hasCatalog =
+        pkg.catalogAdditions &&
+        typeof pkg.catalogAdditions === "object";
+
+    const hasPrograms =
+        pkg.programsRaw &&
+        typeof pkg.programsRaw === "object";
+
+
+    if (
+        !hasCatalog &&
+        !hasPrograms
+    ) {
+
+        return "فایل هیچ برنامه یا حرکت جدیدی ندارد.";
+
+    }
+
+
+    if (hasPrograms) {
+
+        const effectiveCatalog =
+            getEffectiveCatalog();
+
+        const catalogAdditions =
+            hasCatalog
+                ? pkg.catalogAdditions
+                : {};
+
+
+        for (const monthKey in pkg.programsRaw) {
+
+            const month =
+                pkg.programsRaw[monthKey];
+
+            if (
+                !month ||
+                !month.sessions
+            ) {
+
+                return `ماه "${monthKey}" ساختار درستی ندارد.`;
+
+            }
+
+
+            for (const sessionKey in month.sessions) {
+
+                const exercises =
+                    month.sessions[sessionKey]
+                        .exercises || [];
+
+
+                for (const exercise of exercises) {
+
+                    const existsInCatalog =
+                        effectiveCatalog[exercise.id] ||
+                        catalogAdditions[exercise.id];
+
+
+                    if (!existsInCatalog) {
+
+                        return `حرکتی با id "${exercise.id}" نه در کاتالوگ فعلی و نه در فایل آپلودی وجود ندارد.`;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* -------------------------
+   افزودن برنامه‌ی آپلودی
+------------------------- */
+
+function saveDataToKey(key, data) {
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function importProgramPackage(pkg) {
+
+    if (pkg.catalogAdditions) {
+
+        saveDataToKey(
+            CATALOG_OVERRIDES_KEY,
+            {
+                ...loadCatalogOverrides(),
+                ...pkg.catalogAdditions
+            }
+        );
+
+    }
+
+
+    if (pkg.programsRaw) {
+
+        saveDataToKey(
+            PROGRAM_OVERRIDES_KEY,
+            {
+                ...loadProgramOverrides(),
+                ...pkg.programsRaw
+            }
+        );
+
+    }
 
 }

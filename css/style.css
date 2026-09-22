@@ -49,6 +49,14 @@ body {
 ========================= */
 
 .page-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
     margin-bottom: 12px;
 }
 
@@ -68,6 +76,32 @@ body {
     font-size: 13px;
 
     color: #6b7280;
+}
+
+
+.settings-icon-btn {
+    flex: 0 0 auto;
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.settings-icon-btn:hover {
+    background: #e5e7eb;
 }
 
 
@@ -318,6 +352,257 @@ select:focus {
     font-size: 11px;
 
     line-height: 1.7;
+}
+
+
+/* =========================
+   Date picker trigger button
+========================= */
+
+.date-picker-btn {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    height: 44px;
+
+    padding:
+        8px
+        12px;
+
+    border:
+        1px solid
+        #d1d5db;
+
+    border-radius: 8px;
+
+    background: white;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    color: #1f2937;
+
+    cursor: pointer;
+}
+
+
+.date-picker-btn:hover {
+    border-color: #9ca3af;
+}
+
+
+.date-picker-icon {
+    font-size: 16px;
+}
+
+
+/* =========================
+   Date picker calendar (modal)
+========================= */
+
+.date-picker-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 16px;
+
+    background: rgba(17, 24, 39, 0.5);
+}
+
+
+.date-picker-modal {
+    width: 100%;
+
+    max-width: 340px;
+
+    padding: 16px;
+
+    border-radius: 16px;
+
+    background: white;
+}
+
+
+.date-picker-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+
+.date-picker-header h3 {
+    margin: 0;
+
+    font-size: 15px;
+}
+
+
+.date-picker-nav {
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f3f4f6;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.date-picker-nav:hover {
+    background: #e5e7eb;
+}
+
+
+.date-picker-weekdays {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    margin-bottom: 4px;
+
+    font-size: 11px;
+
+    color: #9ca3af;
+
+    text-align: center;
+}
+
+
+.date-picker-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    gap: 4px;
+}
+
+
+.date-picker-day {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    color: #1f2937;
+
+    cursor: pointer;
+}
+
+
+.date-picker-day.empty {
+    cursor: default;
+}
+
+
+.date-picker-day:not(.empty):hover {
+    background: #f3f4f6;
+}
+
+
+.date-picker-day.today {
+    box-shadow:
+        inset 0 0 0 1px
+        #2563eb;
+}
+
+
+.date-picker-day.selected {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+.date-picker-day-dot {
+    position: absolute;
+
+    bottom: 4px;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #16a34a;
+}
+
+
+.date-picker-day.selected .date-picker-day-dot {
+    background: white;
+}
+
+
+.date-picker-legend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin:
+        10px
+        0;
+
+    font-size: 11px;
+
+    color: #6b7280;
+}
+
+
+.date-picker-legend .date-picker-day-dot {
+    position: static;
+}
+
+
+.date-picker-close {
+    width: 100%;
 }
 
 
@@ -901,80 +1186,55 @@ select:focus {
 
 
 /* =========================
-   Settings
+   Settings (full page)
 ========================= */
 
-.settings-section {
-    margin-top: 12px;
+.settings-page-overlay {
+    position: fixed;
 
-    padding: 0;
+    inset: 0;
 
-    overflow: hidden;
+    z-index: 1000;
+
+    background: white;
 }
 
 
-.settings-section summary {
+.settings-page {
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
+}
+
+
+.settings-page-header {
     display: flex;
 
     align-items: center;
 
-    justify-content: space-between;
+    gap: 10px;
 
-    min-height: 52px;
+    padding: 16px;
 
-    padding:
-        0
-        14px;
-
-    cursor: pointer;
-
-    list-style: none;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    color: #374151;
-
-    user-select: none;
+    border-bottom:
+        1px solid
+        #f3f4f6;
 }
 
 
-/* حذف فلش پیش‌فرض مرورگر */
+.settings-page-header h2 {
+    margin: 0;
 
-.settings-section summary::-webkit-details-marker {
-    display: none;
-}
-
-
-.settings-section summary::marker {
-    display: none;
-}
-
-
-.settings-arrow {
-    font-size: 11px;
-
-    color: #9ca3af;
-
-    transition:
-        transform
-        0.2s
-        ease;
-}
-
-
-.settings-section[open]
-.settings-arrow {
-    transform:
-        rotate(180deg);
+    font-size: 18px;
 }
 
 
 .settings-content {
-    border-top:
-        1px solid
-        #e5e7eb;
+    flex: 1;
+
+    overflow-y: auto;
 }
 
 
@@ -1068,6 +1328,32 @@ select:focus {
 }
 
 
+.program-setting {
+    align-items: flex-start;
+
+    flex-direction: column;
+}
+
+
+.program-setting .setting-info {
+    width: 100%;
+}
+
+
+.program-actions {
+    display: grid;
+
+    grid-template-columns:
+        1fr;
+
+    gap: 8px;
+
+    width: 100%;
+
+    margin-top: 4px;
+}
+
+
 .file-btn {
     display: flex;
 
@@ -1086,6 +1372,203 @@ select:focus {
 
 .danger-setting .setting-info strong {
     color: #991b1b;
+}
+
+
+/* =========================
+   My Programs (full page)
+========================= */
+
+.my-programs-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    background: white;
+}
+
+
+.my-programs-page {
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
+}
+
+
+.my-programs-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 16px;
+
+    border-bottom:
+        1px solid
+        #f3f4f6;
+}
+
+
+.my-programs-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+.my-programs-list {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 16px;
+}
+
+
+.my-programs-empty {
+    font-size: 13px;
+
+    color: #9ca3af;
+}
+
+
+.my-program-card {
+    margin-bottom: 12px;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    background: #f9fafb;
+}
+
+
+.my-program-card:last-child {
+    margin-bottom: 0;
+}
+
+
+.my-program-summary {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.my-program-summary-info h3 {
+    margin: 0 0 4px;
+
+    font-size: 14px;
+
+    color: #374151;
+}
+
+
+.my-program-current-badge {
+    margin-right: 6px;
+
+    padding: 2px 8px;
+
+    border-radius: 999px;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    font-size: 10px;
+}
+
+
+.my-program-dates {
+    display: block;
+
+    font-size: 11px;
+
+    color: #9ca3af;
+}
+
+
+.my-program-toggle-btn {
+    flex: 0 0 auto;
+
+    min-height: 38px;
+
+    font-size: 12px;
+}
+
+
+.my-program-details {
+    margin-top: 12px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid
+        #e5e7eb;
+}
+
+
+.my-program-session {
+    margin-bottom: 10px;
+}
+
+
+.my-program-session:last-child {
+    margin-bottom: 0;
+}
+
+
+.my-program-session h4 {
+    margin: 0 0 4px;
+
+    font-size: 11px;
+
+    color: #6b7280;
+}
+
+
+.my-program-exercise-list {
+    margin: 0;
+
+    padding-right: 16px;
+
+    list-style: disc;
+}
+
+
+.my-program-exercise-list li {
+    margin-bottom: 4px;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+
+.my-program-exercise-name {
+    display: block;
+
+    color: #374151;
+}
+
+
+.my-program-exercise-meta {
+    display: block;
+
+    color: #9ca3af;
+
+    font-size: 10px;
 }
 
 
@@ -1452,6 +1935,54 @@ body.dark-mode select:focus {
 }
 
 
+/* Date picker */
+
+body.dark-mode .date-picker-btn {
+    background: #111827;
+
+    border-color: #4b5563;
+
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .date-picker-modal {
+    background: #1f2937;
+}
+
+
+body.dark-mode .date-picker-header h3 {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .date-picker-nav {
+    background: #374151;
+
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .date-picker-nav:hover {
+    background: #4b5563;
+}
+
+
+body.dark-mode .date-picker-day {
+    color: #e5e7eb;
+}
+
+
+body.dark-mode .date-picker-day:not(.empty):hover {
+    background: #374151;
+}
+
+
+body.dark-mode .date-picker-legend {
+    color: #9ca3af;
+}
+
+
 /* Session note */
 
 body.dark-mode .session-note {
@@ -1637,13 +2168,30 @@ body.dark-mode .history-set-reps {
    Settings - Dark Mode
 ========================= */
 
-body.dark-mode .settings-section summary {
+body.dark-mode .settings-icon-btn {
+    background: #374151;
+
     color: #f3f4f6;
 }
 
 
-body.dark-mode .settings-arrow {
-    color: #9ca3af;
+body.dark-mode .settings-icon-btn:hover {
+    background: #4b5563;
+}
+
+
+body.dark-mode .settings-page-overlay {
+    background: #111827;
+}
+
+
+body.dark-mode .settings-page-header {
+    border-color: #374151;
+}
+
+
+body.dark-mode .settings-page-header h2 {
+    color: #f3f4f6;
 }
 
 
@@ -1669,6 +2217,46 @@ body.dark-mode .setting-info span {
 
 body.dark-mode .danger-setting .setting-info strong {
     color: #fecaca;
+}
+
+
+body.dark-mode .my-programs-overlay {
+    background: #111827;
+}
+
+
+body.dark-mode .my-programs-header {
+    border-color: #374151;
+}
+
+
+body.dark-mode .my-programs-header h2 {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .my-program-card {
+    background: #1f2937;
+}
+
+
+body.dark-mode .my-program-summary-info h3 {
+    color: #f3f4f6;
+}
+
+
+body.dark-mode .my-program-details {
+    border-color: #374151;
+}
+
+
+body.dark-mode .my-program-session h4 {
+    color: #d1d5db;
+}
+
+
+body.dark-mode .my-program-exercise-name {
+    color: #e5e7eb;
 }
 
 

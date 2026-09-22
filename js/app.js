@@ -1,6 +1,38 @@
-let currentMonth = "month1";
+/*
+   کاتالوگ + برنامه‌ی نهایی: پیش‌فرض‌های
+   داخل کد به‌علاوه‌ی هر برنامه‌ای که کاربر
+   از تنظیمات آپلود کرده است.
+*/
 
-let viewingMonth = "month1";
+let workoutPrograms =
+    buildWorkoutPrograms(
+        getEffectiveCatalog(),
+        getEffectiveProgramsRaw()
+    );
+
+
+/*
+   ماه جاری = آخرین (جدیدترین) ماهی که در
+   برنامه وجود دارد؛ ماه‌های قبلی فقط برای
+   مشاهده هستند.
+*/
+
+function getLatestMonthKey() {
+
+    return Object.keys(workoutPrograms)
+        .sort(
+            (a, b) =>
+                parseInt(a.replace(/\D/g, ""), 10) -
+                parseInt(b.replace(/\D/g, ""), 10)
+        )
+        .pop();
+
+}
+
+
+let currentMonth = getLatestMonthKey();
+
+let viewingMonth = currentMonth;
 
 let currentSession = 1;
 
@@ -19,6 +51,11 @@ const workoutDate =
 const persianWorkoutDate =
     document.getElementById(
         "persianWorkoutDate"
+    );
+
+const workoutDateBtn =
+    document.getElementById(
+        "workoutDateBtn"
     );
 
 const weekNumber =
@@ -40,6 +77,106 @@ const sessionButtons =
     document.getElementById(
         "sessionButtons"
     );
+
+const emptyProgramState =
+    document.getElementById(
+        "emptyProgramState"
+    );
+
+const programContent =
+    document.getElementById(
+        "programContent"
+    );
+
+const openSettingsBtn =
+    document.getElementById(
+        "openSettingsBtn"
+    );
+
+const settingsPage =
+    document.getElementById(
+        "settingsPage"
+    );
+
+const closeSettingsBtn =
+    document.getElementById(
+        "closeSettingsBtn"
+    );
+
+
+/* =========================
+صفحه‌ی تنظیمات (تمام‌صفحه)
+========================= */
+
+function openSettingsPage() {
+
+    if (!settingsPage) {
+
+        return;
+
+    }
+
+    settingsPage.style.display =
+        "";
+
+    document.addEventListener(
+        "keydown",
+        closeSettingsWithEscape
+    );
+
+}
+
+
+function closeSettingsPage() {
+
+    if (!settingsPage) {
+
+        return;
+
+    }
+
+    settingsPage.style.display =
+        "none";
+
+    document.removeEventListener(
+        "keydown",
+        closeSettingsWithEscape
+    );
+
+}
+
+
+function closeSettingsWithEscape(
+    event
+) {
+
+    if (event.key === "Escape") {
+
+        closeSettingsPage();
+
+    }
+
+}
+
+
+if (openSettingsBtn) {
+
+    openSettingsBtn.addEventListener(
+        "click",
+        openSettingsPage
+    );
+
+}
+
+
+if (closeSettingsBtn) {
+
+    closeSettingsBtn.addEventListener(
+        "click",
+        closeSettingsPage
+    );
+
+}
 
 const totalVolume =
     document.getElementById(
@@ -91,6 +228,403 @@ function getToday() {
         );
 
     return `${year}-${month}-${day}`;
+
+}
+
+
+/* -------------------------
+تبدیل تاریخ میلادی ↔ شمسی
+(الگوریتم استاندارد jalaali، برای
+ساخت شبکه‌ی تقویم سفارشی — تست‌شده
+روی هزاران روز در برابر Intl خودِ مرورگر)
+------------------------- */
+
+function jalaliDiv(
+    a,
+    b
+) {
+
+    return ~~(a / b);
+
+}
+
+
+function jalaliMod(
+    a,
+    b
+) {
+
+    return a - ~~(a / b) * b;
+
+}
+
+
+function jalCal(
+    jy
+) {
+
+    const breaks = [
+        -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181,
+        1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
+    ];
+
+    const bl =
+        breaks.length;
+
+    const gy =
+        jy + 621;
+
+    let leapJ = -14,
+        jp = breaks[0],
+        jm,
+        jump,
+        leap,
+        n,
+        i;
+
+
+    if (
+        jy < jp ||
+        jy >= breaks[bl - 1]
+    ) {
+
+        throw new Error(
+            "Invalid Jalali year " + jy
+        );
+
+    }
+
+
+    for (i = 1; i < bl; i += 1) {
+
+        jm = breaks[i];
+
+        jump = jm - jp;
+
+        if (jy < jm) {
+
+            break;
+
+        }
+
+        leapJ =
+            leapJ +
+            jalaliDiv(jump, 33) * 8 +
+            jalaliDiv(jalaliMod(jump, 33), 4);
+
+        jp = jm;
+
+    }
+
+    n = jy - jp;
+
+    leapJ =
+        leapJ +
+        jalaliDiv(n, 33) * 8 +
+        jalaliDiv(jalaliMod(n, 33) + 3, 4);
+
+    if (
+        jalaliMod(jump, 33) === 4 &&
+        jump - n === 4
+    ) {
+
+        leapJ += 1;
+
+    }
+
+    const leapG =
+        jalaliDiv(gy, 4) -
+        jalaliDiv((jalaliDiv(gy, 100) + 1) * 3, 4) -
+        150;
+
+    const march =
+        20 + leapJ - leapG;
+
+    if (jump - n < 6) {
+
+        n = n - jump + jalaliDiv(jump, 33) * 33;
+
+    }
+
+    leap =
+        jalaliMod(
+            jalaliMod(n + 1, 33) - 1,
+            4
+        );
+
+    if (leap === -1) {
+
+        leap = 4;
+
+    }
+
+
+    return {
+        leap: leap,
+        gy: gy,
+        march: march
+    };
+
+}
+
+
+function isLeapJalaliYear(
+    jy
+) {
+
+    return jalCal(jy).leap === 0;
+
+}
+
+
+function jalaliMonthLength(
+    jy,
+    jm
+) {
+
+    if (jm <= 6) {
+
+        return 31;
+
+    }
+
+    if (jm <= 11) {
+
+        return 30;
+
+    }
+
+    return isLeapJalaliYear(jy)
+        ? 30
+        : 29;
+
+}
+
+
+function g2d(
+    gy,
+    gm,
+    gd
+) {
+
+    let d =
+        jalaliDiv(
+            (gy + jalaliDiv(gm - 8, 6) + 100100) * 1461,
+            4
+        ) +
+        jalaliDiv(153 * jalaliMod(gm + 9, 12) + 2, 5) +
+        gd -
+        34840408;
+
+    d =
+        d -
+        jalaliDiv(
+            jalaliDiv(gy + 100100 + jalaliDiv(gm - 8, 6), 100) * 3,
+            4
+        ) +
+        752;
+
+    return d;
+
+}
+
+
+function d2g(
+    jdn
+) {
+
+    let j =
+        4 * jdn + 139361631;
+
+    j =
+        j +
+        jalaliDiv(
+            jalaliDiv(4 * jdn + 183187720, 146097) * 3,
+            4
+        ) * 4 -
+        3908;
+
+    const i =
+        jalaliDiv(jalaliMod(j, 1461), 4) * 5 + 308;
+
+    const gd =
+        jalaliDiv(jalaliMod(i, 153), 5) + 1;
+
+    const gm =
+        jalaliMod(jalaliDiv(i, 153), 12) + 1;
+
+    const gy =
+        jalaliDiv(j, 1461) - 100100 + jalaliDiv(8 - gm, 6);
+
+
+    return {
+        gy: gy,
+        gm: gm,
+        gd: gd
+    };
+
+}
+
+
+function j2d(
+    jy,
+    jm,
+    jd
+) {
+
+    const r =
+        jalCal(jy);
+
+    return (
+        g2d(r.gy, 3, r.march) +
+        (jm - 1) * 31 -
+        jalaliDiv(jm, 7) * (jm - 7) +
+        jd -
+        1
+    );
+
+}
+
+
+function d2j(
+    jdn
+) {
+
+    const gy =
+        d2g(jdn).gy;
+
+    let jy =
+        gy - 621;
+
+    const r =
+        jalCal(jy);
+
+    const jdn1f =
+        g2d(gy, 3, r.march);
+
+    let k =
+        jdn - jdn1f;
+
+    let jm,
+        jd;
+
+
+    if (k >= 0) {
+
+        if (k <= 185) {
+
+            jm = 1 + jalaliDiv(k, 31);
+
+            jd = jalaliMod(k, 31) + 1;
+
+            return {
+                jy: jy,
+                jm: jm,
+                jd: jd
+            };
+
+        }
+        else {
+
+            k -= 186;
+
+        }
+
+    }
+    else {
+
+        jy -= 1;
+
+        k += 179;
+
+        if (r.leap === 1) {
+
+            k += 1;
+
+        }
+
+    }
+
+    jm = 7 + jalaliDiv(k, 30);
+
+    jd = jalaliMod(k, 30) + 1;
+
+
+    return {
+        jy: jy,
+        jm: jm,
+        jd: jd
+    };
+
+}
+
+
+function gregorianToJalali(
+    gy,
+    gm,
+    gd
+) {
+
+    return d2j(
+        g2d(gy, gm, gd)
+    );
+
+}
+
+
+function jalaliToGregorian(
+    jy,
+    jm,
+    jd
+) {
+
+    return d2g(
+        j2d(jy, jm, jd)
+    );
+
+}
+
+
+function isoToJalali(
+    isoDate
+) {
+
+    const [
+        y,
+        m,
+        d
+    ] =
+        isoDate
+            .split("-")
+            .map(Number);
+
+    return gregorianToJalali(
+        y,
+        m,
+        d
+    );
+
+}
+
+
+function jalaliToIsoDate(
+    jy,
+    jm,
+    jd
+) {
+
+    const g =
+        jalaliToGregorian(
+            jy,
+            jm,
+            jd
+        );
+
+    const pad =
+        n =>
+            String(n).padStart(2, "0");
+
+    return `${g.gy}-${pad(g.gm)}-${pad(g.gd)}`;
 
 }
 
@@ -238,6 +772,346 @@ function getCurrentSavedWorkout() {
 
 
 /* =========================
+برنامه‌های من (صفحه‌ی تمام‌صفحه)
+فقط نمایش عنوان، بازه‌ی تاریخ و
+جزئیات هر برنامه — بدون امکان ثبت.
+========================= */
+
+function getMonthDateRangeText(
+    monthKey
+) {
+
+    const month =
+        workoutPrograms[monthKey];
+
+    const sessionKeys =
+        Object.keys(
+            month.sessions
+        );
+
+
+    const dates =
+        sessionKeys
+            .flatMap(
+                sessionKey =>
+                    getSessionWorkouts(
+                        monthKey,
+                        Number(sessionKey)
+                    )
+            )
+            .map(
+                workout =>
+                    workout.date
+            )
+            .sort();
+
+
+    if (dates.length === 0) {
+
+        return "هنوز تمرینی ثبت نشده";
+
+    }
+
+
+    const startDate =
+        dates[0];
+
+    const endDate =
+        dates[dates.length - 1];
+
+
+    if (startDate === endDate) {
+
+        return formatPersianDate(
+            startDate,
+            true
+        );
+
+    }
+
+
+    return (
+        formatPersianDate(startDate, true) +
+        " تا " +
+        formatPersianDate(endDate, true)
+    );
+
+}
+
+
+function buildMyProgramCardHtml(
+    monthKey
+) {
+
+    const month =
+        workoutPrograms[monthKey];
+
+    const isCurrent =
+        monthKey === currentMonth;
+
+
+    const sessionsHtml =
+        Object.values(month.sessions)
+            .map(
+                session => `
+
+                    <div class="my-program-session">
+
+                        <h4>
+                            ${session.title}
+                        </h4>
+
+                        <ul class="my-program-exercise-list">
+
+                            ${
+                                session.exercises
+                                    .map(
+                                        exercise => `
+                                            <li>
+                                                <span class="my-program-exercise-name">
+                                                    ${exercise.name}
+                                                </span>
+                                                <span class="my-program-exercise-meta">
+                                                    ${exercise.sets} ست ×
+                                                    ${exercise.target} —
+                                                    استراحت ${exercise.rest}
+                                                </span>
+                                            </li>
+                                        `
+                                    )
+                                    .join("")
+                            }
+
+                        </ul>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+
+    return `
+
+        <div
+            class="my-program-card"
+            data-month="${monthKey}"
+        >
+
+            <div class="my-program-summary">
+
+                <div class="my-program-summary-info">
+
+                    <h3>
+                        ${month.title}
+                        ${
+                            isCurrent
+                                ? '<span class="my-program-current-badge">برنامه جاری</span>'
+                                : ""
+                        }
+                    </h3>
+
+                    <span class="my-program-dates">
+                        ${getMonthDateRangeText(monthKey)}
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary-btn my-program-toggle-btn"
+                >
+                    مشاهده برنامه
+                </button>
+
+            </div>
+
+
+            <div
+                class="my-program-details"
+                style="display: none;"
+            >
+                ${sessionsHtml}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function showMyProgramsPage() {
+
+    const monthKeys =
+        Object.keys(
+            workoutPrograms
+        );
+
+
+    const listHtml =
+        monthKeys.length === 0
+            ? `
+                <p class="my-programs-empty">
+                    هنوز هیچ برنامه‌ای بارگذاری نشده است.
+                </p>
+            `
+            : monthKeys
+                .map(buildMyProgramCardHtml)
+                .join("");
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "my-programs-overlay";
+
+
+    overlay.innerHTML = `
+
+        <div class="my-programs-page">
+
+            <div class="my-programs-header">
+
+                <h2>
+                    برنامه‌های من
+                </h2>
+
+                <button
+                    type="button"
+                    class="exercise-guide-close my-programs-close"
+                    aria-label="بستن"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="my-programs-list">
+                ${listHtml}
+            </div>
+
+        </div>
+
+    `;
+
+
+    function closeOverlay() {
+
+        overlay.remove();
+
+        document.removeEventListener(
+            "keydown",
+            closeWithEscape
+        );
+
+    }
+
+
+    const closeWithEscape =
+        event => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeOverlay();
+
+            }
+
+        };
+
+
+    overlay
+        .querySelector(
+            ".my-programs-close"
+        )
+        .addEventListener(
+            "click",
+            closeOverlay
+        );
+
+
+    overlay
+        .querySelectorAll(
+            ".my-program-toggle-btn"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const card =
+                            button.closest(
+                                ".my-program-card"
+                            );
+
+                        const details =
+                            card.querySelector(
+                                ".my-program-details"
+                            );
+
+                        const isHidden =
+                            details.style.display ===
+                            "none";
+
+
+                        details.style.display =
+                            isHidden
+                                ? ""
+                                : "none";
+
+                        button.textContent =
+                            isHidden
+                                ? "بستن برنامه"
+                                : "مشاهده برنامه";
+
+                    }
+                );
+
+            }
+        );
+
+
+    document.addEventListener(
+        "keydown",
+        closeWithEscape
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+}
+
+
+const openMyProgramsBtn =
+    document.getElementById(
+        "openMyProgramsBtn"
+    );
+
+
+if (openMyProgramsBtn) {
+
+    openMyProgramsBtn.addEventListener(
+        "click",
+        showMyProgramsPage
+    );
+
+}
+
+
+/* =========================
 دکمه‌های جلسات
 ========================= */
 
@@ -327,7 +1201,7 @@ function renderExercises() {
 
 
     sessionTitle.textContent =
-        `جلسه ${currentSession} — ${program.title}`;
+        getCurrentMonth().title;
 
 
     exerciseList.innerHTML =
@@ -981,6 +1855,7 @@ function createExerciseMedia(
                 muted
                 loop
                 preload="metadata"
+                onerror="handleExerciseMediaError(this)"
             >
 
                 <source
@@ -1004,9 +1879,39 @@ function createExerciseMedia(
             src="${mediaPath}"
             alt="${exerciseName}"
             loading="lazy"
+            onerror="handleExerciseMediaError(this)"
         >
 
     `;
+
+}
+
+
+/* =========================
+جایگزینی رسانه‌ی پیدانشده با پیام
+(وقتی مسیر در کاتالوگ درست است ولی خود
+فایل هنوز به assets/exercises اضافه نشده)
+========================= */
+
+function handleExerciseMediaError(
+    element
+) {
+
+    const fallback =
+        document.createElement(
+            "div"
+        );
+
+    fallback.className =
+        "exercise-guide-no-image";
+
+    fallback.textContent =
+        "فایل تصویر/ویدیوی این حرکت پیدا نشد.";
+
+
+    element.replaceWith(
+        fallback
+    );
 
 }
 
@@ -1967,19 +2872,369 @@ if (saveWorkoutBtn) {
 
 
 /* =========================
-تغییر تاریخ
+تقویم انتخاب تاریخ (شمسی)
+هایلایت روزهایی که تمرین ثبت شده
 ========================= */
 
-workoutDate.addEventListener(
-    "change",
-    () => {
+const PERSIAN_WEEKDAY_LABELS = [
+    "ش", "ی", "د", "س", "چ", "پ", "ج"
+];
 
-        updatePersianWorkoutDate();
+const PERSIAN_MONTH_NAMES = [
+    "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
+    "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
+];
 
-        renderAll();
+
+function getWorkoutDatesSet() {
+
+    return new Set(
+        getWorkouts()
+            .map(
+                workout =>
+                    workout.date
+            )
+    );
+
+}
+
+
+function buildDatePickerGrid(
+    jy,
+    jm,
+    selectedIso,
+    todayIso,
+    workoutDatesSet
+) {
+
+    const monthLength =
+        jalaliMonthLength(jy, jm);
+
+    const firstGregorian =
+        jalaliToGregorian(jy, jm, 1);
+
+    const firstDate =
+        new Date(
+            firstGregorian.gy,
+            firstGregorian.gm - 1,
+            firstGregorian.gd
+        );
+
+    /*
+       هفته‌ی فارسی از شنبه شروع می‌شود؛
+       getDay() در جاوااسکریپت یکشنبه=۰ است.
+    */
+
+    const startWeekday =
+        (firstDate.getDay() + 1) % 7;
+
+
+    let cellsHtml =
+        "";
+
+
+    for (let i = 0; i < startWeekday; i++) {
+
+        cellsHtml +=
+            `<div class="date-picker-day empty"></div>`;
 
     }
-);
+
+
+    for (let day = 1; day <= monthLength; day++) {
+
+        const iso =
+            jalaliToIsoDate(jy, jm, day);
+
+        const classes =
+            ["date-picker-day"];
+
+        if (iso === todayIso) {
+
+            classes.push("today");
+
+        }
+
+        if (iso === selectedIso) {
+
+            classes.push("selected");
+
+        }
+
+
+        cellsHtml += `
+            <button
+                type="button"
+                class="${classes.join(" ")}"
+                data-iso="${iso}"
+            >
+                <span class="date-picker-day-number">
+                    ${day}
+                </span>
+                ${
+                    workoutDatesSet.has(iso)
+                        ? '<span class="date-picker-day-dot"></span>'
+                        : ""
+                }
+            </button>
+        `;
+
+    }
+
+
+    return cellsHtml;
+
+}
+
+
+function showDatePickerCalendar() {
+
+    const todayIso =
+        getToday();
+
+    const selectedIso =
+        workoutDate.value ||
+        todayIso;
+
+    const workoutDatesSet =
+        getWorkoutDatesSet();
+
+    const view =
+        isoToJalali(selectedIso);
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+    overlay.className =
+        "date-picker-overlay";
+
+
+    function closeOverlay() {
+
+        overlay.remove();
+
+        document.removeEventListener(
+            "keydown",
+            closeWithEscape
+        );
+
+    }
+
+
+    const closeWithEscape =
+        event => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeOverlay();
+
+            }
+
+        };
+
+
+    function render() {
+
+        overlay.innerHTML = `
+
+            <div class="date-picker-modal">
+
+                <div class="date-picker-header">
+
+                    <button
+                        type="button"
+                        class="date-picker-nav"
+                        data-dir="prev"
+                        aria-label="ماه قبل"
+                    >
+                        ‹
+                    </button>
+
+                    <h3>
+                        ${PERSIAN_MONTH_NAMES[view.jm - 1]}
+                        ${view.jy}
+                    </h3>
+
+                    <button
+                        type="button"
+                        class="date-picker-nav"
+                        data-dir="next"
+                        aria-label="ماه بعد"
+                    >
+                        ›
+                    </button>
+
+                </div>
+
+
+                <div class="date-picker-weekdays">
+                    ${
+                        PERSIAN_WEEKDAY_LABELS
+                            .map(
+                                label =>
+                                    `<span>${label}</span>`
+                            )
+                            .join("")
+                    }
+                </div>
+
+
+                <div class="date-picker-grid">
+                    ${
+                        buildDatePickerGrid(
+                            view.jy,
+                            view.jm,
+                            selectedIso,
+                            todayIso,
+                            workoutDatesSet
+                        )
+                    }
+                </div>
+
+
+                <div class="date-picker-legend">
+                    <span class="date-picker-day-dot"></span>
+                    روزهایی که تمرین ثبت شده
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary-btn date-picker-close"
+                >
+                    بستن
+                </button>
+
+            </div>
+
+        `;
+
+
+        overlay
+            .querySelector(
+                ".date-picker-close"
+            )
+            .addEventListener(
+                "click",
+                closeOverlay
+            );
+
+
+        overlay
+            .querySelectorAll(
+                ".date-picker-nav"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const direction =
+                                button.dataset.dir === "prev"
+                                    ? -1
+                                    : 1;
+
+                            view.jm += direction;
+
+                            if (view.jm < 1) {
+
+                                view.jm = 12;
+
+                                view.jy -= 1;
+
+                            }
+
+                            if (view.jm > 12) {
+
+                                view.jm = 1;
+
+                                view.jy += 1;
+
+                            }
+
+                            render();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        overlay
+            .querySelectorAll(
+                ".date-picker-day:not(.empty)"
+            )
+            .forEach(
+                cell => {
+
+                    cell.addEventListener(
+                        "click",
+                        () => {
+
+                            workoutDate.value =
+                                cell.dataset.iso;
+
+                            updatePersianWorkoutDate();
+
+                            renderAll();
+
+                            closeOverlay();
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if (event.target === overlay) {
+
+                closeOverlay();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        closeWithEscape
+    );
+
+
+    render();
+
+    document.body.appendChild(
+        overlay
+    );
+
+}
+
+
+if (workoutDateBtn) {
+
+    workoutDateBtn.addEventListener(
+        "click",
+        showDatePickerCalendar
+    );
+
+}
 
 
 /* =========================
@@ -2275,6 +3530,10 @@ document
 
 /* =========================
 Restore
+(هر دو فایل پشتیبان — تاریخچه‌ی
+تمرین‌ها یا برنامه — از هر دو دکمه
+قابل بازیابی‌اند؛ نوع فایل خودکار
+تشخیص داده می‌شود)
 ========================= */
 
 document
@@ -2296,68 +3555,375 @@ document
             }
 
 
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function () {
-
-                    try {
-
-                        const imported =
-                            JSON.parse(
-                                reader.result
-                            );
-
-
-                        if (
-                            !imported.workouts ||
-                            !Array.isArray(
-                                imported.workouts
-                            )
-                        ) {
-
-                            throw new Error(
-                                "Invalid backup"
-                            );
-
-                        }
-
-
-                        localStorage.setItem(
-                            STORAGE_KEY,
-                            JSON.stringify(
-                                imported
-                            )
-                        );
-
-
-                        renderAll();
-
-
-                        alert(
-                            "اطلاعات با موفقیت بازیابی شد."
-                        );
-
-                    }
-                    catch {
-
-                        alert(
-                            "فایل پشتیبان معتبر نیست."
-                        );
-
-                    }
-
-                };
-
-
-            reader.readAsText(
+            handleBackupFileSelected(
                 file
             );
 
+
+            event.target.value =
+                "";
+
         }
     );
+
+
+/* =========================
+بررسی وجود فایل‌های رسانه‌ی
+حرکات تازه‌آپلودشده (غیرمسدودکننده)
+========================= */
+
+function checkSingleMediaPath(
+    path
+) {
+
+    return new Promise(
+        resolve => {
+
+            const extension =
+                path
+                    .split("?")[0]
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            if (extension === "mp4") {
+
+                const video =
+                    document.createElement(
+                        "video"
+                    );
+
+                video.preload =
+                    "metadata";
+
+                video.onloadedmetadata =
+                    () => resolve(true);
+
+                video.onerror =
+                    () => resolve(false);
+
+                video.src =
+                    path;
+
+                return;
+
+            }
+
+
+            const image =
+                new Image();
+
+            image.onload =
+                () => resolve(true);
+
+            image.onerror =
+                () => resolve(false);
+
+            image.src =
+                path;
+
+        }
+    );
+
+}
+
+
+async function findMissingMediaPaths(
+    paths
+) {
+
+    const results =
+        await Promise.all(
+            paths.map(
+                checkSingleMediaPath
+            )
+        );
+
+
+    return paths.filter(
+        (path, index) =>
+            !results[index]
+    );
+
+}
+
+
+/* =========================
+بارگذاری برنامه‌ی تمرینی جدید
+========================= */
+
+const programImportInput =
+    document.getElementById(
+        "programImportInput"
+    );
+
+
+if (programImportInput) {
+
+    programImportInput.addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            handleBackupFileSelected(
+                file
+            );
+
+
+            event.target.value =
+                "";
+
+        }
+    );
+
+}
+
+
+/* =========================
+تشخیص خودکار نوع فایل پشتیبان
+و بازیابی مناسب
+========================= */
+
+async function restoreFullBackup(
+    data
+) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+            { workouts: data.workouts }
+        )
+    );
+
+
+    saveDataToKey(
+        CATALOG_OVERRIDES_KEY,
+        data.catalogAdditions || {}
+    );
+
+
+    saveDataToKey(
+        PROGRAM_OVERRIDES_KEY,
+        data.programsRaw || {}
+    );
+
+
+    const newMediaPaths =
+        data.catalogAdditions
+            ? Object.values(data.catalogAdditions)
+                .flatMap(
+                    entry =>
+                        entry.images || []
+                )
+            : [];
+
+
+    const missingPaths =
+        await findMissingMediaPaths(
+            newMediaPaths
+        );
+
+
+    let message =
+        "پشتیبان با موفقیت بازیابی شد.";
+
+
+    if (missingPaths.length > 0) {
+
+        message +=
+            "\n\nاین فایل‌های رسانه پیدا نشدند، بعداً به assets/exercises اضافه‌شان کن:\n" +
+            missingPaths.join("\n");
+
+    }
+
+
+    alert(
+        message
+    );
+
+
+    /*
+       ساده‌ترین و مطمئن‌ترین راه برای
+       این‌که همه‌ی صفحه (از جمله ماه
+       جاری) با داده‌ی تازه بازسازی شود.
+    */
+
+    location.reload();
+
+}
+
+
+async function restoreProgramBackup(
+    pkg
+) {
+
+    const validationError =
+        validateProgramPackage(
+            pkg
+        );
+
+
+    if (validationError) {
+
+        alert(
+            "فایل قابل بازیابی نیست:\n" +
+            validationError
+        );
+
+        return;
+
+    }
+
+
+    importProgramPackage(
+        pkg
+    );
+
+
+    /*
+       فقط تصاویر/ویدیوهای حرکاتی که
+       همین حالا اضافه شدند چک می‌شوند
+       (نه کل کاتالوگ) — و این کار
+       جلوی ذخیره‌شدن برنامه را نمی‌گیرد،
+       فقط در پیام موفقیت گزارش می‌شود.
+    */
+
+    const newMediaPaths =
+        pkg.catalogAdditions
+            ? Object.values(pkg.catalogAdditions)
+                .flatMap(
+                    entry =>
+                        entry.images || []
+                )
+            : [];
+
+
+    const missingPaths =
+        await findMissingMediaPaths(
+            newMediaPaths
+        );
+
+
+    let message =
+        "برنامه با موفقیت بازیابی شد.";
+
+
+    if (missingPaths.length > 0) {
+
+        message +=
+            "\n\nاین فایل‌های رسانه پیدا نشدند، بعداً به assets/exercises اضافه‌شان کن:\n" +
+            missingPaths.join("\n");
+
+    }
+
+
+    alert(
+        message
+    );
+
+
+    /*
+       ساده‌ترین و مطمئن‌ترین راه برای
+       این‌که همه‌ی صفحه (از جمله ماه
+       جاری) با داده‌ی تازه بازسازی شود.
+    */
+
+    location.reload();
+
+}
+
+
+function handleBackupFileSelected(
+    file
+) {
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function () {
+
+            let data;
+
+            try {
+
+                data =
+                    JSON.parse(
+                        reader.result
+                    );
+
+            }
+            catch {
+
+                alert(
+                    "فایل معتبر نیست (JSON قابل خواندن نیست)."
+                );
+
+                return;
+
+            }
+
+
+            const isWorkoutBackup =
+                data &&
+                Array.isArray(
+                    data.workouts
+                );
+
+            const isProgramBackup =
+                data &&
+                (
+                    data.catalogAdditions ||
+                    data.programsRaw
+                );
+
+
+            if (isWorkoutBackup) {
+
+                restoreFullBackup(
+                    data
+                );
+
+                return;
+
+            }
+
+
+            if (isProgramBackup) {
+
+                restoreProgramBackup(
+                    data
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "این فایل، فایل پشتیبان تاریخچه‌ی تمرین‌ها یا برنامه نیست."
+            );
+
+        };
+
+
+    reader.readAsText(
+        file
+    );
+
+}
 
 
 /* =========================
@@ -2374,7 +3940,7 @@ document
 
             const confirmed =
                 confirm(
-                    "همه اطلاعات تمرین‌ها حذف شود؟ این کار قابل بازگشت نیست."
+                    "تاریخچه‌ی تمرین‌ها (وزنه/تکرارهای ثبت‌شده) حذف شود؟ برنامه‌ی تمرینی دست‌نخورده می‌ماند. این کار قابل بازگشت نیست."
                 );
 
 
@@ -2391,6 +3957,56 @@ document
 
         }
     );
+
+
+/* =========================
+بازنشانی کامل
+(تاریخچه + برنامه‌ی آپلودی)
+========================= */
+
+const fullResetBtn =
+    document.getElementById(
+        "fullResetBtn"
+    );
+
+
+if (fullResetBtn) {
+
+    fullResetBtn.addEventListener(
+        "click",
+        () => {
+
+            const confirmed =
+                confirm(
+                    "همه‌چیز حذف شود؟ هم تاریخچه‌ی تمرین‌ها و هم خودِ برنامه‌ی آپلودی پاک می‌شود و برنامه به حالت بدون‌برنامه برمی‌گردد. این کار قابل بازگشت نیست."
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            deleteAllData();
+
+            saveDataToKey(
+                CATALOG_OVERRIDES_KEY,
+                {}
+            );
+
+            saveDataToKey(
+                PROGRAM_OVERRIDES_KEY,
+                {}
+            );
+
+            location.reload();
+
+        }
+    );
+
+}
 
 
 /* =========================
@@ -2488,6 +4104,33 @@ if (themeToggleBtn) {
 ========================= */
 
 function renderAll() {
+
+    const hasAnyProgram =
+        Object.keys(workoutPrograms).length > 0;
+
+
+    if (emptyProgramState) {
+
+        emptyProgramState.style.display =
+            hasAnyProgram ? "none" : "";
+
+    }
+
+
+    if (programContent) {
+
+        programContent.style.display =
+            hasAnyProgram ? "" : "none";
+
+    }
+
+
+    if (!hasAnyProgram) {
+
+        return;
+
+    }
+
 
     renderSessionButtons();
 
