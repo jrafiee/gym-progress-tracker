@@ -473,8 +473,9 @@ select:focus {
     grid-column: 2 / 4;
     padding: 2px 5px;
     min-height: 14px;
-    font-size: 9px;
-    color: #9ca3af;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #1f2937;
     text-align: right;
     direction: rtl;
 }
@@ -999,11 +1000,27 @@ select:focus {
 }
 
 .exercise-bank-category-header {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 6px 6px;
-    border-bottom: 2px solid #e5e7eb;
+    padding: 8px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #f3f4f6;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.exercise-bank-category-header:hover {
+    background: #e5e7eb;
+}
+
+.exercise-bank-category-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .exercise-bank-category-badge {
@@ -1015,12 +1032,31 @@ select:focus {
 .exercise-bank-category-count {
     font-size: 11px;
     color: #6b7280;
+    background: #ffffff;
+    padding: 2px 7px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.exercise-bank-category-arrow {
+    font-size: 14px;
+    color: #6b7280;
+    transition: transform 0.2s ease;
+}
+
+.exercise-bank-category-group.collapsed .exercise-bank-category-arrow {
+    transform: rotate(-90deg);
+}
+
+.exercise-bank-category-group.collapsed .exercise-bank-category-items {
+    display: none;
 }
 
 .exercise-bank-category-items {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding: 2px 4px;
 }
 
 .exercise-bank-item {
@@ -1197,7 +1233,8 @@ body.dark-mode .set-label {
 }
 
 body.dark-mode .set-difference {
-    color: #6b7280;
+    color: #e2e8f0;
+    font-weight: 600;
 }
 
 body.dark-mode .secondary-btn {
@@ -1371,7 +1408,16 @@ body.dark-mode .exercise-bank-header h2 {
 }
 
 body.dark-mode .exercise-bank-category-header {
+    background: #1f2937;
     border-color: #374151;
+}
+
+body.dark-mode .exercise-bank-category-header:hover {
+    background: #374151;
+}
+
+body.dark-mode .exercise-bank-category-arrow {
+    color: #9ca3af;
 }
 
 body.dark-mode .exercise-bank-category-badge {
@@ -1379,6 +1425,8 @@ body.dark-mode .exercise-bank-category-badge {
 }
 
 body.dark-mode .exercise-bank-category-count {
+    background: #111827;
+    border-color: #374151;
     color: #9ca3af;
 }
 
@@ -1401,49 +1449,5 @@ body.dark-mode .exercise-bank-name {
 }
 
 body.dark-mode .exercise-bank-id {
-    color: #9ca3af;
-}
-/* دسته‌بندی‌های بانک حرکات */
-.exercise-bank-category-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.exercise-bank-category-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 4px 4px;
-    border-bottom: 2px solid #e5e7eb;
-}
-
-.exercise-bank-category-badge {
-    font-size: 14px;
-    font-weight: 700;
-    color: #2563eb;
-}
-
-.exercise-bank-category-count {
-    font-size: 11px;
-    color: #6b7280;
-}
-
-.exercise-bank-category-items {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* حالت تاریک بانک حرکات */
-body.dark-mode .exercise-bank-category-header {
-    border-color: #374151;
-}
-
-body.dark-mode .exercise-bank-category-badge {
-    color: #60a5fa;
-}
-
-body.dark-mode .exercise-bank-category-count {
     color: #9ca3af;
 }

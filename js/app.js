@@ -10,6 +10,7 @@ let workoutPrograms =
         getEffectiveProgramsRaw()
     );
 
+
 /*
    ماه جاری = آخرین (جدیدترین) ماهی که در
    برنامه وجود دارد؛ ماه‌های قبلی فقط برای
@@ -56,7 +57,7 @@ const openMyProgramsBtn = document.getElementById("openMyProgramsBtn");
 const openExerciseBankBtn = document.getElementById("openExerciseBankBtn");
 
 /* =========================================================
-   تشخیص هوشمند هفته و جلسه بعدی بر اساس سوابق
+   تغییر ۳: تشخیص هوشمند هفته و جلسه بعدی بر اساس سوابق
 ========================================================= */
 
 function detectNextWeekAndSession(monthKey) {
@@ -97,7 +98,7 @@ function detectNextWeekAndSession(monthKey) {
 }
 
 /* =========================================================
-   مدیریت دکمه Back و بازگشت لایه‌ای پنجره‌ها
+   تغییر ۱: مدیریت دکمه Back و بازگشت لایه‌ای مودال‌ها
 ========================================================= */
 
 function openSettingsPage() {
@@ -109,11 +110,11 @@ function openSettingsPage() {
 
 function closeSettingsPage(fromPopstate = false) {
     if (!settingsPage || settingsPage.style.display === "none") return;
+    settingsPage.style.display = "none";
+    document.removeEventListener("keydown", closeSettingsWithEscape);
+
     if (!fromPopstate && history.state && history.state.modal === "settings") {
         history.back();
-    } else {
-        settingsPage.style.display = "none";
-        document.removeEventListener("keydown", closeSettingsWithEscape);
     }
 }
 
@@ -131,9 +132,9 @@ if (closeSettingsBtn) {
     closeSettingsBtn.addEventListener("click", () => closeSettingsPage(false));
 }
 
-// دکمه بازگشت (Back) مرورگر یا گوشی
+// دکمه بازگشت فیزیکی گوشی (Back)
 window.addEventListener("popstate", (event) => {
-    // ۱. اولویت با راهنما یا سابقه حرکت است (بانک حرکات زیر آن باقی می‌ماند)
+    // ۱. اولویت با راهنما یا سابقه حرکت است (اگر باز باشند فقط همین‌ها بسته می‌شوند و بانک حرکات زیر آن باقی می‌ماند)
     const guideOverlay = document.querySelector(".exercise-guide-overlay");
     if (guideOverlay) {
         guideOverlay.remove();
@@ -163,8 +164,7 @@ window.addEventListener("popstate", (event) => {
 
     // ۵. منوی تنظیمات
     if (settingsPage && settingsPage.style.display !== "none") {
-        settingsPage.style.display = "none";
-        document.removeEventListener("keydown", closeSettingsWithEscape);
+        closeSettingsPage(true);
     }
 });
 
@@ -477,9 +477,10 @@ if (openMyProgramsBtn) {
 }
 
 /* =========================================================
-   بانک حرکات به صورت دسته‌بندی‌شده
+   تغییر ۲: نمایش بانک حرکات به صورت دسته‌بندی‌شده
 ========================================================= */
 
+// نگاشت خودکار حرکات به دسته‌ها بر اساس گروه‌های عضلانی استاندارد
 const EXERCISE_CATEGORIES_MAP = {
     machine_chest_press: "سینه",
     incline_dumbbell_press: "سینه",
@@ -513,7 +514,7 @@ const EXERCISE_CATEGORIES_MAP = {
     lying_leg_curl: "پا",
     leg_extension: "پا",
     bulgarian_split_squat: "پا",
-    smith_calf_raise: "ساق پا",
+    smith_calf_raise: "پا",
 
     dead_bug: "شکم",
     crunch: "شکم",
@@ -534,6 +535,7 @@ function showExerciseBankPage() {
 
     history.pushState({ modal: "exerciseBank" }, "");
 
+    // گروه‌بندی حرکات
     const groups = {};
     exerciseKeys.forEach(key => {
         const item = catalog[key];
@@ -544,7 +546,8 @@ function showExerciseBankPage() {
         groups[category].push({ key, ...item });
     });
 
-    const categoryOrder = ["سینه", "پشت", "سرشانه", "جلو بازو", "پشت بازو", "پا", "ساق پا", "شکم"];
+    // ترتیب نمایش دسته‌ها
+    const categoryOrder = ["سینه", "پشت", "سرشانه", "جلو بازو", "پشت بازو", "پا", "شکم"];
     const sortedCategories = Object.keys(groups).sort((a, b) => {
         const idxA = categoryOrder.indexOf(a);
         const idxB = categoryOrder.indexOf(b);
@@ -577,11 +580,14 @@ function showExerciseBankPage() {
         }).join("");
 
         groupsHtml += `
-            <div class="exercise-bank-category-group">
-                <div class="exercise-bank-category-header">
-                    <span class="exercise-bank-category-badge">${catName}</span>
-                    <span class="exercise-bank-category-count">${exercises.length} حرکت</span>
-                </div>
+            <div class="exercise-bank-category-group collapsed">
+                <button type="button" class="exercise-bank-category-header" aria-expanded="false">
+                    <div class="exercise-bank-category-title">
+                        <span class="exercise-bank-category-badge">${catName}</span>
+                        <span class="exercise-bank-category-count">${exercises.length} حرکت</span>
+                    </div>
+                    <span class="exercise-bank-category-arrow">▾</span>
+                </button>
                 <div class="exercise-bank-category-items">
                     ${itemsHtml}
                 </div>
@@ -613,6 +619,17 @@ function showExerciseBankPage() {
 
     overlay.querySelector(".exercise-bank-close").addEventListener("click", closeBank);
 
+    // باز و بسته شدن کشویی دسته‌ها
+    overlay.querySelectorAll(".exercise-bank-category-header").forEach(header => {
+        header.addEventListener("click", () => {
+            const group = header.closest(".exercise-bank-category-group");
+            const isCollapsed = group.classList.contains("collapsed");
+            group.classList.toggle("collapsed");
+            header.setAttribute("aria-expanded", isCollapsed ? "true" : "false");
+        });
+    });
+
+    // با لمس هر حرکت، راهنمای آن حرکت باز می‌شود و پس از بستن به همین صفحه بانک حرکات برمی‌گردد
     overlay.querySelectorAll(".exercise-bank-item").forEach(card => {
         card.addEventListener("click", () => {
             const exId = card.dataset.exerciseId;
@@ -661,7 +678,11 @@ function renderExercises() {
     const program = getCurrentProgram();
     const curM = getCurrentMonth();
     if (sessionTitle && curM) {
-        sessionTitle.textContent = curM.title;
+        let rawTitle = curM.title || "";
+        rawTitle = rawTitle.replace(/ماه\s*(\d+|اول|دوم|سوم|چهارم|پنجم|ششم|هفتم|هشتم|نهم|دهم)/gi, (m, p1) => {
+            return `برنامه ${p1}`;
+        }).replace(/ماه/g, "برنامه");
+        sessionTitle.textContent = rawTitle;
     }
     exerciseList.innerHTML = "";
     if (!program) return;

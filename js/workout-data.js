@@ -64,8 +64,18 @@ function buildWorkoutPrograms(catalog, programsRaw) {
 
         });
 
+        let programTitle = month.title;
+        if (programTitle) {
+            programTitle = programTitle.replace(/ماه\s*(\d+|اول|دوم|سوم|چهارم|پنجم|ششم|هفتم|هشتم|نهم|دهم)/gi, (match, p1) => {
+                return `برنامه ${p1}`;
+            });
+            if (programTitle.includes("ماه")) {
+                programTitle = programTitle.replace(/ماه/g, "برنامه");
+            }
+        }
+
         result[monthKey] = {
-            title: month.title,
+            title: programTitle || month.title,
             sessions: sessions
         };
 
