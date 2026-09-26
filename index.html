@@ -43,13 +43,42 @@
         <div class="selector-title">
             هنوز برنامه‌ی تمرینی‌ای بارگذاری نشده
         </div>
-        <p>
+
+        <div id="defaultProgramSuggestion" class="default-program-suggestion" style="display: none;">
+            <p>
+                می‌خواهی همین حالا برنامه‌ی پیش‌فرض تمرینی بارگذاری شود
+                تا سریع‌تر شروع کنی؟ بعداً هم می‌توانی برنامه‌ی خودت را
+                جایگزین یا اضافه کنی.
+            </p>
+            <div class="default-program-actions">
+                <button type="button" id="loadDefaultProgramBtn" class="primary-btn">
+                    بله، برنامه‌ی پیش‌فرض بارگذاری شود
+                </button>
+                <button type="button" id="dismissDefaultProgramBtn" class="secondary-btn">
+                    نه، خودم برنامه را بارگذاری می‌کنم
+                </button>
+            </div>
+        </div>
+
+        <p id="emptyProgramManualHint">
             از بخش «⚙️ تنظیمات و پشتیبان» پایین صفحه، گزینه‌ی
             «بارگذاری برنامه‌ی جدید» را بزن و فایل برنامه‌ات را انتخاب کن.
         </p>
     </section>
 
     <div id="programContent">
+
+    <!-- =========================
+         Backup warning
+    ========================= -->
+    <section id="backupWarningBanner" class="backup-warning-banner card" style="display: none;">
+        <span class="backup-warning-icon">⚠️</span>
+        <div class="backup-warning-text">
+            <strong>زمان پشتیبان‌گیری رسیده</strong>
+            <span id="backupWarningDetail">مدتی از آخرین پشتیبان‌گیری گذشته.</span>
+        </div>
+        <button type="button" id="backupWarningBtn" class="secondary-btn">دریافت پشتیبان</button>
+    </section>
 
     <!-- =========================
          Session selector
@@ -242,6 +271,7 @@
 <!-- JavaScript -->
 <script src="./js/exercise-catalog.js"></script>
 <script src="./js/workout-programs.js"></script>
+<script src="./js/default-program.js"></script>
 <script src="./js/workout-data.js"></script>
 <script src="./js/storage.js"></script>
 <script src="./js/app.js"></script>

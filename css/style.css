@@ -213,6 +213,62 @@ select:focus {
 }
 
 /* =========================
+   Backup warning banner
+========================= */
+.backup-warning-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.backup-warning-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.backup-warning-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.backup-warning-text strong {
+    font-size: 13px;
+    color: #92400e;
+}
+
+.backup-warning-text span {
+    font-size: 11px;
+    color: #b45309;
+    line-height: 1.6;
+}
+
+.backup-warning-banner .secondary-btn {
+    flex-shrink: 0;
+    min-height: 38px;
+    font-size: 12px;
+}
+
+/* =========================
+   Default program suggestion
+========================= */
+.default-program-suggestion p {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.8;
+    margin: 8px 0 12px;
+}
+
+.default-program-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* =========================
    Date picker trigger button
 ========================= */
 .date-picker-btn {
@@ -336,17 +392,23 @@ select:focus {
     color: white;
 }
 
-.date-picker-day-dot {
-    position: absolute;
-    bottom: 4px;
-    width: 5px;
-    height: 5px;
+.date-picker-day-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background: #16a34a;
+    border: 2px solid transparent;
+    box-sizing: border-box;
 }
 
-.date-picker-day.selected .date-picker-day-dot {
-    background: white;
+.date-picker-day.has-workout .date-picker-day-circle {
+    border-color: #16a34a;
+}
+
+.date-picker-day.selected.has-workout .date-picker-day-circle {
+    border-color: white;
 }
 
 .date-picker-legend {
@@ -358,8 +420,13 @@ select:focus {
     color: #6b7280;
 }
 
-.date-picker-legend .date-picker-day-dot {
-    position: static;
+.date-picker-legend-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #16a34a;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .date-picker-close {
@@ -1208,6 +1275,23 @@ body.dark-mode .date-picker-day:not(.empty):hover {
 
 body.dark-mode .date-picker-legend {
     color: #9ca3af;
+}
+
+body.dark-mode .backup-warning-banner {
+    background: #451a03;
+    border-color: #92400e;
+}
+
+body.dark-mode .backup-warning-text strong {
+    color: #fde68a;
+}
+
+body.dark-mode .backup-warning-text span {
+    color: #fcd34d;
+}
+
+body.dark-mode .default-program-suggestion p {
+    color: #d1d5db;
 }
 
 body.dark-mode .session-note {

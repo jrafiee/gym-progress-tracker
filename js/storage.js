@@ -233,6 +233,137 @@ function exportData() {
         url
     );
 
+
+    setLastBackupAt(
+        new Date().toISOString()
+    );
+
+}
+
+
+/* =====================================================
+   یادآوری پشتیبان‌گیری
+
+   تاریخ آخرین پشتیبان‌گیری موفق و تاریخ اولین
+   اجرای برنامه را نگه می‌داریم تا بشود تشخیص داد
+   چند روز از آخرین پشتیبان گذشته و در صورت لزوم
+   هشدار نشان داد.
+===================================================== */
+
+const LAST_BACKUP_KEY =
+    "gymProgressTracker_lastBackupAt";
+
+const FIRST_USE_KEY =
+    "gymProgressTracker_firstUseAt";
+
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+
+function getLastBackupAt() {
+
+    return localStorage.getItem(
+        LAST_BACKUP_KEY
+    );
+
+}
+
+
+function setLastBackupAt(iso) {
+
+    localStorage.setItem(
+        LAST_BACKUP_KEY,
+        iso
+    );
+
+}
+
+
+function getFirstUseAt() {
+
+    let firstUse =
+        localStorage.getItem(
+            FIRST_USE_KEY
+        );
+
+    if (!firstUse) {
+
+        firstUse =
+            new Date().toISOString();
+
+        localStorage.setItem(
+            FIRST_USE_KEY,
+            firstUse
+        );
+
+    }
+
+    return firstUse;
+
+}
+
+
+function hasBackableData() {
+
+    const workouts =
+        getWorkouts();
+
+    const programOverrides =
+        loadProgramOverrides();
+
+    const catalogOverrides =
+        loadCatalogOverrides();
+
+    return (
+        workouts.length > 0 ||
+        Object.keys(programOverrides).length > 0 ||
+        Object.keys(catalogOverrides).length > 0
+    );
+
+}
+
+
+/* -------------------------
+   وضعیت هشدار پشتیبان‌گیری
+
+   اگر هیچ داده‌ای برای از دست دادن وجود نداشته
+   باشد، هشداری لازم نیست. در غیر این صورت، تاریخ
+   آخرین پشتیبان‌گیری (یا اگر هیچ‌وقت پشتیبان
+   گرفته نشده، تاریخ اولین اجرای برنامه) به‌عنوان
+   مبنا در نظر گرفته می‌شود؛ اگر بیش از ۷ روز از
+   آن گذشته باشد، هشدار نشان داده می‌شود.
+------------------------- */
+
+function getBackupWarningInfo() {
+
+    if (!hasBackableData()) {
+
+        return {
+            shouldWarn: false,
+            daysSince: 0
+        };
+
+    }
+
+
+    const reference =
+        getLastBackupAt() ||
+        getFirstUseAt();
+
+    const diffMs =
+        Date.now() -
+        new Date(reference).getTime();
+
+    const daysSince =
+        Math.max(
+            0,
+            Math.floor(diffMs / MS_PER_DAY)
+        );
+
+    return {
+        shouldWarn: daysSince >= 7,
+        daysSince
+    };
+
 }
 
 

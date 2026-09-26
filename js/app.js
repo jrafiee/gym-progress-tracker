@@ -55,6 +55,9 @@ const themeToggleBtn = document.getElementById("themeToggleBtn");
 const finishWorkoutBtn = document.getElementById("finishWorkoutBtn");
 const openMyProgramsBtn = document.getElementById("openMyProgramsBtn");
 const openExerciseBankBtn = document.getElementById("openExerciseBankBtn");
+const backupWarningBanner = document.getElementById("backupWarningBanner");
+const backupWarningDetail = document.getElementById("backupWarningDetail");
+const backupWarningBtn = document.getElementById("backupWarningBtn");
 
 /* =========================================================
    تغییر ۳: تشخیص هوشمند هفته و جلسه بعدی بر اساس سوابق
@@ -1088,11 +1091,11 @@ function buildDatePickerGrid(jy, jm, selectedIso, todayIso, workoutDatesSet) {
         const classes = ["date-picker-day"];
         if (iso === todayIso) classes.push("today");
         if (iso === selectedIso) classes.push("selected");
+        if (workoutDatesSet.has(iso)) classes.push("has-workout");
 
         cellsHtml += `
             <button type="button" class="${classes.join(" ")}" data-iso="${iso}">
-                <span class="date-picker-day-number">${day}</span>
-                ${workoutDatesSet.has(iso) ? '<span class="date-picker-day-dot"></span>' : ""}
+                <span class="date-picker-day-circle">${day}</span>
             </button>
         `;
     }
@@ -1133,7 +1136,7 @@ function showDatePickerCalendar() {
                     ${buildDatePickerGrid(view.jy, view.jm, selectedIso, todayIso, workoutDatesSet)}
                 </div>
                 <div class="date-picker-legend">
-                    <span class="date-picker-day-dot"></span> روزهایی که تمرین ثبت شده
+                    <span class="date-picker-legend-circle"></span> روزهایی که تمرین ثبت شده
                 </div>
                 <button type="button" class="secondary-btn date-picker-close">بستن</button>
             </div>
@@ -1239,11 +1242,42 @@ function renderHistory() {
 }
 
 /* =========================
+هشدار پشتیبان‌گیری
+========================= */
+function renderBackupWarning() {
+    if (!backupWarningBanner) return;
+
+    const info = getBackupWarningInfo();
+
+    if (!info.shouldWarn) {
+        backupWarningBanner.style.display = "none";
+        return;
+    }
+
+    if (backupWarningDetail) {
+        backupWarningDetail.textContent =
+            `${info.daysSince.toLocaleString("fa-IR")} روز از آخرین پشتیبان‌گیری گذشته. برای جلوگیری از گم شدن اطلاعات، یک نسخه پشتیبان بگیر.`;
+    }
+
+    backupWarningBanner.style.display = "";
+}
+
+if (backupWarningBtn) {
+    backupWarningBtn.addEventListener("click", () => {
+        exportData();
+        renderBackupWarning();
+    });
+}
+
+/* =========================
 پشتیبان و بارگذاری
 ========================= */
 const exportBtn = document.getElementById("exportBtn");
 if (exportBtn) {
-    exportBtn.addEventListener("click", () => exportData());
+    exportBtn.addEventListener("click", () => {
+        exportData();
+        renderBackupWarning();
+    });
 }
 
 const importInput = document.getElementById("importInput");
@@ -1282,6 +1316,7 @@ function handleBackupFileSelected(file) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify({ workouts: data.workouts }));
             saveDataToKey(CATALOG_OVERRIDES_KEY, data.catalogAdditions || {});
             saveDataToKey(PROGRAM_OVERRIDES_KEY, data.programsRaw || {});
+            setLastBackupAt(new Date().toISOString());
             alert("پشتیبان با موفقیت بازیابی شد.");
             location.reload();
             return;
@@ -1347,6 +1382,55 @@ if (themeToggleBtn) {
     });
 }
 
+/* =========================================================
+   پیشنهاد برنامه‌ی پیش‌فرض هنگام اولین اجرا
+
+   وقتی هنوز هیچ برنامه‌ای بارگذاری نشده و یک
+   «برنامه‌ی پیش‌فرض» در default-program.js موجود
+   باشد، به‌جای فقط راهنمایی به تنظیمات، مستقیم
+   پیشنهاد بارگذاری آن داده می‌شود.
+========================================================= */
+
+const DEFAULT_PROGRAM_DISMISSED_KEY =
+    "gymProgressTracker_defaultProgramDismissed";
+
+function hasDefaultProgramPackage() {
+    return (
+        typeof defaultProgramPackage !== "undefined" &&
+        defaultProgramPackage &&
+        (defaultProgramPackage.programsRaw || defaultProgramPackage.catalogAdditions)
+    );
+}
+
+function maybeShowDefaultProgramSuggestion() {
+    const suggestion = document.getElementById("defaultProgramSuggestion");
+    const manualHint = document.getElementById("emptyProgramManualHint");
+    if (!suggestion) return;
+
+    const dismissed = localStorage.getItem(DEFAULT_PROGRAM_DISMISSED_KEY) === "1";
+    const shouldSuggest = hasDefaultProgramPackage() && !dismissed;
+
+    suggestion.style.display = shouldSuggest ? "" : "none";
+    if (manualHint) manualHint.style.display = shouldSuggest ? "none" : "";
+}
+
+const loadDefaultProgramBtn = document.getElementById("loadDefaultProgramBtn");
+if (loadDefaultProgramBtn) {
+    loadDefaultProgramBtn.addEventListener("click", () => {
+        importProgramPackage(defaultProgramPackage);
+        alert("برنامه‌ی پیش‌فرض با موفقیت بارگذاری شد.");
+        location.reload();
+    });
+}
+
+const dismissDefaultProgramBtn = document.getElementById("dismissDefaultProgramBtn");
+if (dismissDefaultProgramBtn) {
+    dismissDefaultProgramBtn.addEventListener("click", () => {
+        localStorage.setItem(DEFAULT_PROGRAM_DISMISSED_KEY, "1");
+        maybeShowDefaultProgramSuggestion();
+    });
+}
+
 /* =========================
 رندر اولیه
 ========================= */
@@ -1354,12 +1438,19 @@ function renderAll() {
     const hasAnyProgram = Object.keys(workoutPrograms).length > 0;
     if (emptyProgramState) emptyProgramState.style.display = hasAnyProgram ? "none" : "";
     if (programContent) programContent.style.display = hasAnyProgram ? "" : "none";
-    if (!hasAnyProgram) return;
+    if (!hasAnyProgram) {
+        maybeShowDefaultProgramSuggestion();
+        return;
+    }
 
     renderSessionButtons();
     renderExercises();
     renderHistory();
+    renderBackupWarning();
 }
+
+// مبنای شمارش روزهای بدون پشتیبان از همان اولین اجرای برنامه ثبت می‌شود
+getFirstUseAt();
 
 // در آغاز برنامه، هفته و جلسه بر اساس سابقه تمرین‌ها تشخیص داده و فعال می‌شود
 const activeMonthForInit = currentMonth || getLatestMonthKey();
