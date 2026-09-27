@@ -405,7 +405,8 @@
         display: block;
     }
 
-    .mobile-only {
+    .mobile-only,
+    #categoryCards {
         display: none;
     }
 
