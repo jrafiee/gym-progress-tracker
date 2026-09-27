@@ -724,6 +724,21 @@ select:focus {
     height: 100%;
 }
 
+@media (min-width: 900px) {
+    .settings-page-overlay {
+        display: flex;
+        justify-content: center;
+        background: #f2f4f7;
+    }
+
+    .settings-page {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        box-shadow: 0 0 0 1px #e5e7eb;
+    }
+}
+
 .settings-page-header {
     display: flex;
     align-items: center;
@@ -830,6 +845,21 @@ select:focus {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+@media (min-width: 900px) {
+    .my-programs-overlay {
+        display: flex;
+        justify-content: center;
+        background: #f2f4f7;
+    }
+
+    .my-programs-page {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        box-shadow: 0 0 0 1px #e5e7eb;
+    }
 }
 
 .my-programs-header {
@@ -1040,6 +1070,21 @@ select:focus {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+@media (min-width: 900px) {
+    .exercise-bank-overlay {
+        display: flex;
+        justify-content: center;
+        background: #f2f4f7;
+    }
+
+    .exercise-bank-page {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        box-shadow: 0 0 0 1px #e5e7eb;
+    }
 }
 
 .exercise-bank-header {
@@ -1398,6 +1443,17 @@ body.dark-mode .settings-page-overlay {
     background: #111827;
 }
 
+@media (min-width: 900px) {
+    body.dark-mode .settings-page-overlay {
+        background: #0b0f17;
+    }
+
+    body.dark-mode .settings-page {
+        background: #111827;
+        box-shadow: 0 0 0 1px #374151;
+    }
+}
+
 body.dark-mode .settings-page-header {
     border-color: #374151;
 }
@@ -1428,6 +1484,17 @@ body.dark-mode .danger-setting .setting-info strong {
 
 body.dark-mode .my-programs-overlay {
     background: #111827;
+}
+
+@media (min-width: 900px) {
+    body.dark-mode .my-programs-overlay {
+        background: #0b0f17;
+    }
+
+    body.dark-mode .my-programs-page {
+        background: #111827;
+        box-shadow: 0 0 0 1px #374151;
+    }
 }
 
 body.dark-mode .my-programs-header {
@@ -1486,6 +1553,17 @@ body.dark-mode .danger-btn {
 /* Dark mode for Exercise Bank */
 body.dark-mode .exercise-bank-overlay {
     background: #111827;
+}
+
+@media (min-width: 900px) {
+    body.dark-mode .exercise-bank-overlay {
+        background: #0b0f17;
+    }
+
+    body.dark-mode .exercise-bank-page {
+        background: #111827;
+        box-shadow: 0 0 0 1px #374151;
+    }
 }
 
 body.dark-mode .exercise-bank-header {

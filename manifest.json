@@ -1,6 +1,6 @@
 {
-    "name": "Gym Progress Tracker",
-    "short_name": "Gym Tracker",
+    "name": "GymLog",
+    "short_name": "GymLog",
     "description": "ثبت و پیگیری تمرین‌های بدنسازی",
     "start_url": "./",
     "scope": "./",

@@ -416,7 +416,7 @@ function renderRadar(rows, startIso, endIso) {
     }).join("");
 
     const svg = `
-        <svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" style="color:#374151">
+        <svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
             ${gridRings}
             ${axisLines}
             ${thresholdRing}

@@ -173,6 +173,11 @@
     width: 100%;
     max-width: 380px;
     height: auto;
+    color: #374151;
+}
+
+body.dark-mode #radarChartWrap svg {
+    color: #e5e7eb;
 }
 
 .radar-legend {
@@ -482,6 +487,10 @@ body.dark-mode .hero-insight {
 
 body.dark-mode .radar-note {
     color: #6b7280;
+}
+
+body.dark-mode .radar-legend-item {
+    color: #d1d5db;
 }
 
 body.dark-mode .category-table th,
