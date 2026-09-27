@@ -1079,14 +1079,35 @@ function buildDatePickerGrid(jy, jm, selectedIso, todayIso, workoutDatesSet) {
     const monthLength = jalaliMonthLength(jy, jm);
     const firstGregorian = jalaliToGregorian(jy, jm, 1);
     const firstDate = new Date(firstGregorian.gy, firstGregorian.gm - 1, firstGregorian.gd);
+    // 0 = شنبه ... 6 = جمعه
     const startWeekday = (firstDate.getDay() + 1) % 7;
 
-    let cellsHtml = "";
-    for (let i = 0; i < startWeekday; i++) {
-        cellsHtml += `<div class="date-picker-day empty"></div>`;
+    /*
+       تعیین صریح grid-row/grid-column برای هر سلول در مرورگرهای مختلف
+       رفتار یکسانی نداشت (باعث پله‌ای‌شدن و گم‌شدن بعضی اعداد می‌شد).
+       به‌جای آن، هر هفته را ابتدا به ترتیب طبیعی (شنبه...جمعه) می‌سازیم
+       و فقط ترتیب المان‌ها را در HTML برعکس می‌کنیم تا در گرید
+       چپ‌به‌راستِ اجباری (ببین CSS: direction: ltr) به‌درستی از
+       جمعه (چپ) تا شنبه (راست) بچینند. این کار به هیچ رفتار خاصِ
+       auto-placement مرورگر وابسته نیست.
+    */
+    const naturalSlots = [];
+    for (let i = 0; i < startWeekday; i++) naturalSlots.push(null);
+    for (let day = 1; day <= monthLength; day++) naturalSlots.push(day);
+    while (naturalSlots.length % 7 !== 0) naturalSlots.push(null);
+
+    const displaySlots = [];
+    for (let i = 0; i < naturalSlots.length; i += 7) {
+        displaySlots.push(...naturalSlots.slice(i, i + 7).reverse());
     }
 
-    for (let day = 1; day <= monthLength; day++) {
+    let cellsHtml = "";
+    displaySlots.forEach(day => {
+        if (day === null) {
+            cellsHtml += `<div class="date-picker-day empty"></div>`;
+            return;
+        }
+
         const iso = jalaliToIsoDate(jy, jm, day);
         const classes = ["date-picker-day"];
         if (iso === todayIso) classes.push("today");
@@ -1098,7 +1119,7 @@ function buildDatePickerGrid(jy, jm, selectedIso, todayIso, workoutDatesSet) {
                 <span class="date-picker-day-circle">${day}</span>
             </button>
         `;
-    }
+    });
     return cellsHtml;
 }
 
@@ -1130,7 +1151,7 @@ function showDatePickerCalendar() {
                     <button type="button" class="date-picker-nav" data-dir="next" aria-label="ماه بعد">›</button>
                 </div>
                 <div class="date-picker-weekdays">
-                    ${PERSIAN_WEEKDAY_LABELS.map(label => `<span>${label}</span>`).join("")}
+                    ${PERSIAN_WEEKDAY_LABELS.slice().reverse().map(label => `<span>${label}</span>`).join("")}
                 </div>
                 <div class="date-picker-grid">
                     ${buildDatePickerGrid(view.jy, view.jm, selectedIso, todayIso, workoutDatesSet)}

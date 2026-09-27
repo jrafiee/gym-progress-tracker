@@ -347,6 +347,7 @@ select:focus {
 .date-picker-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    direction: ltr;
     margin-bottom: 4px;
     font-size: 11px;
     color: #9ca3af;
@@ -356,6 +357,7 @@ select:focus {
 .date-picker-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    direction: ltr;
     gap: 4px;
 }
 
