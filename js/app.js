@@ -672,6 +672,11 @@ function renderSessionButtons() {
         });
         sessionButtons.appendChild(button);
     });
+
+    const activeBtn = sessionButtons.querySelector(".session-btn.active");
+    if (activeBtn && activeBtn.scrollIntoView) {
+        activeBtn.scrollIntoView({ block: "nearest", inline: "center" });
+    }
 }
 
 /* =========================

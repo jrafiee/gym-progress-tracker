@@ -122,12 +122,21 @@ button,
 }
 
 .session-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+.session-buttons::-webkit-scrollbar {
+    height: 3px;
 }
 
 .session-btn {
+    flex: 1 0 96px;
+    scroll-snap-align: center;
     min-height: 62px;
     padding: 7px 4px;
     border-radius: 9px;
