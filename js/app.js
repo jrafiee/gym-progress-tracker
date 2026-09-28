@@ -1290,6 +1290,74 @@ if (backupWarningBtn) {
     });
 }
 
+/* =========================================================
+   ذخیره‌ی آفلاین فایل‌های آموزشی برنامه‌ها
+
+   هر بار برنامه‌ای اضافه/بازیابی شود (و هر بار که
+   برنامه با اینترنت باز شود)، تصویر/ویدیوی همه‌ی
+   حرکات برنامه‌های فعلی در یک کش جدا ذخیره می‌شود.
+   این کش با به‌روزرسانی نسخه‌ی برنامه پاک نمی‌شود.
+========================================================= */
+
+const MEDIA_CACHE_NAME = "gym-media-v1";
+
+function collectProgramAssetUrls(programsRaw, catalog) {
+    const urls = new Set();
+    Object.values(programsRaw || {}).forEach(month => {
+        Object.values(month.sessions || {}).forEach(session => {
+            (session.exercises || []).forEach(exercise => {
+                const entry = catalog[exercise.id];
+                ((entry && entry.images) || []).forEach(path => {
+                    try {
+                        urls.add(new URL(path, location.href).href);
+                    } catch (e) { /* مسیر نامعتبر */ }
+                });
+            });
+        });
+    });
+    return Array.from(urls);
+}
+
+async function cacheProgramAssets(programsRaw, catalog) {
+    if (!("caches" in window)) return { ok: 0, fail: 0 };
+    const urls = collectProgramAssetUrls(programsRaw, catalog);
+    const cache = await caches.open(MEDIA_CACHE_NAME);
+    let ok = 0;
+    let fail = 0;
+
+    await Promise.all(urls.map(async url => {
+        try {
+            if (await cache.match(url)) { ok += 1; return; }
+            const response = await fetch(url, { cache: "reload" });
+            if (response.ok && response.status === 200) {
+                await cache.put(url, response);
+                ok += 1;
+            } else {
+                fail += 1;
+            }
+        } catch (e) {
+            fail += 1;
+        }
+    }));
+
+    return { ok, fail };
+}
+
+async function cacheAndReport(message) {
+    let note = "";
+    try {
+        const result = await cacheProgramAssets(getEffectiveProgramsRaw(), getEffectiveCatalog());
+        if (result.fail > 0) {
+            note = "\n\nبعضی فایل‌های آموزشی ذخیره نشد. یک بار با اینترنت برنامه را باز کن تا تکمیل شود.";
+        } else if (result.ok > 0) {
+            note = "\n\nفایل‌های آموزشی برای استفاده‌ی آفلاین ذخیره شد.";
+        }
+    } catch (e) {
+        console.error(e);
+    }
+    alert(message + note);
+}
+
 /* =========================
 پشتیبان و بارگذاری
 ========================= */
@@ -1321,7 +1389,7 @@ if (programImportInput) {
 
 function handleBackupFileSelected(file) {
     const reader = new FileReader();
-    reader.onload = function () {
+    reader.onload = async function () {
         let data;
         try {
             data = JSON.parse(reader.result);
@@ -1338,14 +1406,14 @@ function handleBackupFileSelected(file) {
             saveDataToKey(CATALOG_OVERRIDES_KEY, data.catalogAdditions || {});
             saveDataToKey(PROGRAM_OVERRIDES_KEY, data.programsRaw || {});
             setLastBackupAt(new Date().toISOString());
-            alert("پشتیبان با موفقیت بازیابی شد.");
+            await cacheAndReport("پشتیبان با موفقیت بازیابی شد.");
             location.reload();
             return;
         }
 
         if (isProgramBackup) {
             importProgramPackage(data);
-            alert("برنامه با موفقیت اضافه شد.");
+            await cacheAndReport("برنامه با موفقیت اضافه شد.");
             location.reload();
             return;
         }
@@ -1437,9 +1505,9 @@ function maybeShowDefaultProgramSuggestion() {
 
 const loadDefaultProgramBtn = document.getElementById("loadDefaultProgramBtn");
 if (loadDefaultProgramBtn) {
-    loadDefaultProgramBtn.addEventListener("click", () => {
+    loadDefaultProgramBtn.addEventListener("click", async () => {
         importProgramPackage(defaultProgramPackage);
-        alert("برنامه‌ی پیش‌فرض با موفقیت بارگذاری شد.");
+        await cacheAndReport("برنامه‌ی پیش‌فرض با موفقیت بارگذاری شد.");
         location.reload();
     });
 }
@@ -1484,3 +1552,8 @@ if (activeMonthForInit) {
 }
 
 renderAll();
+
+// اگر اینترنت هست، فایل‌های آموزشی برنامه‌های فعلی در پس‌زمینه برای استفاده‌ی آفلاین ذخیره می‌شوند
+if (navigator.onLine) {
+    cacheProgramAssets(getEffectiveProgramsRaw(), getEffectiveCatalog()).catch(() => {});
+}

@@ -116,7 +116,6 @@ const rangePills = document.getElementById("rangePills");
 const heroTotalVolume = document.getElementById("heroTotalVolume");
 const heroSessionCount = document.getElementById("heroSessionCount");
 const heroSetCount = document.getElementById("heroSetCount");
-const heroInsight = document.getElementById("heroInsight");
 const radarChartWrap = document.getElementById("radarChartWrap");
 const radarLegend = document.getElementById("radarLegend");
 const thresholdLabel = document.getElementById("thresholdLabel");
@@ -330,34 +329,6 @@ function renderHero(currentWorkouts, rows) {
     heroTotalVolume.textContent = faNum(totalVolume);
     heroSessionCount.textContent = faNum(currentWorkouts.length);
     heroSetCount.textContent = faNum(totalSets);
-
-    const trainedRows = rows.filter(r => r.sets > 0);
-
-    if (trainedRows.length === 0) {
-        heroInsight.textContent = "در این بازه هنوز هیچ ستی با وزنه یا تکرار ثبت نشده است.";
-        return;
-    }
-
-    const sortedByRate = [...trainedRows].sort((a, b) => a.rate - b.rate);
-    const lowest = sortedByRate[0];
-    const highest = sortedByRate[sortedByRate.length - 1];
-
-    const untrained = CATEGORY_ORDER.filter(cat => {
-        const row = rows.find(r => r.category === cat);
-        return !row || row.sets === 0;
-    });
-
-    let text = `در این بازه، بیشترین حجم تمرین برای «${highest.category}» و کمترین برای «${lowest.category}» بوده.`;
-
-    if (untrained.length > 0) {
-        text += ` گروه${untrained.length > 1 ? "‌های" : ""} «${untrained.join("، ")}» اصلاً تمرین نشده${untrained.length > 1 ? "اند" : ""}.`;
-    } else if (lowest.status.key === "low") {
-        text += ` بر اساس مرجع عمومی رایج، شاید بد نباشد سهم «${lowest.category}» را بیشتر کنی.`;
-    } else {
-        text += ` نسبتاً بین گروه‌های عضلانی توازن برقرار است.`;
-    }
-
-    heroInsight.textContent = text;
 }
 
 /* =========================

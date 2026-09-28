@@ -183,7 +183,7 @@
                         <strong>ظاهر برنامه</strong>
                         <span>تغییر بین حالت روشن و تاریک</span>
                     </div>
-                    <button id="themeToggleBtn" class="secondary-btn" type="button">
+                    <button id="themeToggleBtn" class="secondary-btn setting-btn" type="button">
                         🌙 حالت تاریک
                     </button>
                 </div>
@@ -194,7 +194,7 @@
                         <strong>بانک حرکات</strong>
                         <span>فهرست کامل حرکات ورزشی کاتالوگ با تصویر، شناسه و نحوه اجرا</span>
                     </div>
-                    <button id="openExerciseBankBtn" class="secondary-btn" type="button">
+                    <button id="openExerciseBankBtn" class="secondary-btn setting-btn" type="button">
                         نمایش بانک حرکات
                     </button>
                 </div>
@@ -205,7 +205,7 @@
                         <strong>برنامه‌های من</strong>
                         <span>فهرست برنامه‌های ماهانه، بازه‌ی تمرین هرکدام و جزئیات جلسات و حرکات.</span>
                     </div>
-                    <button id="openMyProgramsBtn" class="secondary-btn" type="button">
+                    <button id="openMyProgramsBtn" class="secondary-btn setting-btn" type="button">
                         مشاهده
                     </button>
                 </div>
@@ -216,9 +216,20 @@
                         <strong>گزارش گروه‌های عضلانی</strong>
                         <span>تحلیل حجم تمرین بر اساس وزنه و تکرار برای هر گروه عضلانی، همراه با نمودار عنکبوتی.</span>
                     </div>
-                    <a href="./report.html" class="secondary-btn file-btn" style="text-decoration:none;">
+                    <a href="./report.html" class="secondary-btn file-btn setting-btn" style="text-decoration:none;">
                         مشاهده گزارش
                     </a>
+                </div>
+
+                <!-- App update -->
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <strong>به‌روزرسانی برنامه</strong>
+                        <span id="updateStatus">نسخه‌ی فعلی به‌روز است.</span>
+                    </div>
+                    <button id="updateAppBtn" class="secondary-btn setting-btn" type="button" disabled>
+                        به‌روزرسانی
+                    </button>
                 </div>
 
                 <!-- Backup -->
@@ -288,16 +299,72 @@
 <script src="./js/app.js"></script>
 
 <script>
-    if ("serviceWorker" in navigator) {
+    (function () {
+        if (!("serviceWorker" in navigator)) return;
+
+        const updateBtn = document.getElementById("updateAppBtn");
+        const updateStatus = document.getElementById("updateStatus");
+        let registration = null;
+        let userRequestedUpdate = false;
+
+        function markUpdateAvailable() {
+            if (updateBtn) {
+                updateBtn.disabled = false;
+                updateBtn.classList.add("update-ready");
+            }
+            if (updateStatus) {
+                updateStatus.textContent = "نسخه‌ی جدید آماده است. برای اعمال، دکمه‌ی به‌روزرسانی را بزن.";
+            }
+        }
+
+        function trackInstalling(worker) {
+            if (!worker) return;
+            worker.addEventListener("statechange", () => {
+                if (worker.state === "installed" && navigator.serviceWorker.controller) {
+                    markUpdateAvailable();
+                }
+            });
+        }
+
         window.addEventListener("load", () => {
             navigator.serviceWorker.register("./service-worker.js")
-            .then(reg => {
-                reg.update();
-                console.log("Service Worker registered:", reg.scope);
-            })
-            .catch(err => console.error("Service Worker registration failed:", err));
+                .then(reg => {
+                    registration = reg;
+                    if (reg.waiting && navigator.serviceWorker.controller) markUpdateAvailable();
+                    reg.addEventListener("updatefound", () => trackInstalling(reg.installing));
+                    reg.update().catch(() => {});
+                })
+                .catch(err => console.error("Service Worker registration failed:", err));
         });
-    }
+
+        // هر بار که برنامه دوباره جلو می‌آید یا تنظیمات باز می‌شود، وجود نسخه‌ی جدید بررسی می‌شود
+        function checkForUpdate() {
+            if (registration && navigator.onLine) registration.update().catch(() => {});
+        }
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") checkForUpdate();
+        });
+        const openBtn = document.getElementById("openSettingsBtn");
+        if (openBtn) openBtn.addEventListener("click", checkForUpdate);
+
+        if (updateBtn) {
+            updateBtn.addEventListener("click", () => {
+                const waiting = registration && registration.waiting;
+                if (!waiting) return;
+                userRequestedUpdate = true;
+                updateBtn.disabled = true;
+                if (updateStatus) updateStatus.textContent = "در حال به‌روزرسانی…";
+                waiting.postMessage({ type: "SKIP_WAITING" });
+            });
+        }
+
+        let reloading = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+            if (!userRequestedUpdate || reloading) return;
+            reloading = true;
+            window.location.reload();
+        });
+    })();
 </script>
 
 </body>

@@ -1618,3 +1618,31 @@ body.dark-mode .exercise-bank-name {
 body.dark-mode .exercise-bank-id {
     color: #9ca3af;
 }
+
+
+/* =========================
+   Settings: uniform buttons + update button
+========================= */
+.setting-row .setting-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#updateAppBtn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+#updateAppBtn.update-ready {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+    font-weight: bold;
+}
