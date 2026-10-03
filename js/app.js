@@ -42,7 +42,6 @@ const persianWorkoutDate = document.getElementById("persianWorkoutDate");
 const workoutDateBtn = document.getElementById("workoutDateBtn");
 const weekNumber = document.getElementById("weekNumber");
 const exerciseList = document.getElementById("exerciseList");
-const sessionTitle = document.getElementById("sessionTitle");
 const sessionButtons = document.getElementById("sessionButtons");
 const emptyProgramState = document.getElementById("emptyProgramState");
 const programContent = document.getElementById("programContent");
@@ -684,14 +683,6 @@ function renderSessionButtons() {
 ========================= */
 function renderExercises() {
     const program = getCurrentProgram();
-    const curM = getCurrentMonth();
-    if (sessionTitle && curM) {
-        let rawTitle = curM.title || "";
-        rawTitle = rawTitle.replace(/ماه\s*(\d+|اول|دوم|سوم|چهارم|پنجم|ششم|هفتم|هشتم|نهم|دهم)/gi, (m, p1) => {
-            return `برنامه ${p1}`;
-        }).replace(/ماه/g, "برنامه");
-        sessionTitle.textContent = rawTitle;
-    }
     exerciseList.innerHTML = "";
     if (!program) return;
 
@@ -988,10 +979,30 @@ function workoutHasData(workout) {
 }
 
 function autoSaveWorkout() {
-    if (!workoutDate.value || viewingMonth !== currentMonth) return;
+    if (!workoutDate.value || viewingMonth !== currentMonth) return false;
     const workout = collectWorkout();
-    if (!workoutHasData(workout)) return;
+    if (!workoutHasData(workout)) return false;
     addWorkout(workout);
+    return true;
+}
+
+/* پیام کوتاه و غیرمسدودکننده (برای نتیجه‌ی پایان جلسه و پشتیبان خودکار) */
+function showToast(message, type) {
+    const old = document.querySelector(".app-toast");
+    if (old) old.remove();
+
+    const toast = document.createElement("div");
+    toast.className = "app-toast" + (type === "warning" ? " warning" : "");
+    toast.setAttribute("role", "status");
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add("show"));
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, type === "warning" ? 6000 : 3500);
 }
 
 function goToNextWorkout() {
@@ -1025,7 +1036,35 @@ if (finishWorkoutBtn) {
             alert("هنوز اطلاعاتی برای این جلسه ثبت نشده است.");
             return;
         }
-        autoSaveWorkout();
+
+        // ۱) عملیات اصلی: ذخیره‌ی جلسه
+        let saved = false;
+        try {
+            saved = autoSaveWorkout();
+        } catch (error) {
+            console.error("خطا در ذخیره‌ی جلسه:", error);
+        }
+        if (!saved) {
+            alert("ذخیره‌ی جلسه انجام نشد. دوباره تلاش کن.");
+            return;
+        }
+
+        // ۲) عملیات ثانویه: پشتیبان خودکار (شکست آن نباید پایان جلسه را مختل کند)
+        let backupOk = false;
+        try {
+            backupOk = exportData({ fileName: buildBackupFileName() }) === true;
+        } catch (error) {
+            console.error("خطا در پشتیبان خودکار:", error);
+        }
+
+        // ۳) پیام نتیجه و رفتن به جلسه‌ی بعد
+        if (backupOk) {
+            showToast("جلسه با موفقیت ثبت شد و نسخه پشتیبان ذخیره شد.");
+            renderBackupWarning();
+        } else {
+            showToast("جلسه با موفقیت ثبت شد، اما تهیه نسخه پشتیبان خودکار انجام نشد.", "warning");
+        }
+
         goToNextWorkout();
     });
 }
@@ -1485,9 +1524,6 @@ if (themeToggleBtn) {
    پیشنهاد بارگذاری آن داده می‌شود.
 ========================================================= */
 
-const DEFAULT_PROGRAM_DISMISSED_KEY =
-    "gymProgressTracker_defaultProgramDismissed";
-
 function hasDefaultProgramPackage() {
     return (
         typeof defaultProgramPackage !== "undefined" &&
@@ -1498,14 +1534,19 @@ function hasDefaultProgramPackage() {
 
 function maybeShowDefaultProgramSuggestion() {
     const suggestion = document.getElementById("defaultProgramSuggestion");
-    const manualHint = document.getElementById("emptyProgramManualHint");
     if (!suggestion) return;
 
-    const dismissed = localStorage.getItem(DEFAULT_PROGRAM_DISMISSED_KEY) === "1";
-    const shouldSuggest = hasDefaultProgramPackage() && !dismissed;
+    // گزینه‌ی ثانویه‌ی Onboarding: فقط اگر برنامه‌ی پیش‌فرض در پروژه وجود دارد
+    suggestion.style.display = hasDefaultProgramPackage() ? "" : "none";
+}
 
-    suggestion.style.display = shouldSuggest ? "" : "none";
-    if (manualHint) manualHint.style.display = shouldSuggest ? "none" : "";
+// دکمه‌ی اصلی Onboarding: همان مسیر فعلیِ «بارگذاری برنامه‌ی جدید» (انتخاب فایل → handleBackupFileSelected)
+const onboardingUploadBtn = document.getElementById("onboardingUploadBtn");
+if (onboardingUploadBtn) {
+    onboardingUploadBtn.addEventListener("click", () => {
+        const input = document.getElementById("programImportInput");
+        if (input) input.click();
+    });
 }
 
 const loadDefaultProgramBtn = document.getElementById("loadDefaultProgramBtn");
@@ -1514,14 +1555,6 @@ if (loadDefaultProgramBtn) {
         importProgramPackage(defaultProgramPackage);
         await cacheAndReport("برنامه‌ی پیش‌فرض با موفقیت بارگذاری شد.");
         location.reload();
-    });
-}
-
-const dismissDefaultProgramBtn = document.getElementById("dismissDefaultProgramBtn");
-if (dismissDefaultProgramBtn) {
-    dismissDefaultProgramBtn.addEventListener("click", () => {
-        localStorage.setItem(DEFAULT_PROGRAM_DISMISSED_KEY, "1");
-        maybeShowDefaultProgramSuggestion();
     });
 }
 

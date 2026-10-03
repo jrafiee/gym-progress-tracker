@@ -178,65 +178,117 @@ function deleteAllData() {
    Backup
 ------------------------- */
 
-function exportData() {
+/* نام فایل پشتیبان خودکار: gymlog-backup-YYYY-MM-DD-HHmm.json */
+function buildBackupFileName() {
 
-    const backup = {
-        workouts:
-            getWorkouts(),
-        catalogAdditions:
-            loadCatalogOverrides(),
-        programsRaw:
-            loadProgramOverrides()
-    };
+    const now = new Date();
+    const pad = n => String(n).padStart(2, "0");
 
-
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    backup,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        "gym-progress-backup.json";
-
-
-    link.click();
-
-
-    URL.revokeObjectURL(
-        url
+    return (
+        "gymlog-backup-" +
+        now.getFullYear() + "-" +
+        pad(now.getMonth() + 1) + "-" +
+        pad(now.getDate()) + "-" +
+        pad(now.getHours()) +
+        pad(now.getMinutes()) +
+        ".json"
     );
 
+}
 
-    setLastBackupAt(
-        new Date().toISOString()
-    );
+
+/* فرمت فایل پشتیبان تغییر نکرده است. موفقیت = true، شکست = false
+   (options.fileName اختیاری است؛ بدون آن همان نام قبلی استفاده می‌شود) */
+function exportData(options) {
+
+    try {
+
+        const backup = {
+            workouts:
+                getWorkouts(),
+            catalogAdditions:
+                loadCatalogOverrides(),
+            programsRaw:
+                loadProgramOverrides()
+        };
+
+
+        const blob =
+            new Blob(
+                [
+                    JSON.stringify(
+                        backup,
+                        null,
+                        2
+                    )
+                ],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            url;
+
+
+        link.download =
+            (options && options.fileName) ||
+            "gym-progress-backup.json";
+
+
+        link.style.display =
+            "none";
+
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        document.body.removeChild(
+            link
+        );
+
+
+        // آزادسازی با تأخیر تا دانلود در مرورگرهای مختلف قطع نشود
+        setTimeout(
+            () => URL.revokeObjectURL(url),
+            10000
+        );
+
+
+        setLastBackupAt(
+            new Date().toISOString()
+        );
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "خطا در تهیه‌ی پشتیبان:",
+            error
+        );
+
+        return false;
+
+    }
 
 }
 
